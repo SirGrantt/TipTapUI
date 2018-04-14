@@ -1,0 +1,38 @@
+/* Styles */
+
+ #app {
+  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #4d4d4d;
+  min-width: 550px;
+  margin: 0 auto;
+}
+
+
+a.active {
+  color: orange;
+}
+
+nav {
+  padding-top: 20px;
+}
+
+h1 {
+  padding: 20px;
+}
+
+#jumbo {
+  margin: 10px;
+  padding: 10px;
+}
+
+#editorInput {
+  max-width: 500px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#sectionSubHeader {
+  margin: 10px;
+}
+
+

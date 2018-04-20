@@ -12,7 +12,6 @@ const ServiceStaffRow = ({ firstName, lastName, id}) => {
   return (
     <ListGroupItem onClick={onListClick}>
       <Link to={'editor/' + id}>{firstName} {lastName}</Link>
-      {/*<td><Link to={'editor/' + id} className="btn btn-primary">Details</Link></td>*/}
     </ListGroupItem>
   );
 

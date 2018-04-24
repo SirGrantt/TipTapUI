@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { DraggableProvided } from 'react-beautiful-dnd';
+import type { DraggableProvided } from 'react-beautiful-dnd';
 import type { Job } from './DNDTypes';
 import { borderRadius, colors, grid } from './Constants';
 import styled from 'styled-components';
@@ -50,7 +50,7 @@ font-weight: bold;
 text-align: center;
 `;
 
-export default class JobItem extends React.PureComponent<Props>{
+export default class JobCard extends React.PureComponent<Props> {
 componentDidMount(){
     if (!this.props.autofocus){
         return;
@@ -71,7 +71,7 @@ render() {
         {...provided.draggableProps}
         {...provided.dragHandleProps}
         >
-        <Title>{job.Title}</Title>
+        <Title>{job.title}</Title>
         </Container>
     );
 }

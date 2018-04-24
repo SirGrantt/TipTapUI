@@ -5,5 +5,10 @@ export type Id = string;
 
 export type Job = {|
 id: Id,
-title: string
+title: string,
+apiId: number
 |}
+
+export type CardTitle = {|
+    title: string
+    |}

@@ -42,6 +42,7 @@ const Container = styled.div``;
 type Props = {|
     listId: string,
     listType?: string,
+    title?: string,
     jobs: Job[],
     internalScroll?: boolean,
     isDropDisabled ?: boolean,
@@ -76,8 +77,83 @@ class InnerJobList extends React.Component<JobListProps>{
                     />
                 )
             }
-            </Draggable>)
+            </Draggable>
+            )
+        );
+    }
+}
 
+type innerListProps = {|
+    dropProvided: DroppableProvided,
+    jobs: Job[],
+    title: ?string,
+    |}
+
+class InnerList extends React.Component<innerListProps> {
+    render(){
+        const {jobs, dropProvided} = this.props;
+        const title = this.props.title ? ( <Title>{this.props.title}</Title>) 
+        : null;
+
+        return (
+            <Container>
+                {title}
+                <DropZone innerRef={dropProvided.innerRef}>
+                <InnerJobList 
+                jobs={jobs}
+                />
+                {dropProvided.placeholder}
+                </DropZone>
+            </Container>
         )
+    }
+}
+
+export default class JobList extends React.Component<Props> {
+    render(){
+        const {
+            ignoreContainerClipping,
+            internalScroll,
+            isDropDisabled,
+            listId,
+            listType,
+            style,
+            jobs,
+            title,
+        } = this.props;
+
+        return (
+            <Droppable
+            droppableId={listId}
+            type={listType}
+            ignoreContainerClipping={ignoreContainerClipping}
+            isDropDisabled={isDropDisabled}
+            >
+            {(dropProvided: DroppableProvided, dropSnapshot: DroppableStateSnapshot) => (
+                <Wrapper
+                style={style}
+                isDraggingOver={dropSnapshot.isDraggingOver}
+                isDropDisabled={isDropDisabled}
+                {...dropProvided.droppableProps}
+                >
+                {internalScroll ? (
+                    <ScrollContainer>
+                        <InnerList
+                        jobs={jobs}
+                        title={title}
+                        dropProvided={dropProvided}
+                        />
+                    </ScrollContainer>
+                ) : (
+                    <InnerList
+                    jobs={jobs}
+                    title={title}
+                    dropProvided={dropProvided}
+                    />
+                )}
+                </Wrapper>
+            )}
+            </Droppable> 
+        );
     }
 }

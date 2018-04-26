@@ -11,4 +11,8 @@ apiId: number
 
 export type CardTitle = {|
     title: string
-    |}
+|}
+
+export type JobMap = {|
+    [key: string]: Job[]    
+|}

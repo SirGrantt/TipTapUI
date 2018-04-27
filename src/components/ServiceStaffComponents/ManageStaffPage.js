@@ -15,16 +15,28 @@ class ManageStaffPage extends React.Component {
             staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id),
             approvedJobs: [],
             unapprovedJobs: []
-        };     
+        };  
+
+        this.loadApprovedJobs(this.state.staffMember.id);
 
         this.saveStaffMember = this.saveStaffMember.bind(this);
         this.deleteStaffMember = this.deleteStaffMember.bind(this);
         this.updateStaffMember = this.updateStaffMember.bind(this);
+        this.loadApprovedJobs = this.loadApprovedJobs.bind(this);
     }
 
-    componentWillMount(){
-        staffActions.loadAllJobs(this.state.staffMember.id);
+    componentWillReceiveProps(newProps){
+        if (this.state.approvedJobs != newProps.approvedJobs){
+            let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));
+            this.setState({
+                approvedJobs: newProps.approvedJobs,
+                unapprovedJobs: unapproved
+            }) 
+        }
+    }
 
+    loadApprovedJobs(){
+        this.props.actions.loadApprovedJobs(this.state.staffMember.id);
     }
 
     updateStaffMember(e){
@@ -93,6 +105,7 @@ function mapStateToProps(state) {
         serviceStaff: state.serviceStaff,
         defaultStaffMember: defaultStaffMember,
         jobs: state.jobs,
+        approvedJobs: state.approvedJobs,
     };
 }
 

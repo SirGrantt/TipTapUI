@@ -3,7 +3,7 @@ import initialState from './initialState';
 
 function approvedJobsReducer(state = initialState.approvedJobs, action){
 
-    switch(action.type){
+    switch (action.type){
         case types.LOAD_APPROVED_JOBS_SUCCESS:
         return action.jobs;
 

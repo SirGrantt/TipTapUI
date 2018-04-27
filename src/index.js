@@ -5,12 +5,13 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import configureStore, { history } from './store/configureStore';
 import Root from './components/Root';
-import { loadServiceStaff } from './reduxActions/serviceStaffActions';
+import { loadServiceStaff, loadAllJobs } from './reduxActions/serviceStaffActions';
 import './styles/styles.css';
 require('./favicon.ico'); //tell webpack to include favicon.ico
 
 const store = configureStore();
 store.dispatch(loadServiceStaff());
+store.dispatch(loadAllJobs());
 
 render(
   <AppContainer>

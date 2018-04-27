@@ -12,12 +12,19 @@ class ManageStaffPage extends React.Component {
         super(props, context);
 
         this.state = {
-            staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id)
+            staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id),
+            approvedJobs: [],
+            unapprovedJobs: []
         };     
 
         this.saveStaffMember = this.saveStaffMember.bind(this);
         this.deleteStaffMember = this.deleteStaffMember.bind(this);
         this.updateStaffMember = this.updateStaffMember.bind(this);
+    }
+
+    componentWillMount(){
+        staffActions.loadAllJobs(this.state.staffMember.id);
+
     }
 
     updateStaffMember(e){
@@ -84,8 +91,8 @@ function mapStateToProps(state) {
     
     return {
         serviceStaff: state.serviceStaff,
-        defaultStaffMember: defaultStaffMember
-        //next step is providing all of the created jobs and formatting for dropdown list
+        defaultStaffMember: defaultStaffMember,
+        jobs: state.jobs,
     };
 }
 

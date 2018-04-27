@@ -1,3 +1,5 @@
 export default {
-  serviceStaff: []
+  serviceStaff: [],
+  jobs: [],
+  approvedJobs: [],
 };

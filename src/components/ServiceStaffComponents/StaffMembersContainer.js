@@ -34,7 +34,8 @@ StaffMembersContainer.propTypes = {
 function mapStateToProps(state) {
 
   return {
-    serviceStaff: state.serviceStaff
+    serviceStaff: state.serviceStaff,
+    jobs: state.jobs
   };
 }
 

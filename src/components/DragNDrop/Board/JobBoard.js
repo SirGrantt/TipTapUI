@@ -46,7 +46,17 @@ export default class JobBoard extends Component<Props, State> {
      ordered: Object.keys(this.props.initial),
  }
 
+ constructor(props: Props, context: any){
+     super(props, context)
+     this.state = ({
+         columns: this.props.initial,
+         ordered: Object.keys(this.props.initial)
+     });
+ }
+
+
  boardRef: ?HTMLElement
+
 
  /* if I decide to go with the global inject style option then it goes here
  with an eslint disable
@@ -141,6 +151,11 @@ export default class JobBoard extends Component<Props, State> {
          ) : (
              board
          )}
+            <input
+            type="submit"
+            className="btn btn-primary"
+            value="Save"
+            />
          </DragDropContext>
      );
  }

@@ -6,36 +6,57 @@ import * as staffActions from '../../reduxActions/serviceStaffActions';
 import {withRouter, Redirect} from 'react-router-dom';
 import {validateStaffMemberInput} from '../../Utils/staffMemberUtilFunctions';
 import ManageStaffForm from './ManageStaffForm';
+import JobBoard from '../DragNDrop/Board/JobBoard';
+import JobMap from '../DragNDrop/DNDTypes';
 
-class ManageStaffPage extends React.Component {
+class ManageStaffPage extends React.Component{
+    
     constructor(props, context){
         super(props, context);
 
         this.state = {
             staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id),
             approvedJobs: [],
-            unapprovedJobs: []
+            unapprovedJobs: [],
+            jobMap: {Approved: [], Unapproved: []},
+            jobMapPopulated: false
         };  
 
-        this.loadApprovedJobs(this.state.staffMember.id);
+        this.loadApproved(this.state.staffMember.id);
 
         this.saveStaffMember = this.saveStaffMember.bind(this);
         this.deleteStaffMember = this.deleteStaffMember.bind(this);
         this.updateStaffMember = this.updateStaffMember.bind(this);
-        this.loadApprovedJobs = this.loadApprovedJobs.bind(this);
+        this.loadApproved = this.loadApproved.bind(this);
     }
 
     componentWillReceiveProps(newProps){
         if (this.state.approvedJobs != newProps.approvedJobs){
-            let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));
+            let jm = Object.assign({}, this.state.jobMap);
+            let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));          
+            let approvedValue = newProps.approvedJobs.map(element => ({
+                title: element.title, apiId: element.id, id: element.id.toString()})
+            );
+            let unapprovedValue = unapproved.map(e => ({
+                title: e.title, apiId: e.id, id: e.id.toString()
+            }));
+            jm.Approved = approvedValue;
+            jm.Unapproved = unapprovedValue;
+
             this.setState({
                 approvedJobs: newProps.approvedJobs,
-                unapprovedJobs: unapproved
-            }) 
-        }
-    }
+                unapprovedJobs: unapproved,
+                //approvedJobMap: approvedMap,
+                jobMap: jm,
+                jobMapPopulated: true
 
-    loadApprovedJobs(){
+            }) 
+
+            };
+
+        }
+
+    loadApproved(){
         this.props.actions.loadApprovedJobs(this.state.staffMember.id);
     }
 
@@ -64,6 +85,7 @@ class ManageStaffPage extends React.Component {
 
     render(){
         return (
+            <div>
             <ManageStaffForm
             staffMember={this.state.staffMember}
             title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.staffMember.firstName + " " + this.state.staffMember.lastName}
@@ -72,6 +94,8 @@ class ManageStaffPage extends React.Component {
             onDelete={this.deleteStaffMember}
             onChange={this.updateStaffMember}
             />
+            { this.state.jobMapPopulated && <JobBoard initial={this.state.jobMap} />}
+            </div>
         );
     }
 

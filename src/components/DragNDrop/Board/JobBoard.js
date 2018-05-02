@@ -14,6 +14,7 @@ import type {
     DraggableLocation,
     DroppableProvided,
 } from 'react-beautiful-dnd';
+import { updateStaffMemberError } from '../../../reduxActions/serviceStaffActions';
 import type { JobMap } from '../DNDTypes';
 
 const ParentContainer = styled.div`
@@ -28,9 +29,21 @@ const Container = styled.div`
  display: inline-flex;
 `;
 
+const Button = styled.button`
+background: ${colors.white};
+color: ${colors.blue};
+font-size: 1em;
+margin: 1em;
+padding: 0.25em 1em;
+border: 2px solid palevioletred;
+border-radius: 3px;
+`
+
 type Props = {|
   initial: JobMap,
-  containerHeight?: string,  
+  containerHeight?: string,
+  staffMemberId: number,
+  onSave: () => void  
 |}
 
 type State = {|
@@ -52,6 +65,8 @@ export default class JobBoard extends Component<Props, State> {
          columns: this.props.initial,
          ordered: Object.keys(this.props.initial)
      });
+
+     this.updateStaffMember = this.updateStaffMember.bind(this);
  }
 
 
@@ -69,6 +84,11 @@ export default class JobBoard extends Component<Props, State> {
      `;
  }
  */
+
+updateStaffMember(event){
+    event.preventDefault();
+    this.props.onSave(event, this.state.columns["Approved"]);
+}
 
  onDragEnd = (result: DropResult) => {
 
@@ -151,12 +171,9 @@ export default class JobBoard extends Component<Props, State> {
          ) : (
              board
          )}
-            <input
-            type="submit"
-            className="btn btn-primary"
-            value="Save"
-            />
-         </DragDropContext>
+        <Button onClick={this.updateStaffMember}>Save</Button>
+        </DragDropContext>
      );
  }
 }
+//<Button onClick={)}>Save</Button>

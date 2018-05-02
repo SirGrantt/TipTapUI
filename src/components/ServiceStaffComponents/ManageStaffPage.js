@@ -3,24 +3,24 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
-import {withRouter, Redirect} from 'react-router-dom';
-import {validateStaffMemberInput} from '../../Utils/staffMemberUtilFunctions';
+import { withRouter, Redirect } from 'react-router-dom';
+import { validateStaffMemberInput } from '../../Utils/staffMemberUtilFunctions';
 import ManageStaffForm from './ManageStaffForm';
 import JobBoard from '../DragNDrop/Board/JobBoard';
 import JobMap from '../DragNDrop/DNDTypes';
 
-class ManageStaffPage extends React.Component{
-    
-    constructor(props, context){
+class ManageStaffPage extends React.Component {
+
+    constructor(props, context) {
         super(props, context);
 
         this.state = {
             staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id),
             approvedJobs: [],
             unapprovedJobs: [],
-            jobMap: {Approved: [], Unapproved: []},
+            jobMap: { Approved: [], Unapproved: [] },
             jobMapPopulated: false
-        };  
+        };
 
         this.loadApproved(this.state.staffMember.id);
 
@@ -28,14 +28,16 @@ class ManageStaffPage extends React.Component{
         this.deleteStaffMember = this.deleteStaffMember.bind(this);
         this.updateStaffMember = this.updateStaffMember.bind(this);
         this.loadApproved = this.loadApproved.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
 
-    componentWillReceiveProps(newProps){
-        if (this.state.approvedJobs != newProps.approvedJobs){
+    componentWillReceiveProps(newProps) {
+        if (this.state.approvedJobs != newProps.approvedJobs) {
             let jm = Object.assign({}, this.state.jobMap);
-            let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));          
+            let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));
             let approvedValue = newProps.approvedJobs.map(element => ({
-                title: element.title, apiId: element.id, id: element.id.toString()})
+                title: element.title, apiId: element.id, id: element.id.toString()
+            })
             );
             let unapprovedValue = unapproved.map(e => ({
                 title: e.title, apiId: e.id, id: e.id.toString()
@@ -46,55 +48,63 @@ class ManageStaffPage extends React.Component{
             this.setState({
                 approvedJobs: newProps.approvedJobs,
                 unapprovedJobs: unapproved,
-                //approvedJobMap: approvedMap,
                 jobMap: jm,
                 jobMapPopulated: true
 
-            }) 
+            })
 
-            };
+        };
 
-        }
+    }
 
-    loadApproved(){
+    onSave = (event, jobIds) => {
+        event.preventDefault();
+        let originalApproved = this.state.approvedJobs.map(j => j.apiId);
+        if (originalApproved != jobIds) {
+            this.props.actions.AddJobsToStaffMember(this.props.staffMemberId, jobIds);
+        };
+
+    }
+
+    loadApproved() {
         this.props.actions.loadApprovedJobs(this.state.staffMember.id);
     }
 
-    updateStaffMember(e){
+    updateStaffMember(e) {
         const field = e.target.name;
         let staffMember = Object.assign({}, this.state.staffMember);
         staffMember[field] = e.target.value;
-        this.setState({staffMember: staffMember});
+        this.setState({ staffMember: staffMember });
 
     }
 
-    saveStaffMember(event){
+    saveStaffMember(event) {
         event.preventDefault();
-        if (!validateStaffMemberInput(this.state.staffMember))
-        {
-           return;
+        if (!validateStaffMemberInput(this.state.staffMember)) {
+            return;
         }
         this.props.actions.saveStaffMember(this.state.staffMember);
         <Redirect to="/staff" />
 
     }
 
-    deleteStaffMember(event){
-     event.preventDefault();
+    deleteStaffMember(event) {
+        event.preventDefault();
     }
 
-    render(){
+    render() {
         return (
             <div>
-            <ManageStaffForm
-            staffMember={this.state.staffMember}
-            title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.staffMember.firstName + " " + this.state.staffMember.lastName}
-            roles={this.props.roles}
-            onSave={this.saveStaffMember}
-            onDelete={this.deleteStaffMember}
-            onChange={this.updateStaffMember}
-            />
-            { this.state.jobMapPopulated && <JobBoard initial={this.state.jobMap} />}
+                <ManageStaffForm
+                    staffMember={this.state.staffMember}
+                    title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.staffMember.firstName + " " + this.state.staffMember.lastName}
+                    roles={this.props.roles}
+                    onSave={this.saveStaffMember}
+                    onDelete={this.deleteStaffMember}
+                    onChange={this.updateStaffMember}
+                />
+                {this.state.jobMapPopulated && <JobBoard initial={this.state.jobMap}
+                    onSave={this.onSave} />}
             </div>
         );
     }
@@ -103,17 +113,17 @@ class ManageStaffPage extends React.Component{
 
 
 ManageStaffPage.propTypes = {
-serviceStaff: PropTypes.array.isRequired,
-match: PropTypes.object.isRequired
+    serviceStaff: PropTypes.array.isRequired,
+    match: PropTypes.object.isRequired
 };
 
 ManageStaffPage.contextTypes = {
     router: PropTypes.object
 };
 
-function getStaffMemberById(staff, id){
-    if (id == null){
-        const staffMember = {firstName: null, lastName: null, id: null};
+function getStaffMemberById(staff, id) {
+    if (id == null) {
+        const staffMember = { firstName: null, lastName: null, id: null };
         return staffMember;
     }
     let x;
@@ -123,8 +133,8 @@ function getStaffMemberById(staff, id){
 }
 
 function mapStateToProps(state) {
-    let defaultStaffMember = {firstName: '', lastName: '', id: 0};
-    
+    let defaultStaffMember = { firstName: '', lastName: '', id: 0 };
+
     return {
         serviceStaff: state.serviceStaff,
         defaultStaffMember: defaultStaffMember,
@@ -133,9 +143,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch){
-    return{
-    actions: bindActionCreators(staffActions, dispatch)
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(staffActions, dispatch)
     };
 }
 

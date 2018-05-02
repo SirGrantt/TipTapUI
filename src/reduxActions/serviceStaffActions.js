@@ -1,6 +1,7 @@
 import MockServiceStaffApi from '../../MockAPIs/MockServiceStaffApi';
 import * as types from './actionTypes';
 import Axios from 'axios';
+import { beginAxiosCall, AxiosError } from './axiosStatusActions';
 
 export function loadServiceStaffSuccess(staff) {
   return { type: types.LOAD_SERVICE_STAFF_SUCCESS, staff };
@@ -18,6 +19,14 @@ export function loadApprovedJobsSuccess(jobs){
   return { type: types.LOAD_APPROVED_JOBS_SUCCESS, jobs};
 }
 
+export function updateStaffMemberJobs(){
+  return { type: types.UPDATE_STAFF_MEMBER_SUCCESS };
+}
+
+export function updateStaffMemberError(){
+  return { type: types.AXIOS_ERROR };
+}
+
 
 export function loadServiceStaff() {
   return dispatch => {
@@ -28,7 +37,20 @@ export function loadServiceStaff() {
       throw (error);
     });
   };
-}  
+}
+
+export function AddJobsToStaffMember(staffMemberId, jobIds){
+  return dispatch => {
+    dispatch(beginAxiosCall());
+    return Axios.post('http://localhost:61319/staff/add-approved-job', {
+      staffMemberId: staffMemberId,
+      jobIds: jobIds
+    }).then(
+    dispatch(updateStaffMemberJobs())
+  ).catch(error => { dispatch(updateStaffMemberError());
+  });
+  };
+}
 
 
 //Create reducer to handle putting this data into state, create call for getting a specific

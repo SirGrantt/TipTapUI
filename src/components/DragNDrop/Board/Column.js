@@ -20,9 +20,9 @@ const Header = styled.div`
     justify-content: center;
     border-top-left-radius: ${borderRadius}px;
     border-top-right-radius: ${borderRadius}px;
-    background-color: ${({isDragging}) => (isDragging ? colors.blue.lighter : colors.blue.light)};
+    background-color: ${({isDragging}) => (isDragging ? colors.blue.lighter : colors.green)};
     transition: background-color 0.1s ease;
-
+    
     &:hover {
         background-color: ${colors.blue.lighter};
     }

@@ -22,7 +22,7 @@ class ManageStaffPage extends React.Component {
             jobMapPopulated: false
         };
 
-        this.loadApproved(this.state.staffMember.id);
+        this.loadApproved();
 
         this.saveStaffMember = this.saveStaffMember.bind(this);
         this.deleteStaffMember = this.deleteStaffMember.bind(this);
@@ -57,12 +57,23 @@ class ManageStaffPage extends React.Component {
 
     }
 
-    onSave = (event, jobIds) => {
-        event.preventDefault();
+    onSave(newApprovedJobs, newUnapprovedJobs) {
+        //check for job changes
         let originalApproved = this.state.approvedJobs.map(j => j.apiId);
+        let jobIds = newApprovedJobs.map(j => j.apiId);
+        let unapprovedIds = newUnapprovedJobs.map(j => j.apiId);
         if (originalApproved != jobIds) {
-            this.props.actions.AddJobsToStaffMember(this.props.staffMemberId, jobIds);
+            this.props.actions.updateJobApproval(this.state.staffMember.id, jobIds, unapprovedIds);
         };
+
+        //check for name changes
+        let originalStaffMember = getStaffMemberById(this.state.staffMember.id);
+        if (this.state.staffMember.firstName != originalStaffMember.firstName
+        || this.state.staffMember.lastName != originalStaffMember.lastName)
+        {
+            this.props.actions.updateStaffMemberName(this.state.staffMember.id, this.state.staffMember.firstName, 
+            this.state.staffMember.lastName);
+        }
 
     }
 

@@ -20,15 +20,6 @@ const ManageStaffForm = ({staffMember, onSave, onChange, onDelete, roles, title}
             value={staffMember.lastName}
             onChange={onChange}
             />
-            <input
-            type="submit"
-            className="btn btn-primary"
-            value="Save"
-            />
-            <input 
-            type="submit"
-            className="btn btn-danger"
-            value="Delete"/>
         </form>
     );
 };

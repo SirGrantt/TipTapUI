@@ -13,6 +13,16 @@ function serviceStaffReducer(state = initialState.serviceStaff, action) {
       Object.assign({}, action.staffMember)
     ];
 
+    //This is working but is apprently mutating state. need to find the way to do this without mutating state.
+    case types.UPDATE_STAFF_MEMBER_NAME_SUCCESS:
+    let oldData = state.find(s => s.id == action.staffId);
+    let index = state.indexOf(oldData);
+    state.splice(index, 1);
+    return [
+      ...state,
+      {firstName: action.firstName, lastName: action.lastName, id: action.staffId, status: "active"}
+    ];
+
     default:
       return state;
   }

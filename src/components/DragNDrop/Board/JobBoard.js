@@ -24,26 +24,28 @@ const ParentContainer = styled.div`
 `;
 
 const Container = styled.div`
- min-height: 100vh;
+ min-height: 50vh;
  min-width: 100vw;
  display: inline-flex;
+ justify-content: center;
 `;
 
 const Button = styled.button`
-background: ${colors.white};
-color: ${colors.blue};
+background: ${colors.blue.light};
+color: ${colors.black};
 font-size: 1em;
 margin: 1em;
 padding: 0.25em 1em;
-border: 2px solid palevioletred;
+border: 2px solid blue;
 border-radius: 3px;
+float: right;
 `
 
 type Props = {|
   initial: JobMap,
   containerHeight?: string,
   staffMemberId: number,
-  onSave: () => void  
+  onSave: (approved: any, unapproved: any) => void  
 |}
 
 type State = {|
@@ -66,6 +68,7 @@ export default class JobBoard extends Component<Props, State> {
          ordered: Object.keys(this.props.initial)
      });
 
+     //$FlowFixMe
      this.updateStaffMember = this.updateStaffMember.bind(this);
  }
 
@@ -85,9 +88,9 @@ export default class JobBoard extends Component<Props, State> {
  }
  */
 
-updateStaffMember(event){
+updateStaffMember(event: any){
     event.preventDefault();
-    this.props.onSave(event, this.state.columns["Approved"]);
+    this.props.onSave(this.state.columns["Approved"], this.state.columns["Unapproved"]);
 }
 
  onDragEnd = (result: DropResult) => {
@@ -171,6 +174,7 @@ updateStaffMember(event){
          ) : (
              board
          )}
+         <Button>Cancel</Button>
         <Button onClick={this.updateStaffMember}>Save</Button>
         </DragDropContext>
      );

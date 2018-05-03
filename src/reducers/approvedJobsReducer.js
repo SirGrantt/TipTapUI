@@ -1,7 +1,7 @@
 import * as types from '../reduxActions/actionTypes';
 import initialState from './initialState';
 
-function approvedJobsReducer(state = initialState.approvedJobs, action){
+function approvedJobs(state = initialState.approvedJobs, action){
 
     switch (action.type){
         case types.LOAD_APPROVED_JOBS_SUCCESS:
@@ -12,4 +12,4 @@ function approvedJobsReducer(state = initialState.approvedJobs, action){
     }
 }
 
-export default approvedJobsReducer;
+export default approvedJobs;

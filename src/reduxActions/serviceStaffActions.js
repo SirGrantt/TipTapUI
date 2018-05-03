@@ -19,12 +19,16 @@ export function loadApprovedJobsSuccess(jobs){
   return { type: types.LOAD_APPROVED_JOBS_SUCCESS, jobs};
 }
 
-export function updateStaffMemberJobs(){
+export function updateStaffMemberJobsSuccess(){
   return { type: types.UPDATE_STAFF_MEMBER_SUCCESS };
 }
 
 export function updateStaffMemberError(){
   return { type: types.AXIOS_ERROR };
+}
+
+export function updateStaffMemberNameSuccess(staffId, firstName, lastName){
+  return { type: types.UPDATE_STAFF_MEMBER_NAME_SUCCESS, staffId, firstName, lastName }
 }
 
 
@@ -39,19 +43,23 @@ export function loadServiceStaff() {
   };
 }
 
-export function AddJobsToStaffMember(staffMemberId, jobIds){
+export function updateJobApproval(staffMemberId, approvedJobIds, unappprovedJobIds){
   return dispatch => {
     dispatch(beginAxiosCall());
     return Axios.post('http://localhost:61319/staff/add-approved-job', {
       staffMemberId: staffMemberId,
-      jobIds: jobIds
+      jobIds: approvedJobIds
     }).then(
-    dispatch(updateStaffMemberJobs())
+    Axios.post('http://localhost:61319/staff/remove-job-approval',
+    {
+      staffMemberId: staffMemberId,
+      jobIds: unappprovedJobIds 
+    })).then(
+    dispatch(updateStaffMemberJobsSuccess())
   ).catch(error => { dispatch(updateStaffMemberError());
   });
   };
 }
-
 
 //Create reducer to handle putting this data into state, create call for getting a specific
 //staffmembers jobs, create call points for these methods, ultimately figure out how to handle
@@ -66,19 +74,21 @@ export function loadAllJobs(){
     });
   };
 }
-/*
- export function loadServiceStaff() {
-  return dispatch => {
-    MockServiceStaffApi.getAllStaff().then( staff => {
-      dispatch(loadServiceStaffSuccess(staff));
-    }).catch(error => {
-      throw (error);
-    });
-  };
- }
- */
+
+export function updateStaffMemberName(staffId, firstName, lastName){
+    return dispatch => {
+      return Axios.put('http://localhost:61319/staff/staff-editor/' + staffId,{
+        firstName: firstName,
+        lastName: lastName
+      }).then(dispatch(updateStaffMemberNameSuccess(staffId, firstName, lastName)))
+      .catch(error => {dispatch(updateStaffMemberError())
+      });
+    };
+}
+
   export function saveStaffMember(staffMember){
     return dispatch => {
+      dispatch(beginAxiosCall());
       Axios.post('http://localhost:61319/staff/staff-editor', {
         firstName: staffMember.firstName,
         lastName: staffMember.lastName

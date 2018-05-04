@@ -27,8 +27,8 @@ export function updateStaffMemberError(){
   return { type: types.AXIOS_ERROR };
 }
 
-export function updateStaffMemberNameSuccess(staffId, firstName, lastName){
-  return { type: types.UPDATE_STAFF_MEMBER_NAME_SUCCESS, staffId, firstName, lastName }
+export function updateStaffMemberNameSuccess(staffMember){
+  return { type: types.UPDATE_STAFF_MEMBER_NAME_SUCCESS, staffMember }
 }
 
 
@@ -75,12 +75,12 @@ export function loadAllJobs(){
   };
 }
 
-export function updateStaffMemberName(staffId, firstName, lastName){
+export function updateStaffMemberName(staffMember){
     return dispatch => {
-      return Axios.put('http://localhost:61319/staff/staff-editor/' + staffId,{
-        firstName: firstName,
-        lastName: lastName
-      }).then(dispatch(updateStaffMemberNameSuccess(staffId, firstName, lastName)))
+      return Axios.put('http://localhost:61319/staff/staff-editor/' + staffMember.id,{
+        firstName: staffMember.firstName,
+        lastName: staffMember.lastName
+      }).then(dispatch(updateStaffMemberNameSuccess(staffMember)))
       .catch(error => {dispatch(updateStaffMemberError())
       });
     };

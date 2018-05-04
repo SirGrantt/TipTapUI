@@ -1,4 +1,4 @@
-export  default function validateStaffMemberInput(staffMember){
+export function validateStaffMemberInput(staffMember){
     if (staffMember.firstName.length >= 26 )
     {
         return false;

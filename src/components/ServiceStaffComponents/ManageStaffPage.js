@@ -71,8 +71,8 @@ class ManageStaffPage extends React.Component {
         if (this.state.staffMember.firstName != originalStaffMember.firstName
         || this.state.staffMember.lastName != originalStaffMember.lastName)
         {
-            this.props.actions.updateStaffMemberName(this.state.staffMember.id, this.state.staffMember.firstName, 
-            this.state.staffMember.lastName);
+            this.props.actions.updateStaffMemberName(this.state.staffMember);
+            
         }
 
     }

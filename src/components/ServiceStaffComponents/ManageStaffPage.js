@@ -19,10 +19,17 @@ class ManageStaffPage extends React.Component {
             approvedJobs: [],
             unapprovedJobs: [],
             jobMap: { Approved: [], Unapproved: [] },
-            axiosLoading: 0
+            axiosLoading: 0,
+            title: ""  
         };
 
-        this.loadApproved();
+        //Need to check that the user is not trying to add a new staff member
+        //and therefore not attempt to load their approved jobs
+        if (this.state.staffMember.firstName != null && 
+            this.state.staffMember.lastName != null){
+                this.loadApproved();
+            }
+        
 
         this.saveStaffMember = this.saveStaffMember.bind(this);
         this.deleteStaffMember = this.deleteStaffMember.bind(this);
@@ -49,13 +56,16 @@ class ManageStaffPage extends React.Component {
                 approvedJobs: newProps.approvedJobs,
                 unapprovedJobs: unapproved,
                 jobMap: jm,
-                axiosLoading: newProps.axiosLoading
+                axiosLoading: newProps.axiosLoading,
+                title: this.state.staffMember.firstName + " " + this.state.staffMember.lastName
 
             });
 
         }
 
     }
+
+
 
     onSave(newApprovedJobs, newUnapprovedJobs) {
         //check for job changes
@@ -109,7 +119,7 @@ class ManageStaffPage extends React.Component {
                 {this.props.axiosLoading > 0 ? <Loader /> :
                 <ManageStaffForm
                     staffMember={this.state.staffMember}
-                    title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.staffMember.firstName + " " + this.state.staffMember.lastName}
+                    title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.title}
                     onSave={this.saveStaffMember}
                     onDelete={this.deleteStaffMember}
                     onChange={this.updateStaffMember}

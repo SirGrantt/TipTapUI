@@ -34,6 +34,7 @@ export function updateStaffMemberNameSuccess(staffMember){
 
 export function loadServiceStaff() {
   return dispatch => {
+    dispatch(beginAxiosCall());
     Axios.get('http://localhost:61319/staff').then( res => {
       const staff = res.data;
       dispatch(loadServiceStaffSuccess(staff));
@@ -101,6 +102,7 @@ export function updateStaffMemberName(staffMember){
 
   export function loadApprovedJobs(staffId){
     return dispatch => {
+      dispatch(beginAxiosCall());
       Axios.post('http://localhost:61319/staff/staff-member-jobs', {
         staffMemberId: staffId
       }).then(res => {

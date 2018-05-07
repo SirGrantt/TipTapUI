@@ -5,12 +5,17 @@ import { connect } from 'react-redux';
 import {Redirect} from 'react-router-redux';
 import ServiceStaffDisplay from './ServiceStaffDisplay';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
+import Loader from '../common/LoadingSpinner';  
 
 
 class StaffMembersContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
-
+    
+    this.state = {
+      serviceStaff: this.props.serviceStaff,
+      axiosLoading: 0,
+    };
   }
 
   render() {
@@ -20,7 +25,9 @@ class StaffMembersContainer extends React.Component {
         <br />
         <h2 id="sectionSubHeader">Add, Remove, and Manage Approved Jobs</h2>
         <br />
+        {this.props.axiosLoading > 0 ? <Loader /> :
         <ServiceStaffDisplay serviceStaff={this.props.serviceStaff}/>
+        }
       </div>
     );
   }
@@ -35,7 +42,8 @@ function mapStateToProps(state) {
 
   return {
     serviceStaff: state.serviceStaff,
-    jobs: state.jobs
+    jobs: state.jobs,
+    axiosLoading: state.axiosLoading
   };
 }
 

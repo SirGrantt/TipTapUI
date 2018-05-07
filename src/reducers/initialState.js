@@ -2,5 +2,5 @@ export default {
   serviceStaff: [],
   jobs: [],
   approvedJobs: [],
-  axiosLoading: false,
+  axiosLoading: 0,
 };

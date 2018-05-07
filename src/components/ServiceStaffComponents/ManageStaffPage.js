@@ -8,6 +8,7 @@ import { validateStaffMemberInput } from '../../Utils/staffMemberUtilFunctions';
 import ManageStaffForm from './ManageStaffForm';
 import JobBoard from '../DragNDrop/Board/JobBoard';
 import JobMap from '../DragNDrop/DNDTypes';
+import Loader from '../common/LoadingSpinner';
 
 class ManageStaffPage extends React.Component {
 
@@ -19,7 +20,7 @@ class ManageStaffPage extends React.Component {
             approvedJobs: [],
             unapprovedJobs: [],
             jobMap: { Approved: [], Unapproved: [] },
-            jobMapPopulated: false
+            axiosLoading: 0
         };
 
         this.loadApproved();
@@ -49,7 +50,7 @@ class ManageStaffPage extends React.Component {
                 approvedJobs: newProps.approvedJobs,
                 unapprovedJobs: unapproved,
                 jobMap: jm,
-                jobMapPopulated: true
+                axiosLoading: newProps.axiosLoading
 
             })
 
@@ -105,7 +106,8 @@ class ManageStaffPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div> 
+                {this.props.axiosLoading > 0 ? <Loader /> :
                 <ManageStaffForm
                     staffMember={this.state.staffMember}
                     title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.staffMember.firstName + " " + this.state.staffMember.lastName}
@@ -113,9 +115,10 @@ class ManageStaffPage extends React.Component {
                     onSave={this.saveStaffMember}
                     onDelete={this.deleteStaffMember}
                     onChange={this.updateStaffMember}
-                />
-                {this.state.jobMapPopulated && <JobBoard initial={this.state.jobMap}
+                /> }
+                {this.props.axiosLoading == 0 && <JobBoard initial={this.state.jobMap}
                     onSave={this.onSave} />}
+                               
             </div>
         );
     }
@@ -151,6 +154,7 @@ function mapStateToProps(state) {
         defaultStaffMember: defaultStaffMember,
         jobs: state.jobs,
         approvedJobs: state.approvedJobs,
+        axiosLoading: state.axiosLoading
     };
 }
 

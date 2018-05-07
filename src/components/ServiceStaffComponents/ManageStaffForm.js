@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TextInput from '../common/TextInput';
 
 
-const ManageStaffForm = ({staffMember, onSave, onChange, onDelete, roles, title}) => {
+const ManageStaffForm = ({staffMember, onSave, onChange, onDelete, title}) => {
     return(
         <form id="editorInput">
             <h1>{title}</h1>
@@ -27,8 +27,6 @@ const ManageStaffForm = ({staffMember, onSave, onChange, onDelete, roles, title}
 ManageStaffForm.propTypes = {
     staffMember: PropTypes.object.isRequired,
     onSave: PropTypes.func.isRequired,
-    roles: PropTypes.array,
-    creating: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired

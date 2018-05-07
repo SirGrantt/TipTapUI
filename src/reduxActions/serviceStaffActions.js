@@ -1,7 +1,6 @@
-import MockServiceStaffApi from '../../MockAPIs/MockServiceStaffApi';
 import * as types from './actionTypes';
 import Axios from 'axios';
-import { beginAxiosCall, AxiosError } from './axiosStatusActions';
+import { beginAxiosCall } from './axiosStatusActions';
 
 export function loadServiceStaffSuccess(staff) {
   return { type: types.LOAD_SERVICE_STAFF_SUCCESS, staff };
@@ -82,7 +81,7 @@ export function updateStaffMemberName(staffMember){
         firstName: staffMember.firstName,
         lastName: staffMember.lastName
       }).then(dispatch(updateStaffMemberNameSuccess(staffMember)))
-      .catch(error => {dispatch(updateStaffMemberError())
+      .catch(error => {dispatch(updateStaffMemberError());
       });
     };
 }
@@ -107,8 +106,8 @@ export function updateStaffMemberName(staffMember){
         staffMemberId: staffId
       }).then(res => {
         const jobs = res.data;
-        dispatch(loadApprovedJobsSuccess(jobs))})
-        .catch(error => {
+        dispatch(loadApprovedJobsSuccess(jobs));
+      }).catch(error => {
           throw (error);
         });
     };

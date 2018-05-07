@@ -14,7 +14,6 @@ import type {
     DraggableLocation,
     DroppableProvided,
 } from 'react-beautiful-dnd';
-import { updateStaffMemberError } from '../../../reduxActions/serviceStaffActions';
 import type { JobMap } from '../DNDTypes';
 
 const ParentContainer = styled.div`

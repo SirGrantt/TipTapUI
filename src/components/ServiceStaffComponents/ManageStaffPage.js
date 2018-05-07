@@ -7,7 +7,6 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { validateStaffMemberInput } from '../../Utils/staffMemberUtilFunctions';
 import ManageStaffForm from './ManageStaffForm';
 import JobBoard from '../DragNDrop/Board/JobBoard';
-import JobMap from '../DragNDrop/DNDTypes';
 import Loader from '../common/LoadingSpinner';
 
 class ManageStaffPage extends React.Component {
@@ -52,9 +51,9 @@ class ManageStaffPage extends React.Component {
                 jobMap: jm,
                 axiosLoading: newProps.axiosLoading
 
-            })
+            });
 
-        };
+        }
 
     }
 
@@ -65,7 +64,7 @@ class ManageStaffPage extends React.Component {
         let unapprovedIds = newUnapprovedJobs.map(j => j.apiId);
         if (originalApproved != jobIds) {
             this.props.actions.updateJobApproval(this.state.staffMember.id, jobIds, unapprovedIds);
-        };
+        }
 
         //check for name changes
         let originalStaffMember = getStaffMemberById(this.state.staffMember.id);
@@ -96,7 +95,7 @@ class ManageStaffPage extends React.Component {
             return;
         }
         this.props.actions.saveStaffMember(this.state.staffMember);
-        <Redirect to="/staff" />
+        <Redirect to="/staff" />;
 
     }
 
@@ -111,7 +110,6 @@ class ManageStaffPage extends React.Component {
                 <ManageStaffForm
                     staffMember={this.state.staffMember}
                     title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.staffMember.firstName + " " + this.state.staffMember.lastName}
-                    roles={this.props.roles}
                     onSave={this.saveStaffMember}
                     onDelete={this.deleteStaffMember}
                     onChange={this.updateStaffMember}
@@ -128,7 +126,9 @@ class ManageStaffPage extends React.Component {
 
 ManageStaffPage.propTypes = {
     serviceStaff: PropTypes.array.isRequired,
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    axiosLoading: PropTypes.number.isRequired,
+
 };
 
 ManageStaffPage.contextTypes = {

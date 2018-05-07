@@ -1,6 +1,5 @@
 import * as types from '../reduxActions/actionTypes';
 import initialState from './initialState';
-import { updateObjectInArray } from '../Utils/staffMemberUtilFunctions';
 
 function serviceStaffReducer(state = initialState.serviceStaff, action) {
 

@@ -67,4 +67,4 @@ export const reorderJobMap = ({
         return {
             jobMap: result,
         };
-    }
+    };

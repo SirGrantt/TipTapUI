@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {Redirect} from 'react-router-redux';
 import ServiceStaffDisplay from './ServiceStaffDisplay';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
 import Loader from '../common/LoadingSpinner';  
@@ -34,7 +33,8 @@ class StaffMembersContainer extends React.Component {
 }
 
 StaffMembersContainer.propTypes = {
-  serviceStaff: PropTypes.array.isRequired
+  serviceStaff: PropTypes.array.isRequired,
+  axiosLoading: PropTypes.number.isRequired
 };
 
 

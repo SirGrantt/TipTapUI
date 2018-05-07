@@ -8,8 +8,6 @@ import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import ManageStaffPage from './ServiceStaffComponents/ManageStaffPage';
 
-import Loader from './common/LoadingSpinner';
-
 class App extends React.Component {
   render() {
 

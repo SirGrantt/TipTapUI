@@ -2,7 +2,6 @@ import React from 'react';
 import Proptypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {ListGroupItem} from 'react-bootstrap';
-import {Redirect} from 'react-router-dom';
 
 const ServiceStaffRow = ({ firstName, lastName, id}) => {
 

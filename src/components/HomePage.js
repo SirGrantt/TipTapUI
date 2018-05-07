@@ -6,7 +6,6 @@ const HomePage = () => {
     <div>
         <h1>Welcome to TipTap for Virago</h1>
         <br />
-        <h2>Yesterday's Sales</h2>
         <p id="jumbo">This app is under construction, learn more about what it will do below</p>
         <Link to="/staff"  id="jumbo" className="btn btn-primary">Learn More</Link>
     </div>

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
-import { withRouter, Redirect } from 'react-router-dom';
-import { validateStaffMemberInput } from '../../Utils/staffMemberUtilFunctions';
+import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import { validateStaffMemberInput, mapJobsToJobMap } from '../../Utils/staffMemberUtilFunctions';
 import ManageStaffForm from './ManageStaffForm';
 import JobBoard from '../DragNDrop/Board/JobBoard';
 import Loader from '../common/LoadingSpinner';
@@ -18,9 +19,10 @@ class ManageStaffPage extends React.Component {
             staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id),
             approvedJobs: [],
             unapprovedJobs: [],
-            jobMap: { Approved: [], Unapproved: [] },
+            jobMap: { Approved: [], Unapproved: mapJobsToJobMap(props.jobs) },
             axiosLoading: 0,
-            title: ""  
+            title: "",
+            redirect: false  
         };
 
         //Need to check that the user is not trying to add a new staff member
@@ -42,13 +44,8 @@ class ManageStaffPage extends React.Component {
         if (this.state.approvedJobs != newProps.approvedJobs) {
             let jm = Object.assign({}, this.state.jobMap);
             let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));
-            let approvedValue = newProps.approvedJobs.map(element => ({
-                title: element.title, apiId: element.id, id: element.id.toString()
-            })
-            );
-            let unapprovedValue = unapproved.map(e => ({
-                title: e.title, apiId: e.id, id: e.id.toString()
-            }));
+            let approvedValue = mapJobsToJobMap(newProps.approvedJobs);
+            let unapprovedValue = mapJobsToJobMap(unapproved);
             jm.Approved = approvedValue;
             jm.Unapproved = unapprovedValue;
 
@@ -68,10 +65,20 @@ class ManageStaffPage extends React.Component {
 
 
     onSave(newApprovedJobs, newUnapprovedJobs) {
-        //check for job changes
         let originalApproved = this.state.approvedJobs.map(j => j.apiId);
         let jobIds = newApprovedJobs.map(j => j.apiId);
         let unapprovedIds = newUnapprovedJobs.map(j => j.apiId);
+
+        //Check if we are adding a new staffMember or updating one
+        if (this.state.staffMember.id == null)
+        {
+            this.saveStaffMember(jobIds, unapprovedIds);
+            this.setState({
+                redirect: true
+            });
+        }
+        else {
+        //check for job changes
         if (originalApproved != jobIds) {
             this.props.actions.updateJobApproval(this.state.staffMember.id, jobIds, unapprovedIds);
         }
@@ -84,6 +91,7 @@ class ManageStaffPage extends React.Component {
             this.props.actions.updateStaffMemberName(this.state.staffMember);
             
         }
+    }
 
     }
 
@@ -99,14 +107,11 @@ class ManageStaffPage extends React.Component {
 
     }
 
-    saveStaffMember(event) {
-        event.preventDefault();
+    saveStaffMember(jobIds, unapprovedIds) {
         if (!validateStaffMemberInput(this.state.staffMember)) {
             return;
         }
-        this.props.actions.saveStaffMember(this.state.staffMember);
-        <Redirect to="/staff" />;
-
+        this.props.actions.saveStaffMember(this.state.staffMember, jobIds, unapprovedIds);
     }
 
     deleteStaffMember(event) {
@@ -114,12 +119,16 @@ class ManageStaffPage extends React.Component {
     }
 
     render() {
+        if (this.state.redirect)
+        {
+            return <Redirect to="/staff"/>;
+        }
         return (
             <div> 
                 {this.props.axiosLoading > 0 ? <Loader /> :
                 <ManageStaffForm
                     staffMember={this.state.staffMember}
-                    title={this.state.staffMember.firstName == null ? "Add Staff Member" : this.state.title}
+                    title={this.state.staffMember.id == null ? "Add Staff Member" : this.state.title}
                     onSave={this.saveStaffMember}
                     onDelete={this.deleteStaffMember}
                     onChange={this.updateStaffMember}

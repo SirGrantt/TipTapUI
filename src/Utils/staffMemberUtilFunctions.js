@@ -18,3 +18,9 @@ export function validateStaffMemberInput(staffMember){
 
     return true;
 }
+
+export function mapJobsToJobMap(jobs){
+    return jobs.map(e => ({
+        title: e.title, apiId: e.id, id: e.id.toString()
+    }));
+}

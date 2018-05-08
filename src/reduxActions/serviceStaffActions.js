@@ -86,13 +86,17 @@ export function updateStaffMemberName(staffMember){
     };
 }
 
-  export function saveStaffMember(staffMember){
+  export function saveStaffMember(staffMember, approvedJobIds, unappprovedJobIds){
     return dispatch => {
       dispatch(beginAxiosCall());
       Axios.post('http://localhost:61319/staff/staff-editor', {
         firstName: staffMember.firstName,
         lastName: staffMember.lastName
-      }).then(dispatch(postStaffMemberSuccess(staffMember)))
+      }).then(response => {
+        const savedStaffMember = response.data;
+        dispatch(updateJobApproval(savedStaffMember.id, approvedJobIds, unappprovedJobIds));
+        dispatch(postStaffMemberSuccess(savedStaffMember));
+      })
       .catch(error => {
         throw (error);
       });

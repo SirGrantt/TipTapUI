@@ -10,14 +10,14 @@ const ManageStaffForm = ({staffMember, onSave, onChange, onDelete, title}) => {
             <TextInput
             name="firstName"
             label="First Name"
-            value={staffMember.firstName}
+            value={staffMember.firstName == null ? "" : staffMember.firstName}
             onChange={onChange}
             />
 
             <TextInput
             name="lastName"
             label="Last Name"
-            value={staffMember.lastName}
+            value={staffMember.lastName == null ? "" : staffMember.lastName}
             onChange={onChange}
             />
         </form>

@@ -44,7 +44,8 @@ type Props = {|
   initial: JobMap,
   containerHeight?: string,
   staffMemberId: number,
-  onSave: (approved: any, unapproved: any) => void  
+  onSave: (approved: any, unapproved: any) => void,
+  onCancel: () => void  
 |}
 
 type State = {|
@@ -69,6 +70,9 @@ export default class JobBoard extends Component<Props, State> {
 
      //$FlowFixMe
      this.updateStaffMember = this.updateStaffMember.bind(this);
+
+     //$FlowFixMe
+     this.onCancel = this.onCancel.bind(this);
  }
 
 
@@ -90,6 +94,11 @@ export default class JobBoard extends Component<Props, State> {
 updateStaffMember(event: any){
     event.preventDefault();
     this.props.onSave(this.state.columns["Approved"], this.state.columns["Unapproved"]);
+}
+
+onCancel(event: any){
+    event.preventDefault();
+    this.props.onCancel();
 }
 
  onDragEnd = (result: DropResult) => {
@@ -173,7 +182,7 @@ updateStaffMember(event: any){
          ) : (
              board
          )}
-         <Button>Cancel</Button>
+         <Button onClick={this.onCancel}>Cancel</Button>
         <Button onClick={this.updateStaffMember}>Save</Button>
         </DragDropContext>
      );

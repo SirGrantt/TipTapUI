@@ -21,8 +21,7 @@ class StaffMembersContainer extends React.Component {
     return (
       <div>
         <h1>Staff Members</h1>
-        <br />
-        <h2 id="sectionSubHeader">Add, Remove, and Manage Approved Jobs</h2>
+        <h2 id="sectionSubHeader">Edit Staff and their Job Approvals.</h2>
         <br />
         {this.props.axiosLoading > 0 ? <Loader /> :
         <ServiceStaffDisplay serviceStaff={this.props.serviceStaff}/>

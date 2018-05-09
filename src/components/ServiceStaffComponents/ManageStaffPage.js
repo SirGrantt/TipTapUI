@@ -38,6 +38,7 @@ class ManageStaffPage extends React.Component {
         this.updateStaffMember = this.updateStaffMember.bind(this);
         this.loadApproved = this.loadApproved.bind(this);
         this.onSave = this.onSave.bind(this);
+        this.onCancel = this.onCancel.bind(this);
     }
 
     componentWillReceiveProps(newProps) {
@@ -73,9 +74,6 @@ class ManageStaffPage extends React.Component {
         if (this.state.staffMember.id == null)
         {
             this.saveStaffMember(jobIds, unapprovedIds);
-            this.setState({
-                redirect: true
-            });
         }
         else {
         //check for job changes
@@ -92,7 +90,15 @@ class ManageStaffPage extends React.Component {
             
         }
     }
+    this.setState({
+        redirect: true
+    });
+    }
 
+    onCancel(){
+        this.setState({
+            redirect: true
+        });
     }
 
     loadApproved() {
@@ -134,7 +140,7 @@ class ManageStaffPage extends React.Component {
                     onChange={this.updateStaffMember}
                 /> }
                 {this.props.axiosLoading == 0 && <JobBoard initial={this.state.jobMap}
-                    onSave={this.onSave} />}
+                    onSave={this.onSave} onCancel={this.onCancel} />}
                                
             </div>
         );

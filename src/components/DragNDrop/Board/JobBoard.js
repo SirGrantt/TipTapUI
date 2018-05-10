@@ -72,7 +72,7 @@ export default class JobBoard extends Component<Props, State> {
      this.updateStaffMember = this.updateStaffMember.bind(this);
 
      //$FlowFixMe
-     this.onCancel = this.onCancel.bind(this);
+     this.onCancel = this.onCancel.bind(this);``
  }
 
 

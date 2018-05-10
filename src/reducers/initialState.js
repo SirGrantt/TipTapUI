@@ -3,4 +3,6 @@ export default {
   jobs: [],
   approvedJobs: [],
   axiosLoading: 0,
+  individualCheckouts: [],
+  teamCheckouts: [],
 };

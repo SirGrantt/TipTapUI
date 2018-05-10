@@ -7,6 +7,7 @@ import StaffMembersContainer from './ServiceStaffComponents/StaffMembersContaine
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import ManageStaffPage from './ServiceStaffComponents/ManageStaffPage';
+import CheckoutManagerContainer from './CheckoutManagerComponents/CheckoutManagerContainer';
 
 class App extends React.Component {
   render() {
@@ -27,7 +28,7 @@ class App extends React.Component {
       Staff
       </NavItem>
       </LinkContainer>
-      <LinkContainer to="/shift-manager">
+      <LinkContainer to="/checkout-manager">
       <NavItem eventKey={2}>
       Check Out Manager
       </NavItem>
@@ -48,6 +49,7 @@ class App extends React.Component {
           <Route path="/staff" component={StaffMembersContainer} />
           <Route exact path="/editor" component={ManageStaffPage} />
           <Route path="/editor/:id" component={ManageStaffPage} />
+          <Route path="/checkout-manager" component={CheckoutManagerContainer} />
           <Route component={NotFound404} />
         </Switch>
       </div>

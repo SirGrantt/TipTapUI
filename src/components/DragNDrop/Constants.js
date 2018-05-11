@@ -5,6 +5,7 @@ export const colors = {
       light: 'lightblue',
       lighter: '#d9fcff',
       soft: '#E6FCFF',
+      steel: '#4682b4',
     },
     black: '#4d4d4d',
     shadow: 'rgba(0,0,0,0.2)',

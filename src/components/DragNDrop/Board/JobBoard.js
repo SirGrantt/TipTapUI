@@ -1,8 +1,5 @@
 // @flow
 import React, { Component } from 'react';
-//may need , { injectGlobal } from styled-components, but leaving out for now as
-//it may only be a way for the dnd example to achieve their style that I don't
-//want to copy
 import styled from 'styled-components';
 import Column from './Column';
 import { colors } from '../Constants';
@@ -72,24 +69,21 @@ export default class JobBoard extends Component<Props, State> {
      this.updateStaffMember = this.updateStaffMember.bind(this);
 
      //$FlowFixMe
-     this.onCancel = this.onCancel.bind(this);``
+     this.onCancel = this.onCancel.bind(this);
  }
 
 
- boardRef: ?HTMLElement
+ //boardRef: ?HTMLElement
 
-
- /* if I decide to go with the global inject style option then it goes here
- with an eslint disable
- componentDidMount() {
-     injectGlobal`
-        body {
-            background: ${colors.blue.deep}
-
-        }
-     `;
- }
- */
+ //Whenever a page is refreshed while on the manage staff screen, there
+ //needs to be a check for when the completed list of approved jobs comes in
+componentWillReceiveProps(nextProps){
+    if (this.state.columns != nextProps.inital){
+        this.setState({
+            columns: nextProps.initial
+        });
+    }
+}
 
 updateStaffMember(event: any){
     event.preventDefault();
@@ -188,4 +182,3 @@ onCancel(event: any){
      );
  }
 }
-//<Button onClick={)}>Save</Button>

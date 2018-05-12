@@ -14,6 +14,8 @@ class ManageStaffPage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
+        console.log(props.serviceStaff);
+        console.log(props.match.params.id);
 
         this.state = {
             staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id),
@@ -27,10 +29,9 @@ class ManageStaffPage extends React.Component {
 
         //Need to check that the user is not trying to add a new staff member
         //and therefore not attempt to load their approved jobs
-        if (this.state.staffMember.firstName != null && 
-            this.state.staffMember.lastName != null){
-                this.loadApproved();
-            }
+        if (this.props.match.params.id != undefined){
+            this.loadApproved(this.props.match.params.id);
+        }
         
 
         this.saveStaffMember = this.saveStaffMember.bind(this);
@@ -42,7 +43,7 @@ class ManageStaffPage extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (this.state.approvedJobs != newProps.approvedJobs) {
+        //if (this.state.approvedJobs != newProps.approvedJobs) {
             let jm = Object.assign({}, this.state.jobMap);
             let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));
             let approvedValue = mapJobsToJobMap(newProps.approvedJobs);
@@ -50,20 +51,20 @@ class ManageStaffPage extends React.Component {
             jm.Approved = approvedValue;
             jm.Unapproved = unapprovedValue;
 
+            if (newProps.serviceStaff.length > 0){
+                let staffM = getStaffMemberById(newProps.serviceStaff, newProps.match.params.id);
             this.setState({
+                staffMember: staffM,
                 approvedJobs: newProps.approvedJobs,
                 unapprovedJobs: unapproved,
                 jobMap: jm,
                 axiosLoading: newProps.axiosLoading,
-                title: this.state.staffMember.firstName + " " + this.state.staffMember.lastName
-
+                title: staffM.firstName + " " + staffM.lastName
             });
-
         }
+        //}
 
     }
-
-
 
     onSave(newApprovedJobs, newUnapprovedJobs) {
         let originalApproved = this.state.approvedJobs.map(j => j.apiId);
@@ -101,8 +102,8 @@ class ManageStaffPage extends React.Component {
         });
     }
 
-    loadApproved() {
-        this.props.actions.loadApprovedJobs(this.state.staffMember.id);
+    loadApproved(id) {
+        this.props.actions.loadApprovedJobs(id);
     }
 
     updateStaffMember(e) {
@@ -130,15 +131,16 @@ class ManageStaffPage extends React.Component {
             return <Redirect to="/staff"/>;
         }
         return (
-            <div> 
-                {this.props.axiosLoading > 0 ? <Loader /> :
+            <div>  
+                {this.props.axiosLoading > 0 || this.state.staffMember == undefined ? <Loader /> :
                 <ManageStaffForm
                     staffMember={this.state.staffMember}
                     title={this.state.staffMember.id == null ? "Add Staff Member" : this.state.title}
                     onSave={this.saveStaffMember}
                     onDelete={this.deleteStaffMember}
                     onChange={this.updateStaffMember}
-                /> }
+                />
+                }
                 {this.props.axiosLoading == 0 && <JobBoard initial={this.state.jobMap}
                     onSave={this.onSave} onCancel={this.onCancel} />}
                                

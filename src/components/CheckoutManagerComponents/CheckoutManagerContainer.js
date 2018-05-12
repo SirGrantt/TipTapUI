@@ -82,8 +82,6 @@ class CheckoutManagerContainer extends React.Component{
             startDate: moment()
         };
 
-        this.loadCheckouts(moment().toDate());
-
         this.handleChange = this.handleChange.bind(this);
         this.loadCheckouts = this.loadCheckouts.bind(this);
 
@@ -95,8 +93,9 @@ class CheckoutManagerContainer extends React.Component{
         });
     }
 
-    loadCheckouts(moment){
-        this.props.actions.loadCheckouts(moment, "dinner");
+    loadCheckouts(){
+        let date = this.state.startDate.toDate();
+        this.props.actions.loadCheckouts(date, "dinner");
     }
 
     render(){
@@ -113,7 +112,7 @@ class CheckoutManagerContainer extends React.Component{
                 onChange={this.handleChange}
                 />
                 </h4>
-                <GetCheckoutButton>Get checkouts
+                <GetCheckoutButton onClick={this.loadCheckouts}>Get checkouts
                 </GetCheckoutButton>
                 </GetCheckoutsWrapper>
 

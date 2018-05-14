@@ -4,6 +4,7 @@ import jobs from './jobReducer';
 import approvedJobs from './approvedJobsReducer';
 import axiosLoading from './axiosReducer';
 import checkouts from './checkoutReducer';
+import startDate from './startDateReducer';
 
 const rootReducer = combineReducers({
   serviceStaff,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   approvedJobs,
   axiosLoading,
   checkouts,
+  startDate,
 });
 
 export default rootReducer;

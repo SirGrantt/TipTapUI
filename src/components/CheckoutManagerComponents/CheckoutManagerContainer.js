@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import * as checkoutActions from '../../reduxActions/checkoutActions';
 import { bindActionCreators } from 'redux';
 import { colors } from '../DragNDrop/Constants';
-
+import * as startDateActions from '../../reduxActions/startDateActions';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const DateSelector = styled.h4`
@@ -88,13 +88,11 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     handleChange(date){
-        this.setState({
-            startDate: date
-        });
+        this.props.dateActions.setStartDateSuccess(date);
     }
 
     loadCheckouts(){
-        let date = this.state.startDate.toDate();
+        let date = this.props.startDate.format();
         this.props.actions.loadCheckouts(date, "dinner");
     }
 
@@ -108,7 +106,7 @@ class CheckoutManagerContainer extends React.Component{
                 <GetCheckoutsWrapper> 
                 <h4>
                 <DatePicker
-                selected={this.state.startDate}
+                selected={this.props.startDate}
                 onChange={this.handleChange}
                 />
                 </h4>
@@ -132,12 +130,14 @@ function mapStateToProps(state){
     return {
         staff: state.serviceStaff,
         checkouts: state.checkouts,
+        startDate: state.startDate,
     };
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        actions: bindActionCreators(checkoutActions, dispatch)
+        actions: bindActionCreators(checkoutActions, dispatch),
+        dateActions: bindActionCreators(startDateActions, dispatch)
     };
 }
 

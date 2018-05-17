@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Column from './Column';
+import CheckoutColumn from './CheckoutColumn';
 import { colors } from '../Constants';
-import reorder, { reorderJobMap } from '../Reorder';
+import reorder, { reorderCheckoutMap } from '../Reorder';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import type {
     DropResult,
@@ -11,7 +11,7 @@ import type {
     DraggableLocation,
     DroppableProvided,
 } from 'react-beautiful-dnd';
-import type { JobMap } from '../DNDTypes';
+import type { CheckoutMap } from '../DNDTypes';
 
 const ParentContainer = styled.div`
     height: ${({height}) => height};
@@ -38,19 +38,20 @@ float: right;
 `
 
 type Props = {|
-  initial: JobMap,
+  initial: CheckoutMap,
   containerHeight?: string,
   staffMemberId: number,
   onSave: (approved: any, unapproved: any) => void,
   onCancel: () => void,
+  shouldMap: boolean,
 |}
 
 type State = {|
-    columns: JobMap,
+    columns: CheckoutMap,
     ordered: string[],    
 |}
 
-export default class JobBoard extends Component<Props, State> {
+export default class CheckoutBoard extends Component<Props, State> {
  /*eslint-disable react/sort-comp */
 
  state: State = {
@@ -65,11 +66,7 @@ export default class JobBoard extends Component<Props, State> {
          ordered: Object.keys(this.props.initial)
      });
 
-     //$FlowFixMe
-     this.updateStaffMember = this.updateStaffMember.bind(this);
-
-     //$FlowFixMe
-     this.onCancel = this.onCancel.bind(this);
+     console.log(this.state.columns);
  }
 
 
@@ -80,19 +77,10 @@ export default class JobBoard extends Component<Props, State> {
 componentWillReceiveProps(nextProps: any){
     if (this.state.columns != nextProps.inital){
         this.setState({
-            columns: nextProps.initial
+            columns: nextProps.initial,
+            ordered: Object.keys(nextProps.initial)
         });
     }
-}
-
-updateStaffMember(event: any){
-    event.preventDefault();
-    this.props.onSave(this.state.columns["Approved"], this.state.columns["Unapproved"]);
-}
-
-onCancel(event: any){
-    event.preventDefault();
-    this.props.onCancel();
 }
 
  onDragEnd = (result: DropResult) => {
@@ -127,8 +115,8 @@ onCancel(event: any){
         return;
     }
 
-    const data = reorderJobMap({
-        jobMap: this.state.columns,
+    const data = reorderCheckoutMap({
+        checkoutMap: this.state.columns,
         source,
         destination,
     });
@@ -136,14 +124,15 @@ onCancel(event: any){
     //reoderJobMap sets its jobMap property as the result of the reorder function
     //so it has to be accesed as a property and not the result of a function
     this.setState({
-        columns: data.jobMap,
+        columns: data.checkoutMap,
     });
  }
 
  render(){
-     const columns: JobMap = this.state.columns;
+     const columns: CheckoutMap = this.state.columns;
      const ordered: string[] = this.state.ordered;
      const { containerHeight } = this.props;
+     const shouldMap: boolean = this.props.shouldMap;
 
      const board = (
         <Droppable
@@ -155,11 +144,12 @@ onCancel(event: any){
         {(provided: DroppableProvided) => (
             <Container innerRef={provided.innerRef} {...provided.droppableProps}>
             {ordered.map((key: string, index: number) => (
-                <Column
+                <CheckoutColumn
+                shouldMap={shouldMap}
                 key={key}
                 index={index}
                 title={key}
-                jobs={columns[key]}
+                checkouts={columns[key]}
                 />
             ))}
             </Container>
@@ -176,8 +166,6 @@ onCancel(event: any){
          ) : (
              board
          )}
-         <Button onClick={this.onCancel}>Cancel</Button>
-        <Button onClick={this.updateStaffMember}>Save</Button>
         </DragDropContext>
      );
  }

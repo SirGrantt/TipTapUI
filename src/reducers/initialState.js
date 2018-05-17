@@ -5,6 +5,6 @@ export default {
   jobs: [],
   approvedJobs: [],
   axiosLoading: 0,
-  checkouts: [],
+  checkouts: {},
   startDate: moment(),
 };

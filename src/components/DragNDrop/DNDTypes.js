@@ -9,6 +9,7 @@ export type Job = {|
 |}
 
 export type Checkout = {|
+    staffMemberName: string,
     id: Id,
     apiId: number,
     nonTipOutBarSales: number,
@@ -27,6 +28,10 @@ export type Checkout = {|
     stringDate: string,
     
 |}
+
+export type CheckoutMap = {|
+    [key: string]: Checkout[]
+    |}
 
 export type CardTitle = {|
     title: string

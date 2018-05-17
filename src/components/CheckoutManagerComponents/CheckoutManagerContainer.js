@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import * as checkoutActions from '../../reduxActions/checkoutActions';
 import { bindActionCreators } from 'redux';
 import { colors } from '../DragNDrop/Constants';
+import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -79,18 +80,57 @@ class CheckoutManagerContainer extends React.Component{
         super(props, context);
 
         this.state = {
-            startDate: moment()
+            checkoutsMap: {individual: this.props.checkouts.individual, team: this.props.checkouts.team},
+            shouldMap: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.loadCheckouts = this.loadCheckouts.bind(this);
+        this.buildCheckoutsMap = this.buildCheckoutsMap.bind(this);
 
+    }
+
+    componentWillReceiveProps(newProps){
+        if(this.props.checkouts != newProps.checkouts){
+            if (newProps.checkouts.individual != undefined){
+                this.setState({
+                    shouldMap: true,
+                    checkoutsMap: this.buildCheckoutsMap(newProps.checkouts),
+                });
+            }
+            else if (newProps.checkouts.team != undefined){
+                this.setState({
+                    shouldMap: true
+                });
+            }
+        }
     }
 
     handleChange(date){
         this.props.dateActions.setStartDateSuccess(date);
     }
 
+    
+    buildCheckoutsMap(checkouts){
+        let builtMap = {};
+        builtMap["Individual"] = checkouts.individual;
+
+        checkouts.team.map(team => {
+            let title;
+            for (var i = 0; i < team.teamCheckouts.length; i++){
+                if (i == 0){
+                    title = team.teamCheckouts[i].staffMemberName;
+                }
+                else {
+                    title = title + " & " + team.teamCheckouts[i].staffMemberName; 
+                }
+            }
+            builtMap[`${title}`] = team.teamCheckouts;
+        });
+
+        return builtMap;
+    }
+    
     loadCheckouts(){
         let date = this.props.startDate.format();
         this.props.actions.loadCheckouts(date, "dinner");
@@ -113,7 +153,8 @@ class CheckoutManagerContainer extends React.Component{
                 <GetCheckoutButton onClick={this.loadCheckouts}>Get checkouts
                 </GetCheckoutButton>
                 </GetCheckoutsWrapper>
-
+                <br/>
+                <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap}/>
             </div>
 
         )
@@ -123,6 +164,7 @@ class CheckoutManagerContainer extends React.Component{
 
 CheckoutManagerContainer.propTypes = {
     staff: PropTypes.array,
+    checkouts: PropTypes.object,
 
 }
 

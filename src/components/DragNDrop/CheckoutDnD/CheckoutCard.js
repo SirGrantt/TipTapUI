@@ -88,8 +88,8 @@ componentDidMount(){
 }
 
 
-calculateAutoGrat(){
-        return this.props.checkout.ccAutoGrat + this.props.checkout.cashAutoGrat;
+calculateAutoGrat = () => {
+        return this.props.checkout.ccAutoGrat;
 }
 
 render() {
@@ -106,7 +106,7 @@ render() {
         <Content>
             <GrossSales>{checkout.grossSales}</GrossSales>
             <CredCardTips>{checkout.ccTips}</CredCardTips>
-            <AutoGrat>{this.calculateAutoGrat}</AutoGrat>
+            <AutoGrat>{checkout.ccAutoGrat + checkout.cashAutoGrat}</AutoGrat>
         </Content>
         </Container>
     );

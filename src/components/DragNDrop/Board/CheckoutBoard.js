@@ -23,7 +23,7 @@ const Container = styled.div`
  min-height: 50vh;
  min-width: 100vw;
  display: inline-flex;
- justify-content: center;
+ justify-content: left;
 `;
 
 const Button = styled.button`

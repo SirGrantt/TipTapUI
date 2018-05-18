@@ -32,8 +32,8 @@ margin-left: 1em;
   text-transform:uppercase;
   display:inline-block;
   text-align:center;
-  width:15vw;
-  height: 8vh;
+  width:12em;
+  height: 4em;
   font-weight:bold;
   padding:14px 0px;
   border:3px solid ${colors.blue.steel};
@@ -80,7 +80,7 @@ class CheckoutManagerContainer extends React.Component{
         super(props, context);
 
         this.state = {
-            checkoutsMap: {individual: this.props.checkouts.individual, team: this.props.checkouts.team},
+            checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: false,
         };
 
@@ -100,7 +100,8 @@ class CheckoutManagerContainer extends React.Component{
             }
             else if (newProps.checkouts.team != undefined){
                 this.setState({
-                    shouldMap: true
+                    shouldMap: true,
+                    checkoutsMap: this.buildCheckoutsMap(newProps.checkouts)
                 });
             }
         }
@@ -110,12 +111,25 @@ class CheckoutManagerContainer extends React.Component{
         this.props.dateActions.setStartDateSuccess(date);
     }
 
-    
+    //Need to map the initial checkouts to the correct teams
     buildCheckoutsMap(checkouts){
         let builtMap = {};
         builtMap["Individual"] = checkouts.individual;
 
+        //Check for there to be teams to format and load in, and bail if there is not
+        if (checkouts.team == undefined){
+            return builtMap;
+        }
+
+        //dynamically add create the name to pass to the columns and individual
+        //teams
         checkouts.team.map(team => {
+
+            if (team.isSoloTeam == true){
+                builtMap["Individual"].push(team.teamCheckouts[0]);
+            }
+            else
+            {
             let title;
             for (var i = 0; i < team.teamCheckouts.length; i++){
                 if (i == 0){
@@ -126,8 +140,7 @@ class CheckoutManagerContainer extends React.Component{
                 }
             }
             builtMap[`${title}`] = team.teamCheckouts;
-        });
-
+        }});
         return builtMap;
     }
     

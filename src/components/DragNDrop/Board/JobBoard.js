@@ -124,6 +124,9 @@ onCancel(event: any){
             ordered,
         });
 
+        //This is where the work will need to be done to make my calls for updating the checkouts and
+        //their teams when moving cards around
+
         return;
     }
 

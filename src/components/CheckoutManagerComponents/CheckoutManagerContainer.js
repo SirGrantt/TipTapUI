@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
+import CheckoutModal from './CheckoutModal';
 import moment from 'moment';
 import styled from 'styled-components';
 import * as checkoutActions from '../../reduxActions/checkoutActions';
@@ -82,6 +83,7 @@ class CheckoutManagerContainer extends React.Component{
         this.state = {
             checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: false,
+            isModalVisible: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -147,6 +149,9 @@ class CheckoutManagerContainer extends React.Component{
     loadCheckouts(){
         let date = this.props.startDate.format();
         this.props.actions.loadCheckouts(date, "dinner");
+        this.setState({
+            isModalVisible: true
+        })
     }
 
     render(){
@@ -166,6 +171,7 @@ class CheckoutManagerContainer extends React.Component{
                 <GetCheckoutButton onClick={this.loadCheckouts}>Get checkouts
                 </GetCheckoutButton>
                 </GetCheckoutsWrapper>
+                <CheckoutModal isModalVisible={this.state.isModalVisible}/>
                 <br/>
                 <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap}/>
             </div>

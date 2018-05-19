@@ -24,6 +24,7 @@ const Container = styled.div`
  min-width: 100vw;
  display: inline-flex;
  justify-content: left;
+ background-color: ${colors.black};
 `;
 
 const Button = styled.button`

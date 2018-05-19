@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as signalReducer } from 'redux-signal';
 import serviceStaff from './serviceStaffReducer';
 import jobs from './jobReducer';
 import approvedJobs from './approvedJobsReducer';

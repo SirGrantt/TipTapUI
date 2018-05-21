@@ -24,3 +24,21 @@ export function mapJobsToJobMap(jobs){
         title: e.title, apiId: e.id, id: e.id.toString()
     }));
 }
+
+export function mapApprovedStaffMembersForDropdown(staffMembers){
+    return staffMembers.map(s => {
+        return { 
+        value: s.id, 
+        text: s.staffMemberName
+        }
+    })
+}
+
+export function mapJobsForDropdown(jobs){
+    return jobs.map(j => {
+        return {
+            value: j.id,
+            text: j.title
+        }
+    })
+}

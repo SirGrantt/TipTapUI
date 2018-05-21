@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import CheckoutModal from './CheckoutModal';
+import SelectInput from '../common/SelectInput';
 import moment from 'moment';
 import styled from 'styled-components';
 import * as checkoutActions from '../../reduxActions/checkoutActions';
@@ -12,6 +13,7 @@ import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
+import { mapJobsForDropdown } from '../../Utils/staffMemberUtilFunctions';
 
 const DateSelector = styled.h4`
 margin-left: 2vw;
@@ -30,6 +32,7 @@ font: sans-serif;
 font-size:1em;
 white-space:nowrap;
 margin-left: 1em;
+margin-right: 1em;
   letter-spacing:2px;
   text-transform:uppercase;
   display:inline-block;
@@ -86,6 +89,7 @@ class CheckoutManagerContainer extends React.Component{
             shouldMap: false,
             isModalVisible: false,
             currentCheckout: defaultCheckout,
+            selectedJob: { value: 0, text: ""}
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -93,6 +97,7 @@ class CheckoutManagerContainer extends React.Component{
         this.buildCheckoutsMap = this.buildCheckoutsMap.bind(this);
         this.openAddCheckoutModal = this.openAddCheckoutModal.bind(this);
         this.onCheckoutEditorChange = this.onCheckoutEditorChange.bind(this);
+        this.onJobSelect = this.onJobSelect.bind(this);
 
     }
 
@@ -169,6 +174,14 @@ class CheckoutManagerContainer extends React.Component{
         this.setState({ currentCheckout: checkout });
     }
 
+    onJobSelect(event){
+        let jobs = this.props.jobs.map(j => j.value == event.target.value);
+        let job = jobs[0];
+        this.setState({
+            selectedJob: job
+        }) 
+    }
+
     render(){
         return( 
             <div>
@@ -185,6 +198,8 @@ class CheckoutManagerContainer extends React.Component{
                 </h4>
                 <GetCheckoutButton onClick={this.loadCheckouts}>Get checkouts
                 </GetCheckoutButton>
+                <SelectInput options={this.props.jobs} name="jobId" label="Job : " value={this.state.selectedJob.text}
+                defaultOption="Select Job" onChange={this.onJobSelect} />
                 </GetCheckoutsWrapper>
                 <CheckoutModal isModalVisible={this.state.isModalVisible} defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
                 checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout}/>
@@ -208,6 +223,7 @@ function mapStateToProps(state){
         staff: state.serviceStaff,
         checkouts: state.checkouts,
         startDate: state.startDate,
+        jobs: mapJobsForDropdown(state.jobs)
     };
 }
 

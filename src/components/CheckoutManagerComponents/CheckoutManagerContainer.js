@@ -11,6 +11,7 @@ import { colors } from '../DragNDrop/Constants';
 import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
 import 'react-datepicker/dist/react-datepicker.css';
+import { defaultCheckout } from '../../constants/GeneralConstants';
 
 const DateSelector = styled.h4`
 margin-left: 2vw;
@@ -84,11 +85,14 @@ class CheckoutManagerContainer extends React.Component{
             checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: false,
             isModalVisible: false,
+            currentCheckout: defaultCheckout,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.loadCheckouts = this.loadCheckouts.bind(this);
         this.buildCheckoutsMap = this.buildCheckoutsMap.bind(this);
+        this.openAddCheckoutModal = this.openAddCheckoutModal.bind(this);
+        this.onCheckoutEditorChange = this.onCheckoutEditorChange.bind(this);
 
     }
 
@@ -149,9 +153,20 @@ class CheckoutManagerContainer extends React.Component{
     loadCheckouts(){
         let date = this.props.startDate.format();
         this.props.actions.loadCheckouts(date, "dinner");
+    }
+
+    openAddCheckoutModal(){
         this.setState({
             isModalVisible: true
         })
+    }
+
+    //update the default checkout for submitting new checkouts
+    onCheckoutEditorChange(keyValue){
+        const field = keyValue.key;
+        let checkout = Object.assign({}, this.state.currentCheckout);
+        checkout[field] = keyValue.value;
+        this.setState({ currentCheckout: checkout });
     }
 
     render(){
@@ -171,9 +186,10 @@ class CheckoutManagerContainer extends React.Component{
                 <GetCheckoutButton onClick={this.loadCheckouts}>Get checkouts
                 </GetCheckoutButton>
                 </GetCheckoutsWrapper>
-                <CheckoutModal isModalVisible={this.state.isModalVisible}/>
+                <CheckoutModal isModalVisible={this.state.isModalVisible} defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
+                checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout}/>
                 <br/>
-                <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap}/>
+                <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} openAddCheckoutModal={this.openAddCheckoutModal}/>
             </div>
 
         )

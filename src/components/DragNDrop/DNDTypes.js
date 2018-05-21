@@ -13,7 +13,7 @@ export type Checkout = {|
     id: Id,
     apiId: number,
     nonTipOutBarSales: number,
-    numberOfBottlesSole: number,
+    numberOfBottlesSold: number,
     lunchOrDinner: string,
     sales: number,
     grossSales: number,

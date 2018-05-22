@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
   axiosLoading,
   checkouts,
   startDate,
+  signal: signalReducer
 });
 
 export default rootReducer;

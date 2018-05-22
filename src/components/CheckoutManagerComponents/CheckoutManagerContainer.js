@@ -118,6 +118,12 @@ class CheckoutManagerContainer extends React.Component{
         }
     }
 
+    closeModal = () => {
+        this.setState({
+            isModalVisible: false
+        })
+    }
+
     handleChange(date){
         this.props.dateActions.setStartDateSuccess(date);
     }
@@ -201,7 +207,7 @@ class CheckoutManagerContainer extends React.Component{
                 <SelectInput options={this.props.jobs} name="jobId" label="Job : " value={this.state.selectedJob.text}
                 defaultOption="Select Job" onChange={this.onJobSelect} />
                 </GetCheckoutsWrapper>
-                <CheckoutModal isModalVisible={this.state.isModalVisible} defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
+                <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
                 checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout}/>
                 <br/>
                 <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} openAddCheckoutModal={this.openAddCheckoutModal}/>

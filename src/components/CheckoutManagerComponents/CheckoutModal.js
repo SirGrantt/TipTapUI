@@ -58,11 +58,6 @@ export default class CheckoutModal extends React.Component {
         this.props.onChange(keyValue);
     }
 
-    close = () => {
-        this.setState({
-            isModalVisible: false
-        })
-    }
 
     render(){
         const { isModalVisible } = this.state
@@ -70,8 +65,8 @@ export default class CheckoutModal extends React.Component {
         return (
             <div>
                 <Modal
-                onClickOutside={this.close}
-                onClosed={this.close}
+                onClickOutside={this.props.close}
+                onClosed={this.props.close}
                 isOpen={isModalVisible}
                 >
                 <Form id="checkoutModal">

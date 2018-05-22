@@ -175,7 +175,7 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     onJobSelect(event){
-        let jobs = this.props.jobs.map(j => j.value == event.target.value);
+        let jobs = this.props.jobs.filter(j => j.value == event.target.value);
         let job = jobs[0];
         this.setState({
             selectedJob: job

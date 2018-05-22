@@ -1,24 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const SelectWrapper = styled.div`
+width: 20%;
+margin-left: auto;
+`
+
+const Select = styled.select`
+float: right;
+`
 
 const SelectInput = ({ name, label, onChange, defaultOption, value, options }) => {
   return (
-    <div className="form-group">
+    <SelectWrapper className="form-group">
       <label htmlFor={name}>{label}</label>
       <div className="field">
-        <select
+        <Select
           name={name}
           value={value}
           onChange={onChange}
-          className="form-control">
+          className="form-control"
+          >
           <option value="">{defaultOption}</option>
           {options.map((option) => {
             return <option key={option.value} value={option.value}>{option.text}</option>;
           })
           }
-        </select>
+        </Select>
       </div>
-    </div>
+    </SelectWrapper>
   );
 };
 

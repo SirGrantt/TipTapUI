@@ -43,8 +43,9 @@ export default class CheckoutModal extends React.Component {
         this.state = {
         isModalVisible: false,
         editingExistingCheckout: false,
-
     }
+
+    this.updateCheckoutDate(this.props.checkoutDate.format());
 }
 
     componentWillReceiveProps(nextProps) {
@@ -53,12 +54,20 @@ export default class CheckoutModal extends React.Component {
                 isModalVisible: nextProps.isModalVisible
             })
         }
+
+        if(this.props.checkoutDate != nextProps.checkoutDate){
+            this.updateCheckoutDate(nextProps.checkoutDate.format())
+        }
+    }
+
+    updateCheckoutDate = (stringDate) => {
+        let checkoutDate = {key: "stringDate", value: stringDate};
+        this.updateCheckout(checkoutDate);
     }
 
     updateCheckout = (keyValue) => {
         this.props.onChange(keyValue);
     }
-
 
     render(){
         const { isModalVisible } = this.state
@@ -72,9 +81,9 @@ export default class CheckoutModal extends React.Component {
                 >
                 <Form id="checkoutModal">
                     <Header>{this.state.editingExistingCheckout ? 
-                        this.props.checkout.staffMemberName : "Add Checkout"}</Header>
+                        this.props.checkout.staffMemberName : `Add ${this.props.jobSelected} Checkout`}</Header>
                     <SelectInput options={this.props.approvedStaff} name="staffid" label="Select Staff Member:" value={this.state.selectedStaffMember}
-                    defaultOption="Select Staff Member" onChange={this.onStaffSelect} />
+                    defaultOption="Select Staff Member" onChange={this.props.onStaffSelect} />
                     <Label>Gross Sales</Label>
                     <NumberFormat
                     type="tel"
@@ -127,6 +136,31 @@ export default class CheckoutModal extends React.Component {
                         const keyValue = {key: "cashTips", value: formattedValue};
                         this.updateCheckout(keyValue);
                     }} />
+                     <Label>Bottle Count</Label>
+                    <NumberFormat
+                    type="tel"
+                    displayType="input"
+                    thousandSeparator={true}
+                    value={this.props.checkout.numberOfBottlesSold == 0 ? "" : this.props.checkout.numberOfBottlesSold}
+                    placeholder={"Bottle Count"}
+                    onValueChange={(values) => {
+                        const { formattedValue, value} = values;
+                        const keyValue = {key: "numberOfBottlesSold", value: formattedValue};
+                        this.updateCheckout(keyValue);
+                    }} />
+                    <Label>Bottle Value</Label>
+                    <NumberFormat
+                    type="tel"
+                    displayType="input"
+                    prefix={'$'}
+                    thousandSeparator={true}
+                    value={this.props.checkout.nonTipOutBarSales == 0 ? "" : this.props.checkout.nonTipOutBarSales}
+                    placeholder={"Don't Forget the Dom"}
+                    onValueChange={(values) => {
+                        const { formattedValue, value} = values;
+                        const keyValue = {key: "nonTipOutBarSales", value: formattedValue};
+                        this.updateCheckout(keyValue);
+                    }} />
                 </Form>
                 <Footer />
                 </Modal>
@@ -143,5 +177,5 @@ CheckoutModal.propTypes = {
     isModalVisible: PropTypes.bool,
     checkout: PropTypes.object.isRequired,
     approvedStaff: PropTypes.array,
-    jobSelected: PropTypes.object
+    jobSelected: PropTypes.string
 }

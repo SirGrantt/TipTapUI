@@ -15,6 +15,7 @@ import * as staffActions from '../../reduxActions/serviceStaffActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
+import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 const DateSelector = styled.h4`
 margin-left: 2vw;
@@ -95,8 +96,9 @@ class CheckoutManagerContainer extends React.Component{
             shouldMap: false,
             isModalVisible: false,
             currentCheckout: defaultCheckout,
-            selectedJob: this.props.selectedJob,
-            approvedStaff: mapStaffForDropDown(this.props.approvedStaff)
+            jobSelected: this.props.jobSelected,
+            approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
+            selectedStaffMemberId: 0,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -105,7 +107,7 @@ class CheckoutManagerContainer extends React.Component{
         this.openAddCheckoutModal = this.openAddCheckoutModal.bind(this);
         this.onCheckoutEditorChange = this.onCheckoutEditorChange.bind(this);
         this.onJobSelect = this.onJobSelect.bind(this);
-
+        this.onStaffSelect = this.onStaffSelect.bind(this);
     }
 
     componentWillReceiveProps(newProps){
@@ -125,8 +127,11 @@ class CheckoutManagerContainer extends React.Component{
         }
 
         if(this.props.jobSelected != newProps.jobSelected){
+            let currentCheckout = {...this.state.currentCheckout};
+            currentCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
             this.setState({
-                jobSelected: newProps.jobSelected
+                jobSelected: newProps.jobSelected,
+                currentCheckout: currentCheckout
             })
         }
 
@@ -139,7 +144,8 @@ class CheckoutManagerContainer extends React.Component{
 
     closeModal = () => {
         this.setState({
-            isModalVisible: false
+            isModalVisible: false,
+            selectedStaffMemberId: 0
         })
     }
 
@@ -206,6 +212,12 @@ class CheckoutManagerContainer extends React.Component{
         this.props.staffActions.loadApprovedStaff(job.value);
     }
 
+    onStaffSelect(event){
+        this.setState({
+            selectedStaffMemberId: event.target.value
+        })
+    }
+
     render(){
         return( 
             <div>
@@ -230,7 +242,8 @@ class CheckoutManagerContainer extends React.Component{
                 <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} 
                 defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
                 checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
-                approvedStaff={this.state.approvedStaff}/>
+                approvedStaff={this.state.approvedStaff} onStaffSelect={this.onStaffSelect} 
+                checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}/>
                 <br/>
                 <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} openAddCheckoutModal={this.openAddCheckoutModal}/>
             </div>

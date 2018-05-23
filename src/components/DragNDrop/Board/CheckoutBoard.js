@@ -42,14 +42,14 @@ border-radius: 10px;
 outline: none;
 background: linear-gradient(45deg,#d350db,teal,#d350db);
 background-size: 400% 400%;
-box-shadow: 1vw 1vw 0 lightcoral;
+box-shadow: 1vw 1vw 0 #A9A9A9;
 cursor: pointer;
 transition: all 0.3s ease;
 
 &:hover {
   animation: gradient 10s ease infinite;
   font-size: 2em;
-  box-shadow: 0.2vw 0.2vw 0 lightcoral;
+  box-shadow: 0.2vw 0.2vw 0 #A9A9A9;
 }
 }
 

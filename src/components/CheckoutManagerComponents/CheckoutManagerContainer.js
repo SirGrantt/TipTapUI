@@ -11,9 +11,10 @@ import { bindActionCreators } from 'redux';
 import { colors } from '../DragNDrop/Constants';
 import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
+import * as staffActions from '../../reduxActions/serviceStaffActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
-import { mapJobsForDropdown } from '../../Utils/staffMemberUtilFunctions';
+import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
 
 const DateSelector = styled.h4`
 margin-left: 2vw;
@@ -25,6 +26,11 @@ const GetCheckoutsWrapper = styled.div`
     display: flex;
     margin-left: 2em;
 
+`
+
+const SelectWrapper = styled.div`
+width: 20%;
+margin-left: auto;
 `
 
 const GetCheckoutButton = styled.button`
@@ -89,7 +95,8 @@ class CheckoutManagerContainer extends React.Component{
             shouldMap: false,
             isModalVisible: false,
             currentCheckout: defaultCheckout,
-            selectedJob: { value: 0, text: ""}
+            selectedJob: this.props.selectedJob,
+            approvedStaff: mapStaffForDropDown(this.props.approvedStaff)
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -115,6 +122,18 @@ class CheckoutManagerContainer extends React.Component{
                     checkoutsMap: this.buildCheckoutsMap(newProps.checkouts)
                 });
             }
+        }
+
+        if(this.props.jobSelected != newProps.jobSelected){
+            this.setState({
+                jobSelected: newProps.jobSelected
+            })
+        }
+
+        if (this.props.approvedStaff != newProps.approvedStaff){
+            this.setState({
+                approvedStaff: mapStaffForDropDown(newProps.approvedStaff)
+            })
         }
     }
 
@@ -183,9 +202,8 @@ class CheckoutManagerContainer extends React.Component{
     onJobSelect(event){
         let jobs = this.props.jobs.filter(j => j.value == event.target.value);
         let job = jobs[0];
-        this.setState({
-            selectedJob: job
-        }) 
+        this.props.staffActions.jobSelectedSuccess(job);
+        this.props.staffActions.loadApprovedStaff(job.value);
     }
 
     render(){
@@ -204,11 +222,15 @@ class CheckoutManagerContainer extends React.Component{
                 </h4>
                 <GetCheckoutButton onClick={this.loadCheckouts}>Get checkouts
                 </GetCheckoutButton>
-                <SelectInput options={this.props.jobs} name="jobId" label="Job : " value={this.state.selectedJob.text}
+                <SelectWrapper>
+                <SelectInput options={this.props.jobs} name="jobId" label="Job : " value={this.props.jobSelected.text}
                 defaultOption="Select Job" onChange={this.onJobSelect} />
+                </SelectWrapper>
                 </GetCheckoutsWrapper>
-                <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
-                checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout}/>
+                <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} 
+                defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
+                checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
+                approvedStaff={this.state.approvedStaff}/>
                 <br/>
                 <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} openAddCheckoutModal={this.openAddCheckoutModal}/>
             </div>
@@ -229,14 +251,17 @@ function mapStateToProps(state){
         staff: state.serviceStaff,
         checkouts: state.checkouts,
         startDate: state.startDate,
-        jobs: mapJobsForDropdown(state.jobs)
+        jobs: mapJobsForDropdown(state.jobs),
+        approvedStaff: state.approvedStaff,
+        jobSelected: state.jobSelected
     };
 }
 
 function mapDispatchToProps(dispatch){
     return {
         actions: bindActionCreators(checkoutActions, dispatch),
-        dateActions: bindActionCreators(startDateActions, dispatch)
+        dateActions: bindActionCreators(startDateActions, dispatch),
+        staffActions: bindActionCreators(staffActions, dispatch)
     };
 }
 

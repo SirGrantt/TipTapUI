@@ -6,6 +6,8 @@ import approvedJobs from './approvedJobsReducer';
 import axiosLoading from './axiosReducer';
 import checkouts from './checkoutReducer';
 import startDate from './startDateReducer';
+import approvedStaff from './approvedStaffReducer';
+import jobSelected from './jobSelectedReducer';
 
 const rootReducer = combineReducers({
   serviceStaff,
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
   axiosLoading,
   checkouts,
   startDate,
-  signal: signalReducer
+  signal: signalReducer,
+  approvedStaff,
+  jobSelected
 });
 
 export default rootReducer;

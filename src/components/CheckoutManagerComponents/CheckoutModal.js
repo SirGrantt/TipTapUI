@@ -5,6 +5,7 @@ import { Modal, Overlay } from 'react-modal-construction-kit';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import NumberInput from '../common/NumberInput';
 import NumberFormat from 'react-number-format';
+import SelectInput from '../common/SelectInput';
 
 const Footer = styled.div`
     padding: 1em;
@@ -70,7 +71,10 @@ export default class CheckoutModal extends React.Component {
                 isOpen={isModalVisible}
                 >
                 <Form id="checkoutModal">
-                    <Header>{this.state.editingExistingCheckout ? this.props.checkout.staffMemberName : "Add Checkout"}</Header>
+                    <Header>{this.state.editingExistingCheckout ? 
+                        this.props.checkout.staffMemberName : "Add Checkout"}</Header>
+                    <SelectInput options={this.props.approvedStaff} name="staffid" label="Select Staff Member:" value={this.state.selectedStaffMember}
+                    defaultOption="Select Staff Member" onChange={this.onStaffSelect} />
                     <Label>Gross Sales</Label>
                     <NumberFormat
                     type="tel"
@@ -137,5 +141,7 @@ CheckoutModal.propTypes = {
     onChange: PropTypes.func.isRequired,
     close: PropTypes.func,
     isModalVisible: PropTypes.bool,
-    checkout: PropTypes.object.isRequired
+    checkout: PropTypes.object.isRequired,
+    approvedStaff: PropTypes.array,
+    jobSelected: PropTypes.object
 }

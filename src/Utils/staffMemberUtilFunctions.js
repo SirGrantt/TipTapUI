@@ -42,3 +42,12 @@ export function mapJobsForDropdown(jobs){
         }
     })
 }
+
+export function mapStaffForDropDown(staff){
+    return staff.map(s => {
+        return {
+            value: s.id,
+            text: s.firstName + " " + s.lastName
+        }
+    })
+}

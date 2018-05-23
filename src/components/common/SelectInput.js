@@ -2,18 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const SelectWrapper = styled.div`
-width: 20%;
-margin-left: auto;
-`
-
 const Select = styled.select`
 float: right;
 `
 
 const SelectInput = ({ name, label, onChange, defaultOption, value, options }) => {
   return (
-    <SelectWrapper className="form-group">
+    <div className="form-group">
       <label htmlFor={name}>{label}</label>
       <div className="field">
         <Select
@@ -29,7 +24,7 @@ const SelectInput = ({ name, label, onChange, defaultOption, value, options }) =
           }
         </Select>
       </div>
-    </SelectWrapper>
+    </div>
   );
 };
 

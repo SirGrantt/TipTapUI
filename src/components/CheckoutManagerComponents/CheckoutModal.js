@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { colors } from '../DragNDrop/Constants';
 import { Modal, Overlay } from 'react-modal-construction-kit';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import NumberInput from '../common/NumberInput';
@@ -34,6 +35,40 @@ border-width: thin;
 const Label = styled.p`
 font-weight: bold;
 margin-top: 1em;
+`
+
+const CheckoutButtonWrapper = styled.div`
+float: right;
+margin-left: auto;
+margin-right: auto;
+margin-top: 1em;
+`
+
+const CheckoutButton = styled.button`
+width: 7em;
+display:inline-block;
+padding:0.35em 1.2em;
+border:0.1em solid #FFFFFF;
+margin:0 0.3em 0.3em 0;
+border-radius:0.5em;
+box-sizing: border-box;
+text-decoration:none;
+ font-family:'Roboto',sans-serif;
+font-weight:300;
+background-color: #4eb5f1;
+text-align:center;
+transition: all 0.2s;
+
+:hover{
+     color:#000000;
+     background-color:#FFFFFF;
+    }
+
+@media all and (max-width:1.5em){
+    a.button1{
+    display:block;
+    margin:0.4em auto;
+    }
 `
 
 export default class CheckoutModal extends React.Component {
@@ -110,6 +145,31 @@ export default class CheckoutModal extends React.Component {
                         const keyValue = {key: "barSales", value: formattedValue};
                         this.updateCheckout(keyValue);
                     }} />
+                    <Label>Bottle Count</Label>
+                    <NumberFormat
+                    type="tel"
+                    displayType="input"
+                    thousandSeparator={true}
+                    value={this.props.checkout.numberOfBottlesSold == 0 ? "" : this.props.checkout.numberOfBottlesSold}
+                    placeholder={"Bottle Count"}
+                    onValueChange={(values) => {
+                        const { formattedValue, value} = values;
+                        const keyValue = {key: "numberOfBottlesSold", value: formattedValue};
+                        this.updateCheckout(keyValue);
+                    }} />
+                    <Label>Bottle Value</Label>
+                    <NumberFormat
+                    type="tel"
+                    displayType="input"
+                    prefix={'$'}
+                    thousandSeparator={true}
+                    value={this.props.checkout.nonTipOutBarSales == 0 ? "" : this.props.checkout.nonTipOutBarSales}
+                    placeholder={"Don't Forget the Dom"}
+                    onValueChange={(values) => {
+                        const { formattedValue, value} = values;
+                        const keyValue = {key: "nonTipOutBarSales", value: formattedValue};
+                        this.updateCheckout(keyValue);
+                    }} />
                     <Label>Credit Card Tips</Label>
                     <NumberFormat
                     type="tel"
@@ -136,32 +196,37 @@ export default class CheckoutModal extends React.Component {
                         const keyValue = {key: "cashTips", value: formattedValue};
                         this.updateCheckout(keyValue);
                     }} />
-                     <Label>Bottle Count</Label>
+                    <Label>Credit Card Auto Gratuity</Label>
                     <NumberFormat
                     type="tel"
                     displayType="input"
                     thousandSeparator={true}
-                    value={this.props.checkout.numberOfBottlesSold == 0 ? "" : this.props.checkout.numberOfBottlesSold}
-                    placeholder={"Bottle Count"}
+                    prefix={'$'}
+                    value={this.props.checkout.ccAutoGrat == 0 ? "" : this.props.checkout.ccAutoGrat}
+                    placeholder={"Auto Grat"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "numberOfBottlesSold", value: formattedValue};
+                        const keyValue = {key: "ccAutoGrat", value: formattedValue};
                         this.updateCheckout(keyValue);
                     }} />
-                    <Label>Bottle Value</Label>
+                    <Label>Cash Auto Gratuity</Label>
                     <NumberFormat
                     type="tel"
                     displayType="input"
-                    prefix={'$'}
                     thousandSeparator={true}
-                    value={this.props.checkout.nonTipOutBarSales == 0 ? "" : this.props.checkout.nonTipOutBarSales}
-                    placeholder={"Don't Forget the Dom"}
+                    prefix={'$'}
+                    value={this.props.checkout.cashAutoGrat == 0 ? "" : this.props.checkout.cashAutoGrat}
+                    placeholder={"Cash Auto Grat"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "nonTipOutBarSales", value: formattedValue};
+                        const keyValue = {key: "cashAutoGrat", value: formattedValue};
                         this.updateCheckout(keyValue);
                     }} />
                 </Form>
+                <CheckoutButtonWrapper>
+                <CheckoutButton>Add</CheckoutButton>
+                <CheckoutButton>Cancel</CheckoutButton>
+                </CheckoutButtonWrapper>
                 <Footer />
                 </Modal>
                 <Overlay

@@ -145,7 +145,8 @@ class CheckoutManagerContainer extends React.Component{
     closeModal = () => {
         this.setState({
             isModalVisible: false,
-            selectedStaffMemberId: 0
+            selectedStaffMemberId: 0,
+            currentCheckout: defaultCheckout
         })
     }
 

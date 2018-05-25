@@ -129,7 +129,7 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"$1,000,000"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "grossSales", value: formattedValue};
+                        const keyValue = {key: "grossSales", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                     <Label>Bar Sales</Label>
@@ -142,7 +142,7 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"$25"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "barSales", value: formattedValue};
+                        const keyValue = {key: "barSales", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                     <Label>Bottle Count</Label>
@@ -154,7 +154,7 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"Bottle Count"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "numberOfBottlesSold", value: formattedValue};
+                        const keyValue = {key: "numberOfBottlesSold", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                     <Label>Bottle Value</Label>
@@ -167,7 +167,7 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"Don't Forget the Dom"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "nonTipOutBarSales", value: formattedValue};
+                        const keyValue = {key: "nonTipOutBarSales", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                     <Label>Credit Card Tips</Label>
@@ -180,7 +180,7 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"$25"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "ccTips", value: formattedValue};
+                        const keyValue = {key: "ccTips", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                     <Label>Cash Tips</Label>
@@ -193,7 +193,7 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"taxation is theft"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "cashTips", value: formattedValue};
+                        const keyValue = {key: "cashTips", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                     <Label>Credit Card Auto Gratuity</Label>
@@ -206,7 +206,7 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"Auto Grat"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "ccAutoGrat", value: formattedValue};
+                        const keyValue = {key: "ccAutoGrat", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                     <Label>Cash Auto Gratuity</Label>
@@ -219,13 +219,13 @@ export default class CheckoutModal extends React.Component {
                     placeholder={"Cash Auto Grat"}
                     onValueChange={(values) => {
                         const { formattedValue, value} = values;
-                        const keyValue = {key: "cashAutoGrat", value: formattedValue};
+                        const keyValue = {key: "cashAutoGrat", formattedValue: formattedValue, value: value};
                         this.updateCheckout(keyValue);
                     }} />
                 </Form>
                 <CheckoutButtonWrapper>
                 <CheckoutButton>Add</CheckoutButton>
-                <CheckoutButton>Cancel</CheckoutButton>
+                <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
                 </CheckoutButtonWrapper>
                 <Footer />
                 </Modal>

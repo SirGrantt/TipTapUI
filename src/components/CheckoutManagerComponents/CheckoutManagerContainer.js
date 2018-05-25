@@ -15,9 +15,8 @@ import * as staffActions from '../../reduxActions/serviceStaffActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
-import { ENGINE_METHOD_DIGESTS } from 'constants';
 
-const DateSelector = styled.h4`
+const DateSelectorTitle = styled.h4`
 margin-left: 2vw;
 `
 const GetCheckoutsWrapper = styled.div`
@@ -96,6 +95,7 @@ class CheckoutManagerContainer extends React.Component{
             shouldMap: false,
             isModalVisible: false,
             currentCheckout: defaultCheckout,
+            currentCheckoutSanitized: defaultCheckout,
             jobSelected: this.props.jobSelected,
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
             selectedStaffMemberId: 0,
@@ -146,7 +146,8 @@ class CheckoutManagerContainer extends React.Component{
         this.setState({
             isModalVisible: false,
             selectedStaffMemberId: 0,
-            currentCheckout: defaultCheckout
+            currentCheckout: defaultCheckout,
+            currentCheckoutSanitized: defaultCheckout
         })
     }
 
@@ -199,13 +200,20 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     //update the default checkout for submitting new checkouts
+    //Sanitized & Current Checkout represent the two things i need to do with
+    //checkout data. I need it presented a certain way, but the numeric input also provides
+    //a non prefixed and numeric value, so I need to display the prefixed but save the sanitized
+    //for submission
     onCheckoutEditorChange(keyValue){
         const field = keyValue.key;
+        let sanitizedCheckout = Object.assign({}, this.state.currentCheckoutSanitized);
         let checkout = Object.assign({}, this.state.currentCheckout);
-        checkout[field] = keyValue.value;
-        this.setState({ currentCheckout: checkout });
+        checkout[field] = keyValue.formattedValue;
+        sanitizedCheckout[field] = keyValue.value;
+        this.setState({ currentCheckout: checkout, currentCheckoutSanitized: sanitizedCheckout });
     }
 
+    //Update approved staff to show when a certain job is selected
     onJobSelect(event){
         let jobs = this.props.jobs.filter(j => j.value == event.target.value);
         let job = jobs[0];
@@ -213,10 +221,15 @@ class CheckoutManagerContainer extends React.Component{
         this.props.staffActions.loadApprovedStaff(job.value);
     }
 
+    //Update when a staff member is selected in the Add chekcout modal
     onStaffSelect(event){
-        this.setState({
-            selectedStaffMemberId: event.target.value
-        })
+        let staffId = { key: "staffMemberId", formattedValue: `${event.target.value}`, value: event.target.value }
+        this.onCheckoutEditorChange(staffId);
+    }
+
+    onAddCheckoutClick(event){
+        event.preventDefault();
+        //this is where the checking of the data needs to occur, I will do this elsewhere
     }
 
     render(){
@@ -224,8 +237,8 @@ class CheckoutManagerContainer extends React.Component{
             <div>
                 <h1>Check Out Manager</h1>
                 <br/>
-                <DateSelector>Shift Date:
-                </DateSelector>
+                <DateSelectorTitle>Shift Date:
+                </DateSelectorTitle>
                 <GetCheckoutsWrapper> 
                 <h4>
                 <DatePicker
@@ -257,7 +270,8 @@ class CheckoutManagerContainer extends React.Component{
 CheckoutManagerContainer.propTypes = {
     staff: PropTypes.array,
     checkouts: PropTypes.object,
-
+    jobs: PropTypes.array,
+    jobSelected: PropTypes.object,
 }
 
 function mapStateToProps(state){

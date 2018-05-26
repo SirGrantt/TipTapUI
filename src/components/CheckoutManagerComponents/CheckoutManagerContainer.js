@@ -94,9 +94,9 @@ class CheckoutManagerContainer extends React.Component{
             checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: false,
             isModalVisible: false,
-            currentCheckout: defaultCheckout,
-            currentCheckoutSanitized: defaultCheckout,
-            jobSelected: this.props.jobSelected,
+            currentCheckout: Object.assign({}, defaultCheckout),
+            currentCheckoutSanitized: Object.assign({}, defaultCheckout),
+            jobSelected: Object.assign({}, this.props.jobSelected),
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
             selectedStaffMemberId: 0,
         };
@@ -130,7 +130,7 @@ class CheckoutManagerContainer extends React.Component{
             let currentCheckout = {...this.state.currentCheckout};
             currentCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
             this.setState({
-                jobSelected: newProps.jobSelected,
+                jobSelected: Object.assign({}, newProps.jobSelected),
                 currentCheckout: currentCheckout
             })
         }

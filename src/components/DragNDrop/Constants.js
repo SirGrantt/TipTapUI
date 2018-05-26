@@ -25,39 +25,4 @@ export const colors = {
   
   export const borderRadius: number = 2;
 
-  export const defaultCheckout: { 
-  staffMemberName: string,
-  id: string,
-  apiId: number,
-  nonTipOutBarSales: number,
-  numberOfBottlesSold: number,
-  lunchOrDinner: string,
-  sales: number,
-  grossSales: number,
-  barSales: number,
-  ccTips: number,
-  cashTips: number,
-  ccAutoGrat: number,
-  cashAutoGrat: number,
-  hours: number,
-  staffMemberId: number,
-  jobWorkedTitle: string,
-  stringDate: string }
-  = { staffMemberName: "",
-    id: "",
-    apiId: 0,
-    nonTipOutBarSales: 0,
-    numberOfBottlesSold: 0,
-    lunchOrDinner: "dinner",
-    sales: 0,
-    grossSales: 0,
-    barSales: 0,
-    ccTips: 0,
-    cashTips: 0,
-    ccAutoGrat: 0,
-    cashAutoGrat: 0,
-    hours: 0,
-    staffMemberId: 0,
-    jobWorkedTitle: "",
-    stringDate: "",
-  };
+  

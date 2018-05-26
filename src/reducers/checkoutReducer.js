@@ -8,6 +8,12 @@ function checkoutReducer(state = initialState.checkouts, action){
         checkouts.individual = action.individualCheckouts;
         checkouts.team = action.teamCheckouts;
         return checkouts;
+        
+        case type.ADD_CHECKOUT_SUCCESS :
+        return [
+            ...state,
+            Object.assign({}, action.checkout)
+        ];
 
         default:
         return state;

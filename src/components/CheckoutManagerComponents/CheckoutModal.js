@@ -224,7 +224,7 @@ export default class CheckoutModal extends React.Component {
                     }} />
                 </Form>
                 <CheckoutButtonWrapper>
-                <CheckoutButton>Add</CheckoutButton>
+                <CheckoutButton onClick={this.props.onAddCheckoutClick}>Add</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
                 </CheckoutButtonWrapper>
                 <Footer />
@@ -242,5 +242,6 @@ CheckoutModal.propTypes = {
     isModalVisible: PropTypes.bool,
     checkout: PropTypes.object.isRequired,
     approvedStaff: PropTypes.array,
-    jobSelected: PropTypes.string
+    jobSelected: PropTypes.string,
+    onAddCheckoutClick: PropTypes.func
 }

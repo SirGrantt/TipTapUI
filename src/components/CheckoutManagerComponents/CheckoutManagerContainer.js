@@ -15,6 +15,7 @@ import * as staffActions from '../../reduxActions/serviceStaffActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
+import { withSignal, withSignalPropTypes, SignalTypes } from 'redux-signal';
 
 const DateSelectorTitle = styled.h4`
 margin-left: 2vw;
@@ -108,6 +109,7 @@ class CheckoutManagerContainer extends React.Component{
         this.onCheckoutEditorChange = this.onCheckoutEditorChange.bind(this);
         this.onJobSelect = this.onJobSelect.bind(this);
         this.onStaffSelect = this.onStaffSelect.bind(this);
+        this.onAddCheckoutClick = this.onAddCheckoutClick.bind(this);
     }
 
     componentWillReceiveProps(newProps){
@@ -229,7 +231,12 @@ class CheckoutManagerContainer extends React.Component{
 
     onAddCheckoutClick(event){
         event.preventDefault();
-        //this is where the checking of the data needs to occur, I will do this elsewhere
+        this.props.createSignal({
+            type: SignalTypes.OK,
+            isVisible: this.state.isModalVisible,
+            title: 'Warning',
+            message: 'Hello World',
+        })
     }
 
     render(){
@@ -257,7 +264,8 @@ class CheckoutManagerContainer extends React.Component{
                 defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
                 checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
                 approvedStaff={this.state.approvedStaff} onStaffSelect={this.onStaffSelect} 
-                checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}/>
+                checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}
+                onAddCheckoutClick={this.onAddCheckoutClick}/>
                 <br/>
                 <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} openAddCheckoutModal={this.openAddCheckoutModal}/>
             </div>
@@ -293,4 +301,4 @@ function mapDispatchToProps(dispatch){
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CheckoutManagerContainer);
+export default withSignal(connect(mapStateToProps, mapDispatchToProps)(CheckoutManagerContainer));

@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal as ModalConsutruct } from 'react-modal-construction-kit';
+import { Modal as ModalConstruct } from 'react-modal-construction-kit';
 import styled from 'styled-components';
 import { colors } from '../DragNDrop/Constants';
 
 const WarningHeader = styled.h1`
-background-color: ${colors.blue.steel};
+background-color: red;
+color: 'black';
 border-bottom: solid black;
 border-width: thin;
 `
 
 const WarningContent = styled.div`
 margin-top: 1em;
+margin-left: 1em;
+margin-right: 1em;
+font-family: Tahoma, Verdana, Segoe, sans-serif;
 `
 
 const Footer = styled.div`
@@ -51,7 +55,7 @@ WarningModal.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node,
     footer: PropTypes.node,
-    ...ModalConsutruct.propTypes
+    ...ModalConstruct.propTypes
 }
 
 export default WarningModal;

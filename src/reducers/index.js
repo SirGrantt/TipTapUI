@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as signalReducer } from 'redux-signal';
+import { reducer as formReducer } from 'redux-form';
 import serviceStaff from './serviceStaffReducer';
 import jobs from './jobReducer';
 import approvedJobs from './approvedJobsReducer';
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   startDate,
   signal: signalReducer,
   approvedStaff,
-  jobSelected
+  jobSelected,
+  form: formReducer,
 });
 
 export default rootReducer;

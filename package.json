@@ -50,6 +50,7 @@
     "react-spinkit": "3.0.0",
     "react-transition-group": "2.3.1",
     "redux": "3.6.0",
+    "redux-form": "7.3.0",
     "redux-signal": "2.0.1",
     "redux-thunk": "2.1.0",
     "styled-components": "3.2.6"

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import CheckoutModal from './CheckoutModal';
 import SelectInput from '../common/SelectInput';
-import moment from 'moment';
 import styled from 'styled-components';
 import * as checkoutActions from '../../reduxActions/checkoutActions';
 import { bindActionCreators } from 'redux';
@@ -15,7 +14,7 @@ import * as staffActions from '../../reduxActions/serviceStaffActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
-import { withSignal, withSignalPropTypes, SignalTypes } from 'redux-signal';
+import { withSignal, SignalTypes } from 'redux-signal';
 
 const DateSelectorTitle = styled.h4`
 margin-left: 2vw;
@@ -26,7 +25,6 @@ const GetCheckoutsWrapper = styled.div`
     padding-right:40px;
     display: flex;
     margin-left: 2em;
-
 `
 
 const SelectWrapper = styled.div`
@@ -88,6 +86,12 @@ margin-right: 1em;
 
 
 class CheckoutManagerContainer extends React.Component{
+    static propTypes = {
+        staff: PropTypes.array,
+        checkouts: PropTypes.object,
+        jobs: PropTypes.array,
+        jobSelected: PropTypes.object,
+    }
     constructor(props, context){
         super(props, context);
 
@@ -190,6 +194,7 @@ class CheckoutManagerContainer extends React.Component{
         return builtMap;
     }
     
+    //currently dinner is hard coded here, but needs to have the option built in for the user
     loadCheckouts(){
         let date = this.props.startDate.format();
         this.props.actions.loadCheckouts(date, "dinner");
@@ -235,7 +240,7 @@ class CheckoutManagerContainer extends React.Component{
             type: SignalTypes.OK,
             isVisible: this.state.isModalVisible,
             title: 'Warning',
-            message: 'Hello World',
+            message: 'You entered a gross sales of over $2,000. Just double checking this is right!',
         })
     }
 
@@ -273,13 +278,6 @@ class CheckoutManagerContainer extends React.Component{
         )
     }
 
-}
-
-CheckoutManagerContainer.propTypes = {
-    staff: PropTypes.array,
-    checkouts: PropTypes.object,
-    jobs: PropTypes.array,
-    jobSelected: PropTypes.object,
 }
 
 function mapStateToProps(state){

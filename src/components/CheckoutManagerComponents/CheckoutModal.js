@@ -125,15 +125,15 @@ CheckoutModal.propTypes = {
     isModalVisible: PropTypes.bool,
     checkout: PropTypes.shape({
         grossSales: PropTypes.number,
-        barSales: PropTypes.string,
+        barSales: PropTypes.number,
         staffMemberName: PropTypes.string,
-        numberOfBottlesSold: PropTypes.string,
-        nonTipOutBarSales: PropTypes.string,
-        ccTips: PropTypes.string,
-        cashTips: PropTypes.string,
-        ccAutoGrat: PropTypes.string,
-        cashAutoGrat: PropTypes.string,
-        hours: PropTypes.string
+        numberOfBottlesSold: PropTypes.number,
+        nonTipOutBarSales: PropTypes.number,
+        ccTips: PropTypes.number,
+        cashTips: PropTypes.number,
+        ccAutoGrat: PropTypes.number,
+        cashAutoGrat: PropTypes.number,
+        hours: PropTypes.number
     }),
     approvedStaff: PropTypes.array,
     jobSelected: PropTypes.string,

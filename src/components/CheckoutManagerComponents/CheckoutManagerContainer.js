@@ -12,7 +12,7 @@ import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
 import 'react-datepicker/dist/react-datepicker.css';
-import { defaultCheckout } from '../../constants/GeneralConstants';
+import { defaultCheckout, defaultDisplayCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
 import { withSignal, SignalTypes } from 'redux-signal';
 
@@ -99,7 +99,7 @@ class CheckoutManagerContainer extends React.Component{
             checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: false,
             isModalVisible: false,
-            currentCheckout: Object.assign({}, defaultCheckout),
+            displayCheckout: Object.assign({}, defaultDisplayCheckout),
             currentCheckoutSanitized: Object.assign({}, defaultCheckout),
             jobSelected: Object.assign({}, this.props.jobSelected),
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
@@ -133,11 +133,11 @@ class CheckoutManagerContainer extends React.Component{
         }
 
         if(this.props.jobSelected != newProps.jobSelected){
-            let currentCheckout = {...this.state.currentCheckout};
-            currentCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
+            let displayCheckout = {...this.state.displayCheckout};
+            displayCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
             this.setState({
                 jobSelected: Object.assign({}, newProps.jobSelected),
-                currentCheckout: currentCheckout
+                displayCheckout: displayCheckout
             })
         }
 
@@ -152,7 +152,7 @@ class CheckoutManagerContainer extends React.Component{
         this.setState({
             isModalVisible: false,
             selectedStaffMemberId: 0,
-            currentCheckout: defaultCheckout,
+            displayCheckout: defaultCheckout,
             currentCheckoutSanitized: defaultCheckout
         })
     }
@@ -181,7 +181,7 @@ class CheckoutManagerContainer extends React.Component{
             else
             {
             let title;
-            for (var i = 0; i < team.teamCheckouts.length; i++){
+            for (let i = 0; i < team.teamCheckouts.length; i++){
                 if (i == 0){
                     title = team.teamCheckouts[i].staffMemberName;
                 }
@@ -214,10 +214,10 @@ class CheckoutManagerContainer extends React.Component{
     onCheckoutEditorChange(keyValue){
         const field = keyValue.key;
         let sanitizedCheckout = Object.assign({}, this.state.currentCheckoutSanitized);
-        let checkout = Object.assign({}, this.state.currentCheckout);
+        let checkout = Object.assign({}, this.state.displayCheckout);
         checkout[field] = keyValue.formattedValue;
         sanitizedCheckout[field] = keyValue.value;
-        this.setState({ currentCheckout: checkout, currentCheckoutSanitized: sanitizedCheckout });
+        this.setState({ displayCheckout: checkout, currentCheckoutSanitized: sanitizedCheckout });
     }
 
     //Update approved staff to show when a certain job is selected
@@ -267,7 +267,7 @@ class CheckoutManagerContainer extends React.Component{
                 </GetCheckoutsWrapper>
                 <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} 
                 defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
-                checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
+                checkout={this.state.displayCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
                 approvedStaff={this.state.approvedStaff} onStaffSelect={this.onStaffSelect} 
                 checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}
                 onAddCheckoutClick={this.onAddCheckoutClick}/>

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Field, reduxForm} from 'redux-form';
 import NumberFormat from 'react-number-format';
 import styled from 'styled-components';
 import SelectInput from '../common/SelectInput';
@@ -15,12 +14,20 @@ const Form = styled.form`
     margin-right: .5em;
 `
 
-const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) => {
+const ErrorMsg = styled.div`
+color: maroon;
+text-size: .5em;
+text-align: center;
+border-radius: .5em;
+`
+
+let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, errors}) => {
 
     return (
         <Form id="checkoutModal">
                     <SelectInput options={approvedStaff} name="staffid" label="Select Staff Member:"
                     defaultOption="Select Staff Member" onChange={onStaffSelect} />
+                    {errors.staffMember && <ErrorMsg>{errors.staffMember}</ErrorMsg>}
                     <Label>Gross Sales</Label>
                     <NumberFormat
                     decimalScale={2}
@@ -31,10 +38,11 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.grossSales == 0 ? "" : checkout.grossSales}
                     placeholder={"$1,000,000"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "grossSales", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "grossSales", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {errors.grossSales && <ErrorMsg>{errors.grossSales}</ErrorMsg>}
                     <Label>Bar Sales</Label>
                     <NumberFormat
                     type="tel"
@@ -45,10 +53,11 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.barSales == 0 ? "" : checkout.barSales}
                     placeholder={"$25"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "barSales", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "barSales", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {errors.barSales && <ErrorMsg>{errors.barSales}</ErrorMsg>}
                     <Label>Bottle Count</Label>
                     <NumberFormat
                     type="tel"
@@ -58,8 +67,8 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.numberOfBottlesSold == 0 ? "" : checkout.numberOfBottlesSold}
                     placeholder={"Bottle Count"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "numberOfBottlesSold", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "numberOfBottlesSold", value: value};
                         updateCheckout(keyValue);
                     }} />
                     <Label>Bottle Value</Label>
@@ -72,8 +81,8 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.nonTipOutBarSales == 0 ? "" : checkout.nonTipOutBarSales}
                     placeholder={"Don't Forget the Dom"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "nonTipOutBarSales", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "nonTipOutBarSales", value: value};
                         updateCheckout(keyValue);
                     }} />
                     <Label>Credit Card Tips</Label>
@@ -86,8 +95,8 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.ccTips == 0 ? "" : checkout.ccTips}
                     placeholder={"$25"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "ccTips", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "ccTips", value: value};
                         updateCheckout(keyValue);
                     }} />
                     <Label>Cash Tips</Label>
@@ -100,8 +109,8 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.cashTips == 0 ? "" : checkout.cashTips}
                     placeholder={"taxation is theft"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "cashTips", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "cashTips", value: value};
                         updateCheckout(keyValue);
                     }} />
                     <Label>Credit Card Auto Gratuity</Label>
@@ -114,8 +123,8 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.ccAutoGrat == 0 ? "" : checkout.ccAutoGrat}
                     placeholder={"Auto Grat"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "ccAutoGrat", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "ccAutoGrat", value: value};
                         updateCheckout(keyValue);
                     }} />
                     <Label>Cash Auto Gratuity</Label>
@@ -128,13 +137,14 @@ const CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect}) 
                     value={checkout.cashAutoGrat == 0 ? "" : checkout.cashAutoGrat}
                     placeholder={"Cash Auto Grat"}
                     onValueChange={(values) => {
-                        const { formattedValue, value} = values;
-                        const keyValue = {key: "cashAutoGrat", formattedValue: formattedValue, value: value};
+                        const { value} = values;
+                        const keyValue = {key: "cashAutoGrat", value: value};
                         updateCheckout(keyValue);
                     }} />
                 </Form>
     );
 };
+
 
 CheckoutForm.propTypes = {
     checkout: PropTypes.shape({
@@ -157,6 +167,7 @@ CheckoutForm.propTypes = {
         id: PropTypes.number
     })),
     onStaffSelect: PropTypes.func,
+    errors: PropTypes.object,
 
 }
 

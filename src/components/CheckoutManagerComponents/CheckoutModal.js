@@ -105,7 +105,8 @@ export default class CheckoutModal extends React.Component {
                 <Header>{this.state.editingExistingCheckout ? 
                 this.props.checkout.staffMemberName : `Add ${this.props.jobSelected} Checkout`}</Header>
                 <CheckoutForm checkout={this.props.checkout} approvedStaff={this.props.approvedStaff}
-                updateCheckout={this.updateCheckout} onStaffSelect={this.props.onStaffSelect}/>
+                updateCheckout={this.updateCheckout} onStaffSelect={this.props.onStaffSelect} 
+                errors={this.props.errors}/>
                 <CheckoutButtonWrapper>
                 <CheckoutButton onClick={this.props.onAddCheckoutClick}>Add</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
@@ -140,4 +141,5 @@ CheckoutModal.propTypes = {
     onAddCheckoutClick: PropTypes.func,
     onStaffSelect: PropTypes.func,
     checkoutDate: momentPropTypes.momentObj,
+    errors: PropTypes.object,
 };

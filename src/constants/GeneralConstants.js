@@ -32,7 +32,7 @@ export const defaultCheckout: {
       ccAutoGrat: 0,
       cashAutoGrat: 0,
       hours: 0,
-      staffMemberId: 0,
+      staffMemberId: -1,
       jobWorkedTitle: "",
       stringDate: "",
     };

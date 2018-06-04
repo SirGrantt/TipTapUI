@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal as ModalConstruct } from 'react-modal-construction-kit';
 import styled from 'styled-components';
-import { colors } from '../DragNDrop/Constants';
 
 const WarningHeader = styled.h1`
-background-color: red;
-color: 'black';
+color: maroon;
 border-bottom: solid black;
 border-width: thin;
 `

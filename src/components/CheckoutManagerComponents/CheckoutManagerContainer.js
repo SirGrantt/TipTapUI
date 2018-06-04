@@ -15,6 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout, defaultDisplayCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
 import { withSignal, SignalTypes } from 'redux-signal';
+import {checkoutFormIsValid, shouldAlertUser} from '../../Utils/checkoutUtilFunctions';
 
 const DateSelectorTitle = styled.h4`
 margin-left: 2vw;
@@ -99,11 +100,11 @@ class CheckoutManagerContainer extends React.Component{
             checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: false,
             isModalVisible: false,
-            displayCheckout: Object.assign({}, defaultDisplayCheckout),
-            currentCheckoutSanitized: Object.assign({}, defaultCheckout),
+            currentCheckout: Object.assign({}, defaultDisplayCheckout),
             jobSelected: Object.assign({}, this.props.jobSelected),
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
             selectedStaffMemberId: 0,
+            errors: {},
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -133,11 +134,11 @@ class CheckoutManagerContainer extends React.Component{
         }
 
         if(this.props.jobSelected != newProps.jobSelected){
-            let displayCheckout = {...this.state.displayCheckout};
-            displayCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
+            let currentCheckout = {...this.state.currentCheckout};
+            currentCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
             this.setState({
                 jobSelected: Object.assign({}, newProps.jobSelected),
-                displayCheckout: displayCheckout
+                currentCheckout: currentCheckout
             })
         }
 
@@ -150,11 +151,11 @@ class CheckoutManagerContainer extends React.Component{
 
     closeModal = () => {
         this.setState({
+            errors: {},
             isModalVisible: false,
             selectedStaffMemberId: 0,
-            displayCheckout: defaultCheckout,
-            currentCheckoutSanitized: defaultCheckout
-        })
+            currentCheckout: defaultCheckout,
+        });
     }
 
     handleChange(date){
@@ -206,18 +207,12 @@ class CheckoutManagerContainer extends React.Component{
         })
     }
 
-    //update the default checkout for submitting new checkouts
-    //Sanitized & Current Checkout represent the two things i need to do with
-    //checkout data. I need it presented a certain way, but the numeric input also provides
-    //a non prefixed and numeric value, so I need to display the prefixed but save the sanitized
-    //for submission
+
     onCheckoutEditorChange(keyValue){
         const field = keyValue.key;
-        let sanitizedCheckout = Object.assign({}, this.state.currentCheckoutSanitized);
-        let checkout = Object.assign({}, this.state.displayCheckout);
-        checkout[field] = keyValue.formattedValue;
-        sanitizedCheckout[field] = keyValue.value;
-        this.setState({ displayCheckout: checkout, currentCheckoutSanitized: sanitizedCheckout });
+        let checkout = Object.assign({}, this.state.currentCheckout);
+        checkout[field] = keyValue.value;
+        this.setState({ currentCheckout: checkout});
     }
 
     //Update approved staff to show when a certain job is selected
@@ -235,13 +230,33 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     onAddCheckoutClick(event){
-        event.preventDefault();
+        event.stopPropagation();
+        this.setState({
+            errors: {}
+        });
+        let formData = checkoutFormIsValid(this.state.currentCheckout);
+        let userAlerter = shouldAlertUser(this.state.currentCheckout);
+
+        if (!formData.isValid){
+        this.setState({
+            errors: formData.errors
+        });
+    }
+    //getting the alerts to work
+    else if (userAlerter.shouldAlert){
+        console.log('make sure this gets hit');
+    userAlerter.alerts.map(a => this.createAlerts(a));    
+    }
+    }
+
+    createAlerts = (alert) => {
+        console.log(`and this ${alert.message}`)
         this.props.createSignal({
             type: SignalTypes.OK,
             isVisible: this.state.isModalVisible,
-            title: 'Warning',
-            message: 'You entered a gross sales of over $2,000. Just double checking this is right!',
-        })
+            title: `One sec, one question about ${alert.name}`,
+            message: `${alert.message}`,
+        });
     }
 
     render(){
@@ -267,10 +282,10 @@ class CheckoutManagerContainer extends React.Component{
                 </GetCheckoutsWrapper>
                 <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} 
                 defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
-                checkout={this.state.displayCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
+                checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
                 approvedStaff={this.state.approvedStaff} onStaffSelect={this.onStaffSelect} 
                 checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}
-                onAddCheckoutClick={this.onAddCheckoutClick}/>
+                onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors}/>
                 <br/>
                 <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} openAddCheckoutModal={this.openAddCheckoutModal}/>
             </div>

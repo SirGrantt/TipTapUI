@@ -48,7 +48,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     placeholder={"$1,000,000"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "grossSales", value: value};
+                        const keyValue = {key: "grossSales", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {alerts.grossSales && <AlertHighlight>{alerts.grossSales}</AlertHighlight>}
@@ -65,7 +65,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     placeholder={"$25"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "barSales", value: value};
+                        const keyValue = {key: "barSales", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {errors.barSales && <ErrorMsg>{errors.barSales}</ErrorMsg>}
@@ -80,7 +80,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     placeholder={"Bottle Count"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "numberOfBottlesSold", value: value};
+                        const keyValue = {key: "numberOfBottlesSold", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {alerts.numberOfBottlesSold && <AlertHighlight>{alerts.numberOfBottlesSold}</AlertHighlight>}
@@ -96,7 +96,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     placeholder={"Don't Forget the Dom"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "nonTipOutBarSales", value: value};
+                        const keyValue = {key: "nonTipOutBarSales", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {alerts.nonTipOutBarSales && <AlertHighlight>{alerts.nonTipOutBarSales}</AlertHighlight>}
@@ -112,7 +112,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     placeholder={"$25"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "ccTips", value: value};
+                        const keyValue = {key: "ccTips", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {alerts.ccTips && <AlertHighlight>{alerts.ccTips}</AlertHighlight>}
@@ -128,7 +128,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     placeholder={"taxation is theft"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "cashTips", value: value};
+                        const keyValue = {key: "cashTips", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {alerts.cashTips && <AlertHighlight>{alerts.cashTips}</AlertHighlight>}
@@ -144,7 +144,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     placeholder={"Auto Grat"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "ccAutoGrat", value: value};
+                        const keyValue = {key: "ccAutoGrat", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {alerts.ccAutoGrat && <AlertHighlight>{alerts.ccAutoGrat}</AlertHighlight>}
@@ -156,11 +156,12 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     displayType="input"
                     thousandSeparator={true}
                     prefix={'$'}
+                    isNumericString={true}
                     value={checkout.cashAutoGrat == 0 ? "" : checkout.cashAutoGrat}
                     placeholder={"Cash Auto Grat"}
                     onValueChange={(values) => {
                         const { value} = values;
-                        const keyValue = {key: "cashAutoGrat", value: value};
+                        const keyValue = {key: "cashAutoGrat", value: parseInt(value)};
                         updateCheckout(keyValue);
                     }} />
                     {alerts.cashAutoGrat && <AlertHighlight>{alerts.cashAutoGrat}</AlertHighlight>}

@@ -88,8 +88,9 @@ export default class CheckoutModal extends React.Component {
         this.updateCheckout(checkoutDate);
     }
 
+    //Perform validation against values we don't want
     updateCheckout = (keyValue) => {
-        if (keyValue.value == ''){
+        if (keyValue.value == '' || isNaN(keyValue.value)){
             keyValue.value = 0;
         }
         this.props.onChange(keyValue);

@@ -91,7 +91,7 @@ export default class CheckoutModal extends React.Component {
     //Perform validation against values we don't want
     updateCheckout = (keyValue) => {
         if (keyValue.value == '' || isNaN(keyValue.value)){
-            keyValue.value = 0;
+            keyValue.value = '';
         }
         this.props.onChange(keyValue);
     }
@@ -129,16 +129,16 @@ CheckoutModal.propTypes = {
     close: PropTypes.func,
     isModalVisible: PropTypes.bool,
     checkout: PropTypes.shape({
-        grossSales: PropTypes.number,
-        barSales: PropTypes.number,
+        grossSales: PropTypes.string,
+        barSales: PropTypes.string,
         staffMemberName: PropTypes.string,
-        numberOfBottlesSold: PropTypes.number,
-        nonTipOutBarSales: PropTypes.number,
-        ccTips: PropTypes.number,
-        cashTips: PropTypes.number,
-        ccAutoGrat: PropTypes.number,
-        cashAutoGrat: PropTypes.number,
-        hours: PropTypes.number
+        numberOfBottlesSold: PropTypes.string,
+        nonTipOutBarSales: PropTypes.string,
+        ccTips: PropTypes.string,
+        cashTips: PropTypes.string,
+        ccAutoGrat: PropTypes.string,
+        cashAutoGrat: PropTypes.string,
+        hours: PropTypes.string
     }),
     approvedStaff: PropTypes.array,
     jobSelected: PropTypes.string,

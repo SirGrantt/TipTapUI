@@ -7,13 +7,18 @@ export function checkoutFormIsValid(checkout){
         isValid = false;
     }
 
-    if (checkout.grossSales === 0){
+    if (parseFloat(checkout.grossSales) === 0){
         errors.grossSales = 'Gross Sales is required';
         isValid = false;
     }
 
-    if (checkout.barSales > checkout.grossSales){
+    if (parseFloat(checkout.barSales) > checkout.grossSales){
         errors.barSales = 'Your bar sales cannot be greater than your gross sales';
+        isValid = false;
+    }
+
+    if (parseFloat(checkout.numberOfBottlesSold) > 0 && parseFloat(checkout.nonTipOutBarSales) == 0){
+        errors.nonTipOutBarSales = 'You must provide the value of the bottles sold';
         isValid = false;
     }
 
@@ -25,35 +30,40 @@ export function checkoutFormIsValid(checkout){
 export function shouldAlertUser(checkout){
     let shouldAlert = false;
     let alerts = {};
-    let twentyFivePercent = checkout.grossSales * .25;
+    let twentyFivePercent = parseFloat(checkout.grossSales) * .25;
 
-    if (checkout.grossSales > 2000){
+    if (parseFloat(checkout.grossSales) > 2000){
         alerts.grossSales = `Just double checking this.`;
         shouldAlert = true;
     }
 
-    if (checkout.ccTips > twentyFivePercent ){
+    if (parseFloat(checkout.nonTipOutBarSales) > 0 && parseFloat(checkout.numberOfBottlesSold) == 0){
+        alerts.numberOfBottlesSold = 'You did not enter any bottles, did you mean to leave this empty?';
+        shouldAlert = true;
+    }
+
+    if (parseFloat(checkout.ccTips) > twentyFivePercent ){
         alerts.ccTips = 'Awesome Credit Card Tips, just making sure its right.';
         shouldAlert = true;
     }
-    if (checkout.cashTips > 100){
+    if (parseFloat(checkout.cashTips) > 100){
         alerts.cashTips = 'Cash is cool, but paying taxes is a drag. Double checking this is not a mistake.';
         shouldAlert = true;
     }
-    if (checkout.ccAutoGrat > 300){
+    if (parseFloat(checkout.ccAutoGrat) > 300){
         alerts.ccAutoGrat = 'Love the grat, but is this number correct?';
         shouldAlert = true;
     }
-    if (checkout.cashAutoGrat > 100){
+    if (parseFloat(checkout.cashAutoGrat) > 100){
         alerts.cashAutoGrat = 'Someone was Mr. Moneybags, just checkng this is right.';
         shouldAlert = true;
     }
-    if (checkout.numberOfBottlesSold > 5){
+    if (parseFloat(checkout.numberOfBottlesSold) > 5){
         alerts.numberOfBottlesSold = 'Popping Bottles! Just checking you entered the right amount.';
         shouldAlert = true;
     }
 
-    if (checkout.nonTipOutBarSales > 400){
+    if (parseFloat(checkout.nonTipOutBarSales) > 400){
         alerts.nonTipOutBarSales = 'Just making sure this looks right';
         shouldAlert = true;
     }

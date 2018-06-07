@@ -14,8 +14,6 @@ class ManageStaffPage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        console.log(props.serviceStaff);
-        console.log(props.match.params.id);
 
         this.state = {
             staffMember: getStaffMemberById(props.serviceStaff, props.match.params.id),

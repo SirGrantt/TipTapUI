@@ -89,6 +89,9 @@ export default class CheckoutModal extends React.Component {
     }
 
     updateCheckout = (keyValue) => {
+        if (keyValue.value == ''){
+            keyValue.value = 0;
+        }
         this.props.onChange(keyValue);
     }
 
@@ -106,7 +109,7 @@ export default class CheckoutModal extends React.Component {
                 this.props.checkout.staffMemberName : `Add ${this.props.jobSelected} Checkout`}</Header>
                 <CheckoutForm checkout={this.props.checkout} approvedStaff={this.props.approvedStaff}
                 updateCheckout={this.updateCheckout} onStaffSelect={this.props.onStaffSelect} 
-                errors={this.props.errors}/>
+                errors={this.props.errors} alerts={this.props.alerts}/>
                 <CheckoutButtonWrapper>
                 <CheckoutButton onClick={this.props.onAddCheckoutClick}>Add</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
@@ -142,4 +145,5 @@ CheckoutModal.propTypes = {
     onStaffSelect: PropTypes.func,
     checkoutDate: momentPropTypes.momentObj,
     errors: PropTypes.object,
+    alerts: PropTypes.object,
 };

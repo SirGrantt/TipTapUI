@@ -14,15 +14,15 @@ margin:0 0.3em 0.3em 0;
 border-radius:0.5em;
 box-sizing: border-box;
 text-decoration:none;
- font-family:'Roboto',sans-serif;
+font-family:'Roboto',sans-serif;
 font-weight:300;
 background-color: ${props => props.primary ? '#4eb5f1' : 'red' };
 text-align:center;
 transition: all 0.2s;
 
 :hover{
-     color:#000000;
-     background-color:#FFFFFF;
+    color:#000000;
+    background-color:#FFFFFF;
     }
 
 @media all and (max-width:1.5em){
@@ -30,11 +30,11 @@ transition: all 0.2s;
     display:block;
     margin:0.4em auto;
     }
-`
+`;
 
 const SignalContainer = 
 ({ event,
-destroy,
+//destroy,
 close,
 modal }) => {
     return (
@@ -67,13 +67,13 @@ function getFooter(modal, onModalEvent){
             key='no'
             reject
             onClick={() => onModalEvent(SignalEvents.BTN_NO)}>
-            {getModalLabel(modal, 'no', 'Nope')},
+            {getModalLabel(modal, 'no', 'No Way!')}
             </Button>,
             <Button
             key='yes'
             primary
             onClick={() => onModalEvent(SignalEvents.BTN_YES)}>
-            {getModalLabel(modal, 'yes', 'Yep')}
+            {getModalLabel(modal, 'yes', 'All Good')}
             </Button>
         ]
         case SignalTypes.YES_NO_CANCEL :

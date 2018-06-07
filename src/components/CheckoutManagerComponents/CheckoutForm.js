@@ -7,21 +7,29 @@ import SelectInput from '../common/SelectInput';
 const Label = styled.p`
 font-weight: bold;
 margin-top: 1em;
-`
+`;
 
 const Form = styled.form`
     margin-left: .5em;
     margin-right: .5em;
-`
+`;
 
 const ErrorMsg = styled.div`
 color: maroon;
 text-size: .5em;
 text-align: center;
 border-radius: .5em;
-`
+`;
 
-let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, errors}) => {
+const AlertHighlight = styled.div`
+background-color: rgb(244, 241, 66);
+color: black;
+text-size: .5em;
+text-align: center;
+border-radius: .5em;
+`;
+
+let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, errors, alerts}) => {
 
     return (
         <Form id="checkoutModal">
@@ -30,6 +38,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     {errors.staffMember && <ErrorMsg>{errors.staffMember}</ErrorMsg>}
                     <Label>Gross Sales</Label>
                     <NumberFormat
+                    allowNegative={false}
                     decimalScale={2}
                     type="tel"
                     displayType="input"
@@ -42,9 +51,11 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "grossSales", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {alerts.grossSales && <AlertHighlight>{alerts.grossSales}</AlertHighlight>}
                     {errors.grossSales && <ErrorMsg>{errors.grossSales}</ErrorMsg>}
                     <Label>Bar Sales</Label>
                     <NumberFormat
+                    allowNegative={false}
                     type="tel"
                     decimalScale={2}
                     displayType="input"
@@ -60,6 +71,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                     {errors.barSales && <ErrorMsg>{errors.barSales}</ErrorMsg>}
                     <Label>Bottle Count</Label>
                     <NumberFormat
+                    allowNegative={false}
                     type="tel"
                     decimalScale={0}
                     displayType="input"
@@ -71,8 +83,10 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "numberOfBottlesSold", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {alerts.numberOfBottlesSold && <AlertHighlight>{alerts.numberOfBottlesSold}</AlertHighlight>}
                     <Label>Bottle Value</Label>
                     <NumberFormat
+                    allowNegative={false}
                     type="tel"
                     decimalScale={2}
                     displayType="input"
@@ -85,8 +99,10 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "nonTipOutBarSales", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {alerts.nonTipOutBarSales && <AlertHighlight>{alerts.nonTipOutBarSales}</AlertHighlight>}
                     <Label>Credit Card Tips</Label>
                     <NumberFormat
+                    allowNegative={false}
                     type="tel"
                     decimalScale={2}
                     displayType="input"
@@ -99,8 +115,10 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "ccTips", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {alerts.ccTips && <AlertHighlight>{alerts.ccTips}</AlertHighlight>}
                     <Label>Cash Tips</Label>
                     <NumberFormat
+                    allowNegative={false}
                     type="tel"
                     decimalScale={2}
                     displayType="input"
@@ -113,8 +131,10 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "cashTips", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {alerts.cashTips && <AlertHighlight>{alerts.cashTips}</AlertHighlight>}
                     <Label>Credit Card Auto Gratuity</Label>
                     <NumberFormat
+                    allowNegative={false}
                     type="tel"
                     decimalScale={2}
                     displayType="input"
@@ -127,8 +147,10 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "ccAutoGrat", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {alerts.ccAutoGrat && <AlertHighlight>{alerts.ccAutoGrat}</AlertHighlight>}
                     <Label>Cash Auto Gratuity</Label>
                     <NumberFormat
+                    allowNegative={false}
                     type="tel"
                     decimalScale={2}
                     displayType="input"
@@ -141,6 +163,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "cashAutoGrat", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {alerts.cashAutoGrat && <AlertHighlight>{alerts.cashAutoGrat}</AlertHighlight>}
                 </Form>
     );
 };
@@ -168,6 +191,7 @@ CheckoutForm.propTypes = {
     })),
     onStaffSelect: PropTypes.func,
     errors: PropTypes.object,
+    alerts: PropTypes.object,
 
 }
 

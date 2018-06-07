@@ -12,26 +12,27 @@ import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
 import 'react-datepicker/dist/react-datepicker.css';
-import { defaultCheckout, defaultDisplayCheckout } from '../../constants/GeneralConstants';
+import { defaultCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
 import { withSignal, SignalTypes } from 'redux-signal';
 import {checkoutFormIsValid, shouldAlertUser} from '../../Utils/checkoutUtilFunctions';
+import { objectsAreEqual } from '../../Utils/ObjectComparison';
 
 const DateSelectorTitle = styled.h4`
 margin-left: 2vw;
-`
+`;
 const GetCheckoutsWrapper = styled.div`
     box-sizing: border-box;
     width:100%;
     padding-right:40px;
     display: flex;
     margin-left: 2em;
-`
+`;
 
 const SelectWrapper = styled.div`
 width: 20%;
 margin-left: auto;
-`
+`;
 
 const GetCheckoutButton = styled.button`
 font: sans-serif;
@@ -83,8 +84,7 @@ margin-right: 1em;
       opacity:1;
     }
   }
-`
-
+`;
 
 class CheckoutManagerContainer extends React.Component{
     static propTypes = {
@@ -100,11 +100,12 @@ class CheckoutManagerContainer extends React.Component{
             checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: false,
             isModalVisible: false,
-            currentCheckout: Object.assign({}, defaultDisplayCheckout),
+            currentCheckout: Object.assign({}, defaultCheckout),
             jobSelected: Object.assign({}, this.props.jobSelected),
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
-            selectedStaffMemberId: 0,
+            selectedStaffMemberId: -1,
             errors: {},
+            alerts: { initial: ''},
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -152,8 +153,9 @@ class CheckoutManagerContainer extends React.Component{
     closeModal = () => {
         this.setState({
             errors: {},
+            alerts: {},
             isModalVisible: false,
-            selectedStaffMemberId: 0,
+            selectedStaffMemberId: -1,
             currentCheckout: defaultCheckout,
         });
     }
@@ -225,7 +227,7 @@ class CheckoutManagerContainer extends React.Component{
 
     //Update when a staff member is selected in the Add chekcout modal
     onStaffSelect(event){
-        let staffId = { key: "staffMemberId", formattedValue: `${event.target.value}`, value: event.target.value }
+        let staffId = { key: "staffMemberId", value: event.target.value == '' ? -1 : event.target.value };
         this.onCheckoutEditorChange(staffId);
     }
 
@@ -237,27 +239,34 @@ class CheckoutManagerContainer extends React.Component{
         let formData = checkoutFormIsValid(this.state.currentCheckout);
         let userAlerter = shouldAlertUser(this.state.currentCheckout);
 
+        //Make sure the same alert hasn't been presented already
         if (!formData.isValid){
-        this.setState({
-            errors: formData.errors
-        });
-    }
-    //getting the alerts to work
-    else if (userAlerter.shouldAlert){
-        console.log('make sure this gets hit');
-    userAlerter.alerts.map(a => this.createAlerts(a));    
-    }
+            this.setState({
+                errors: formData.errors
+            });
+        }
+
+        //getting the alerts to work
+        else if (userAlerter.shouldAlert && !objectsAreEqual(userAlerter.alerts, this.state.alerts)){
+            this.setState({
+                alerts: userAlerter.alerts
+            });
+            this.props.createSignal({
+            type: SignalTypes.OK,
+            title: `One sec,`,
+            message: 'We noticed a view values you might want to double check, we highlighted them for you.',
+            });    
+        }
+        else {
+            this.submitCheckout();
+        }
     }
 
-    createAlerts = (alert) => {
-        console.log(`and this ${alert.message}`)
-        this.props.createSignal({
-            type: SignalTypes.OK,
-            isVisible: this.state.isModalVisible,
-            title: `One sec, one question about ${alert.name}`,
-            message: `${alert.message}`,
-        });
+    submitCheckout = () => {
+        console.log('I submitted to the API!');
     }
+
+    
 
     render(){
         return( 
@@ -285,9 +294,10 @@ class CheckoutManagerContainer extends React.Component{
                 checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
                 approvedStaff={this.state.approvedStaff} onStaffSelect={this.onStaffSelect} 
                 checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}
-                onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors}/>
+                onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors} alerts={this.state.alerts}/>
                 <br/>
-                <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} openAddCheckoutModal={this.openAddCheckoutModal}/>
+                <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} 
+                openAddCheckoutModal={this.openAddCheckoutModal}/>
             </div>
 
         )

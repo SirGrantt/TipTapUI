@@ -41,7 +41,6 @@ class ManageStaffPage extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        //if (this.state.approvedJobs != newProps.approvedJobs) {
             let jm = Object.assign({}, this.state.jobMap);
             let unapproved = newProps.jobs.filter(j => !newProps.approvedJobs.find(e => e.id == j.id));
             let approvedValue = mapJobsToJobMap(newProps.approvedJobs);
@@ -60,8 +59,6 @@ class ManageStaffPage extends React.Component {
                 title: staffM.firstName + " " + staffM.lastName
             });
         }
-        //}
-
     }
 
     onSave(newApprovedJobs, newUnapprovedJobs) {

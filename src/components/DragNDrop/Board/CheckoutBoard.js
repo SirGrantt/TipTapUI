@@ -7,7 +7,7 @@ import reorder, { reorderCheckoutMap } from '../Reorder';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import type {
     DropResult,
-    DragStart,
+    //DragStart,
     DraggableLocation,
     DroppableProvided,
 } from 'react-beautiful-dnd';
@@ -53,11 +53,16 @@ transition: all 0.3s ease;
 }
 }
 
+&:disabled {
+    color: white;
+    background: grey;
+}
+
 @keyframes gradient {
 50% {
   background-position: 100% 0;
 }
-`
+`;
 
 type Props = {|
   initial: CheckoutMap,
@@ -67,6 +72,7 @@ type Props = {|
   onCancel: () => void,
   shouldMap: boolean,
   openAddCheckoutModal: () => void,
+  jobSelected: Object,
 |}
 
 type State = {|
@@ -154,6 +160,7 @@ componentWillReceiveProps(nextProps: any){
      const ordered: string[] = this.state.ordered;
      const { containerHeight } = this.props;
      const shouldMap: boolean = this.props.shouldMap;
+     const jobSelected: Object = this.props.jobSelected;
 
      const board = (
         <Droppable
@@ -187,7 +194,7 @@ componentWillReceiveProps(nextProps: any){
          ) : (
              board
          )}
-         <Button onClick={this.props.openAddCheckoutModal}>Add Checkout</Button>
+         <Button onClick={this.props.openAddCheckoutModal} disabled={jobSelected.value == 0 ? true : false}>Add Checkout</Button>
         </DragDropContext>
      );
  }

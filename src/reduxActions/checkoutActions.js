@@ -12,6 +12,10 @@ export function addCheckoutSuccess(checkout)
     return { type: actions.ADD_CHECKOUT_SUCCESS, checkout};
 }
 
+export function createCheckoutMapSuccess(checkoutMap){
+    return { type: actions.CREATE_CHECKOUT_MAP_SUCCESS, checkoutMap};
+}
+
 export function loadCheckouts(stringDate, lunchOrDinner){
     return dispatch => {
         dispatch(beginAxiosCall());

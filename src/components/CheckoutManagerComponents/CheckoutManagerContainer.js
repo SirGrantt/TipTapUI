@@ -98,8 +98,8 @@ class CheckoutManagerContainer extends React.Component{
         super(props, context);
 
         this.state = {
-            checkoutsMap: this.buildCheckoutsMap(props.checkouts),
-            shouldMap: false,
+            //checkoutsMap: this.buildCheckoutsMap(props.checkouts),
+            shouldMap: true,
             isModalVisible: false,
             currentCheckout: Object.assign({}, defaultCheckout),
             jobSelected: Object.assign({}, this.props.jobSelected),
@@ -122,9 +122,10 @@ class CheckoutManagerContainer extends React.Component{
     componentWillReceiveProps(newProps){
         if(this.props.checkouts != newProps.checkouts){
             if (newProps.checkouts.individual != undefined){
+                let checkoutMap = this.buildCheckoutsMap(newProps.checkouts);
+                this.props.actions.createCheckoutMapSuccess(checkoutMap);
                 this.setState({
                     shouldMap: true,
-                    checkoutsMap: this.buildCheckoutsMap(newProps.checkouts),
                 });
             }
             else if (newProps.checkouts.team != undefined){
@@ -288,7 +289,7 @@ class CheckoutManagerContainer extends React.Component{
                 </GetCheckoutButton>
                 <SelectWrapper>
                 <SelectInput options={this.props.jobs} name="jobId" label="Job : " value={this.props.jobSelected.text}
-                defaultOption="Select Job" onChange={this.onJobSelect} />
+                defaultOption={'Select Job'} onChange={this.onJobSelect} />
                 </SelectWrapper>
                 </GetCheckoutsWrapper>
                 <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} 
@@ -299,8 +300,8 @@ class CheckoutManagerContainer extends React.Component{
                 onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors} alerts={this.state.alerts}/>
                 <br/>
                 {this.props.axiosLoading > 0 ? <Loader /> :
-                <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} 
-                openAddCheckoutModal={this.openAddCheckoutModal}/>
+                <CheckoutBoard initial={this.props.checkoutMap} shouldMap={this.state.shouldMap} 
+                openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={this.state.jobSelected}/>
                 }
             </div>
 
@@ -318,6 +319,7 @@ function mapStateToProps(state){
         approvedStaff: state.approvedStaff,
         jobSelected: state.jobSelected,
         axiosLoading: state.axiosLoading,
+        checkoutMap: state.checkoutMap,
     };
 }
 

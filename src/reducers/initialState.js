@@ -9,4 +9,5 @@ export default {
   axiosLoading: 0,
   checkouts: {},
   startDate: moment(),
+  checkoutMap: {},
 };

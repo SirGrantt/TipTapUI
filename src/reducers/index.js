@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as signalReducer } from 'redux-signal';
 import { reducer as formReducer } from 'redux-form';
 import serviceStaff from './serviceStaffReducer';
+import checkoutMap from './checkoutMapReducer';
 import jobs from './jobReducer';
 import approvedJobs from './approvedJobsReducer';
 import axiosLoading from './axiosReducer';
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   axiosLoading,
   checkouts,
   startDate,
+  checkoutMap,
   signal: signalReducer,
   approvedStaff,
   jobSelected,

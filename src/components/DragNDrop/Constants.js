@@ -19,6 +19,7 @@ export const colors = {
     green: 'rgb(185, 244, 188)',
     white: 'white',
     purple: 'rebeccapurple',
+    headerGreen: '#14ce63',
   };
   
   export const grid: number = 8;

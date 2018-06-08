@@ -1,13 +1,14 @@
 // @flow
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { grid, colors, borderRadius } from '../Constants';
+import { grid, colors } from '../Constants';
 import { Draggable } from "react-beautiful-dnd";
 import type { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import CheckoutCardList from '../CheckoutDnD/CheckoutCardList';
 import Title from '../Primatives/Title';
 import type { Checkout } from '../DNDTypes';
 
+const headColor = '#14ce63';
 const Container = styled.div`
     margin: ${grid}px;
     display: flex;
@@ -18,9 +19,10 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top-left-radius: ${borderRadius}px;
-    border-top-right-radius: ${borderRadius}px;
-    background-color: ${({isDragging}) => (isDragging ? colors.blue.lighter : colors.blue.light)};
+    color: black;
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+    background-color: ${({isDragging}) => (isDragging ? colors.blue.lighter : headColor)};
     transition: background-color 0.1s ease;
     
     &:hover {

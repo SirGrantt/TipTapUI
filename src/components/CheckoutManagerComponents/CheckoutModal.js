@@ -17,20 +17,20 @@ const Footer = styled.div`
     > :not(:last-child) {
       margin-right: .25rem;
     }
-`
+`;
 
 const Header = styled.h1`
 border-bottom: solid black;
 border-width: thin;
 
-`
+`;
 
 const CheckoutButtonWrapper = styled.div`
 float: right;
 margin-left: auto;
 margin-right: auto;
 margin-top: 1em;
-`
+`;
 
 const CheckoutButton = styled.button`
 width: 7em;
@@ -57,7 +57,7 @@ transition: all 0.2s;
     display:block;
     margin:0.4em auto;
     }
-`
+`;
 
 export default class CheckoutModal extends React.Component {
     constructor(props, context){

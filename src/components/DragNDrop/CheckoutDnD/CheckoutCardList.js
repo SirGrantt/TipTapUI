@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CheckoutCard from './CheckoutCard';
 import { grid, colors } from '../Constants';
-import type { CardTitle, Checkout } from '../DNDTypes';
+import type { Checkout } from '../DNDTypes';
 import Title from '../Primatives/Title';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import type {
@@ -14,7 +14,7 @@ import type {
 } from 'react-beautiful-dnd';
 
 const Wrapper = styled.div`
-background-color: ${({isDraggingOver}) => (isDraggingOver ? colors.blue.lighter : colors.blue.light)};
+background-color: ${({isDraggingOver}) => (isDraggingOver ? colors.blue.lighter : colors.blue.steel)};
 display: flex;
 flex-direction: column;
 opacity: ${({isDropDisabled}) => (isDropDisabled ? 0.5 : 'inherit')};

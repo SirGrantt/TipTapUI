@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import type { DraggableProvided } from 'react-beautiful-dnd';
 import type { Checkout } from '../DNDTypes';
-import { borderRadius, colors, grid } from '../Constants';
+import {  colors, grid } from '../Constants';
 import styled from 'styled-components';
 
 
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const Container = styled.a`
-border-radius: ${borderRadius}px;
+border-radius: .5em;
 border: 1px solid grey;
 background-color: ${({isDragging}) => (isDragging ? colors.green : colors.white)};
 
@@ -45,9 +45,10 @@ align-items: center;
 
 const Title = styled.h1`
 color: ${colors.blue};
-font-size: 1.5em;
+font-size: 1.25em;
 font-weight: bold;
 text-align: center;
+margin-right: .75em;
 `;
 
 const Content = styled.div`
@@ -57,8 +58,9 @@ const Content = styled.div`
   /* flex parent */
   display: flex;
   flex-direction: column;
-`
+`;
 const GrossSales = styled.div`
+font-family: Verdana,Geneva,sans-serif;
 &::before {
     content: "Gross Sales: "
 }

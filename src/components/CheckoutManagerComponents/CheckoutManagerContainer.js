@@ -17,6 +17,7 @@ import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMember
 import { withSignal, SignalTypes } from 'redux-signal';
 import {checkoutFormIsValid, shouldAlertUser} from '../../Utils/checkoutUtilFunctions';
 import { objectsAreEqual } from '../../Utils/ObjectComparison';
+import Loader from '../common/LoadingSpinner';
 
 const DateSelectorTitle = styled.h4`
 margin-left: 2vw;
@@ -206,7 +207,7 @@ class CheckoutManagerContainer extends React.Component{
     openAddCheckoutModal(){
         this.setState({
             isModalVisible: true
-        })
+        });
     }
 
 
@@ -296,8 +297,10 @@ class CheckoutManagerContainer extends React.Component{
                 checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}
                 onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors} alerts={this.state.alerts}/>
                 <br/>
+                {this.props.axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={this.state.checkoutsMap} shouldMap={this.state.shouldMap} 
                 openAddCheckoutModal={this.openAddCheckoutModal}/>
+                }
             </div>
 
         )
@@ -312,7 +315,8 @@ function mapStateToProps(state){
         startDate: state.startDate,
         jobs: mapJobsForDropdown(state.jobs),
         approvedStaff: state.approvedStaff,
-        jobSelected: state.jobSelected
+        jobSelected: state.jobSelected,
+        axiosLoading: state.axiosLoading,
     };
 }
 

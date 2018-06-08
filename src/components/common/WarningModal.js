@@ -4,20 +4,24 @@ import { Modal as ModalConstruct } from 'react-modal-construction-kit';
 import styled from 'styled-components';
 
 const WarningHeader = styled.h1`
-color: maroon;
-border-bottom: solid black;
-border-width: thin;
-`
+padding: 1em;
+background-color: #2ECC71;
+color: white;
+border-top-left-radius: 2px;
+border-top-right-radius: 2px;
+`;
 
 const WarningContent = styled.div`
-margin-top: 1em;
-margin-left: 1em;
-margin-right: 1em;
+margin-top: 2em;
+margin-left: 2em;
+margin-right: 2em;
+margin-bottom: 2em;
 font-family: Tahoma, Verdana, Segoe, sans-serif;
-`
+`;
 
 const Footer = styled.div`
     padding: 1em;
+    background-color: #2ECC71;
     display: flex;
     border-radius: 0 0 2px 2px;
     overflow: hidden;
@@ -28,10 +32,11 @@ const Footer = styled.div`
     > :not(:last-child) {
       margin-right: .25rem;
     }
-`
+`;
 
 const WarningModal = ({title, children, footer, ...props}) => (
     <ModalConstruct
+    style={{borderLeft: 'solid black', borderWidth: 'thick'}}
     {...props}
     >
     <WarningHeader>

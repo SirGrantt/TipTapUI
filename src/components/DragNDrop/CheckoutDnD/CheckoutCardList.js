@@ -66,7 +66,7 @@ class InnerCheckoutList extends React.Component<CheckoutListProps>{
 
     render(){
         return this.props.checkouts.map((checkout: Checkout, index: number) => (
-            <Draggable key={checkout.apiId} draggableId={checkout.id} index={index}>
+            <Draggable key={checkout.id} draggableId={checkout.id} index={index}>
             {
                 (dragProvided: DraggableProvided, dragSnapshot: DraggableStateSnapshot) => (
                     <CheckoutCard

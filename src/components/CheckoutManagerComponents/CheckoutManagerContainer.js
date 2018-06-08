@@ -135,6 +135,7 @@ class CheckoutManagerContainer extends React.Component{
             }
         }
 
+        //adjusting for when a new job is selected
         if(this.props.jobSelected != newProps.jobSelected){
             let currentCheckout = {...this.state.currentCheckout};
             currentCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
@@ -143,7 +144,7 @@ class CheckoutManagerContainer extends React.Component{
                 currentCheckout: currentCheckout
             })
         }
-
+        //when a new job is selected the approved staff will also change
         if (this.props.approvedStaff != newProps.approvedStaff){
             this.setState({
                 approvedStaff: mapStaffForDropDown(newProps.approvedStaff)

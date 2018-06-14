@@ -15,7 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
 import { withSignal, SignalTypes } from 'redux-signal';
-import {checkoutFormIsValid, shouldAlertUser} from '../../Utils/checkoutUtilFunctions';
+import {checkoutFormIsValid, shouldAlertUser, transformCheckout} from '../../Utils/checkoutUtilFunctions';
 import { objectsAreEqual } from '../../Utils/ObjectComparison';
 import Loader from '../common/LoadingSpinner';
 
@@ -117,6 +117,7 @@ class CheckoutManagerContainer extends React.Component{
         this.onJobSelect = this.onJobSelect.bind(this);
         this.onStaffSelect = this.onStaffSelect.bind(this);
         this.onAddCheckoutClick = this.onAddCheckoutClick.bind(this);
+        this.submitCheckout = this.submitCheckout.bind(this);
     }
 
     componentWillReceiveProps(newProps){
@@ -265,8 +266,12 @@ class CheckoutManagerContainer extends React.Component{
         }
     }
 
-    submitCheckout = () => {
-        console.log('I submitted to the API!');
+    async submitCheckout () {
+        let formattedCheckout = await transformCheckout(this.state.currentCheckout,
+                 this.state.jobSelected, this.props.startDate, "dinner");
+                 console.log(formattedCheckout);
+            this.props.actions.addCheckout(formattedCheckout);
+            this.closeModal();
     }
 
     

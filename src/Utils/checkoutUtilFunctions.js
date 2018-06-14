@@ -70,3 +70,23 @@ export function shouldAlertUser(checkout){
 
     return {shouldAlert: shouldAlert, alerts: alerts};
 }
+
+export function transformCheckout(checkout, jobWorkedTitle, stringDate, lunchOrDinner ) {
+    let keys = Object.keys(checkout);
+    let transformedCheckout = Object.assign({}, checkout);
+    keys.map(k => {
+        if (k === 'jobWorkedTitle') {
+            transformedCheckout[k] = jobWorkedTitle.text;
+        }
+        else if (k === "stringDate"){
+            transformedCheckout[k] = stringDate;
+        }
+        else if (k === "lunchOrDinner"){
+            transformedCheckout[k] = lunchOrDinner; 
+        }
+        else {
+            transformedCheckout[k] = Number(transformedCheckout[k]);
+        }
+    });
+    return transformedCheckout;
+}

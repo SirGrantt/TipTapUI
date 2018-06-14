@@ -11,10 +11,15 @@ function checkoutReducer(state = initialState.checkouts, action){
         }
         
         case type.ADD_CHECKOUT_SUCCESS :
-        return [
-            ...state,
-            Object.assign({}, action.checkout)
-        ];
+        return {
+            individual: [
+                ...state.individual,
+                Object.assign({}, action.checkout)
+            ],
+            team: [
+                ...state.team
+            ]
+        };
 
         default:
         return state;

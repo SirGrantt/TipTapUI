@@ -5,8 +5,12 @@
             "flow",
             "env",
             "react",
-            "react-hmre",
-            "stage-1"
+            "react-hmre" ,
+            "stage-1",
+            "es2017"       
+          ],
+          "plugins": [
+            "transform-async-to-generator"
           ]
         },
         "production": {
@@ -28,7 +32,8 @@
           ],
           "plugins": [
             "transform-react-constant-elements",
-            "transform-react-remove-prop-types"
+            "transform-react-remove-prop-types",
+            "transform-async-to-generator"
           ]
         },
         "test": {

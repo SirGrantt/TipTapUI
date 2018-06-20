@@ -187,6 +187,7 @@ class CheckoutManagerContainer extends React.Component{
             }
             else
             {
+                /*
             let title;
             for (let i = 0; i < team.teamCheckouts.length; i++){
                 if (i == 0){
@@ -195,8 +196,8 @@ class CheckoutManagerContainer extends React.Component{
                 else {
                     title = title + " & " + team.teamCheckouts[i].staffMemberName; 
                 }
-            }
-            builtMap[`${title}`] = team.teamCheckouts;
+            } */
+            builtMap[`Team${checkouts.team.indexOf(team)}`] = team.teamCheckouts;
         }});
         return builtMap;
     }

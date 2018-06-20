@@ -55,7 +55,7 @@ export default class CheckoutColumn extends Component<Props> {
                     isDragging={snapshot.isDragging}
                     {...provided.dragHandleProps}
                     >
-                    {title}
+                    {title === 'Individual' ? title : 'Team'}
                     </Title>
                 </Header>
                 <CheckoutCardList

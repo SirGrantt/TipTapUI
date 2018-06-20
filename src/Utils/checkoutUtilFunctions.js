@@ -22,6 +22,11 @@ export function checkoutFormIsValid(checkout){
         isValid = false;
     }
 
+    if(parseFloat(checkout.ccTips) === 0 && parseFloat(checkout.cashTips) === 0){
+        errors.tips = 'You must enter the tips earned';
+        isValid = false;
+    }
+
     let errorList = { isValid: isValid, errors: errors};
     return errorList;
     

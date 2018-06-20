@@ -116,6 +116,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "ccTips", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {errors.tips && <ErrorMsg>{errors.tips}</ErrorMsg>}
                     {alerts.ccTips && <AlertHighlight>{alerts.ccTips}</AlertHighlight>}
                     <Label>Cash Tips</Label>
                     <NumberFormat
@@ -132,6 +133,7 @@ let CheckoutForm = ({checkout, approvedStaff, updateCheckout, onStaffSelect, err
                         const keyValue = {key: "cashTips", value: value};
                         updateCheckout(keyValue);
                     }} />
+                    {errors.tips && <ErrorMsg>{errors.tips}</ErrorMsg>}
                     {alerts.cashTips && <AlertHighlight>{alerts.cashTips}</AlertHighlight>}
                     <Label>Credit Card Auto Gratuity</Label>
                     <NumberFormat

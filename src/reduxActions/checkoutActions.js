@@ -44,7 +44,9 @@ export function addCheckout(checkout) {
     Axios.post("http://localhost:61319/checkout/create", checkout)
       .then(res => {
         const checkout = res.data;
+        checkout.staffMemberName = `${checkout.staffMember.firstName} ${checkout.staffMember.lastName}`;
         dispatch(addCheckoutSuccess(checkout));
+        console.log(checkout);
       })
       .catch(error => {
         throw error;

@@ -14,7 +14,7 @@ class App extends React.Component {
 
     return (
       <div>
-    <Navbar  inverse collapseOnSelect>
+    <Navbar  inverse collapseOnSelect fluid={true}>
       <Navbar.Header>
         <Navbar.Brand>
           <NavLink to="/">TipTap</NavLink>

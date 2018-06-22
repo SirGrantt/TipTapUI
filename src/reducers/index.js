@@ -11,7 +11,6 @@ import startDate from './startDateReducer';
 import approvedStaff from './approvedStaffReducer';
 import jobSelected from './jobSelectedReducer';
 
-
 const rootReducer = combineReducers({
   serviceStaff,
   jobs,

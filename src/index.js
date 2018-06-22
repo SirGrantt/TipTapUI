@@ -5,9 +5,9 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import configureStore, { history } from './store/configureStore';
 import Root from './components/Root';
-import { loadServiceStaff, loadAllJobs } from './reduxActions/serviceStaffActions';
+import { loadServiceStaff, loadAllJobs, jobSelectedSuccess } from './reduxActions/serviceStaffActions';
 import { setInitialStartDate } from './reduxActions/startDateActions';
-import { loadCheckouts } from './reduxActions/checkoutActions';
+import { loadCheckouts } from './reduxActions/checkoutActions'; 
 import moment from 'moment'; 
 import './styles/styles.css';
 require('./favicon.ico'); //tell webpack to include favicon.ico
@@ -17,6 +17,7 @@ store.dispatch(loadServiceStaff());
 store.dispatch(loadAllJobs());
 store.dispatch(setInitialStartDate());
 store.dispatch(loadCheckouts(moment().format(), 'dinner'));
+store.dispatch(jobSelectedSuccess({value: 1, text: 'Server'}));
 
 render(
   <AppContainer>

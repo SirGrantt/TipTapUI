@@ -39,14 +39,12 @@ export function loadCheckouts(stringDate, lunchOrDinner) {
 }
 
 export function addCheckout(checkout) {
-  return dispatch => {
-      console.log(checkout);  
+  return dispatch => { 
     Axios.post("http://localhost:61319/checkout/create", checkout)
       .then(res => {
         const checkout = res.data;
         checkout.staffMemberName = `${checkout.staffMember.firstName} ${checkout.staffMember.lastName}`;
         dispatch(addCheckoutSuccess(checkout));
-        console.log(checkout);
       })
       .catch(error => {
         throw error;

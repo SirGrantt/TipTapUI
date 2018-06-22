@@ -77,7 +77,7 @@ export function updateJobApproval(staffMemberId, approvedJobIds, unappprovedJobI
       jobIds: unappprovedJobIds 
     })).then(
     dispatch(updateStaffMemberJobsSuccess())
-  ).catch(error => { dispatch(updateStaffMemberError());
+  ).catch(error => { dispatch(updateStaffMemberError(error));
   });
   };
 }
@@ -102,7 +102,7 @@ export function updateStaffMemberName(staffMember){
         firstName: staffMember.firstName,
         lastName: staffMember.lastName
       }).then(dispatch(updateStaffMemberNameSuccess(staffMember)))
-      .catch(error => {dispatch(updateStaffMemberError());
+      .catch(error => {dispatch(updateStaffMemberError(error));
       });
     };
 }

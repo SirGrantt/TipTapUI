@@ -21,4 +21,6 @@ export const SET_INITIAL_START_DATE = "SET_INITIAL_START_DATE";
 export const SHOW_MODAL = "SHOW_MODAL";
 export const HIDE_MODAL = "HIDE_MODAL";
 
+export const ADD_SERVER_TEAM_SUCCESS = "ADD_TEAM_SUCCESS"; 
+
 

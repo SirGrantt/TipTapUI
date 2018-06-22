@@ -12,6 +12,8 @@ import type {
     DroppableProvided,
 } from 'react-beautiful-dnd';
 import type { CheckoutMap } from '../DNDTypes';
+import AddCheckoutButton from '../../../styles/StyledComponents/AddCheckoutButton';
+import AddTeamButton from '../../../styles/StyledComponents/AddTeamButton';
 
 const ParentContainer = styled.div`
     height: ${({height}) => height};
@@ -27,43 +29,6 @@ const Container = styled.div`
  background-color: ${colors.black};
 `;
 
-const Button = styled.button`
-z-index: 2;
-width: 6em;
-height: 2.5em;
-float: right;
-transform: translate(-50%,-80%);
-font-family: 'Varela Round', sans-serif;
-font-size: 1.5em;
-letter-spacing: 0.1em;
-color: #e8e8e8;
-border: none;
-border-radius: 10px;
-outline: none;
-background: linear-gradient(45deg,#d350db,teal,#d350db);
-background-size: 400% 400%;
-box-shadow: 1vw 1vw 0 #A9A9A9;
-cursor: pointer;
-transition: all 0.3s ease;
-
-&:hover {
-  animation: gradient 10s ease infinite;
-  font-size: 2em;
-  box-shadow: 0.2vw 0.2vw 0 #A9A9A9;
-}
-}
-
-&:disabled {
-    color: white;
-    background: grey;
-}
-
-@keyframes gradient {
-50% {
-  background-position: 100% 0;
-}
-`;
-
 type Props = {|
   initial: CheckoutMap,
   containerHeight?: string,
@@ -73,6 +38,7 @@ type Props = {|
   shouldMap: boolean,
   openAddCheckoutModal: () => void,
   jobSelected: Object,
+  addTeam: () => void,
 |}
 
 type State = {|
@@ -180,6 +146,7 @@ componentWillReceiveProps(nextProps: any){
                 checkouts={columns[key]}
                 />
             ))}
+            <AddTeamButton onClick={this.props.addTeam}>Add Team</AddTeamButton>
             </Container>
         ) }
         </Droppable>
@@ -194,7 +161,8 @@ componentWillReceiveProps(nextProps: any){
          ) : (
              board
          )}
-         <Button onClick={this.props.openAddCheckoutModal} disabled={jobSelected.value == 0 ? true : false}>Add Checkout</Button>
+         <AddCheckoutButton onClick={this.props.openAddCheckoutModal} disabled={jobSelected.value == 0 ? true : false}>
+         Add Checkout</AddCheckoutButton>
         </DragDropContext>
      );
  }

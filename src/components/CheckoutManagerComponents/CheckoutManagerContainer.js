@@ -11,6 +11,7 @@ import { colors } from '../DragNDrop/Constants';
 import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
+import * as teamActions from '../../reduxActions/teamActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
@@ -181,25 +182,17 @@ class CheckoutManagerContainer extends React.Component{
         //dynamically add create the name to pass to the columns and individual
         //teams
         checkouts.team.map(team => {
+          builtMap[`Team: ${team.teamId.toString()}`] = team.teamCheckouts;
+        });
 
-            if (team.isSoloTeam == true){
-                builtMap["Individual"].push(team.teamCheckouts[0]);
-            }
-            else
-            {
-                /*
-            let title;
-            for (let i = 0; i < team.teamCheckouts.length; i++){
-                if (i == 0){
-                    title = team.teamCheckouts[i].staffMemberName;
-                }
-                else {
-                    title = title + " & " + team.teamCheckouts[i].staffMemberName; 
-                }
-            } */
-            builtMap[`Team${checkouts.team.indexOf(team)}`] = team.teamCheckouts;
-        }});
         return builtMap;
+    }
+
+    addTeam = () => {
+        if (this.props.jobSelected.text === 'Server') {
+            console.log('I made it');
+            this.props.teamActions.addServerTeam(this.props.startDate);
+        }
     }
     
     //currently dinner is hard coded here, but needs to have the option built in for the user
@@ -269,8 +262,7 @@ class CheckoutManagerContainer extends React.Component{
 
     async submitCheckout () {
         let formattedCheckout = await transformCheckout(this.state.currentCheckout,
-                 this.state.jobSelected, this.props.startDate, "dinner");
-                 console.log(formattedCheckout);
+            this.state.jobSelected, this.props.startDate, "dinner");
             this.props.actions.addCheckout(formattedCheckout);
             this.closeModal();
     }
@@ -307,7 +299,8 @@ class CheckoutManagerContainer extends React.Component{
                 <br/>
                 {this.props.axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={this.props.checkoutMap} shouldMap={this.state.shouldMap} 
-                openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={this.state.jobSelected}/>
+                openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={this.state.jobSelected}
+                addTeam={this.addTeam}/>
                 }
             </div>
 
@@ -333,7 +326,8 @@ function mapDispatchToProps(dispatch){
     return {
         actions: bindActionCreators(checkoutActions, dispatch),
         dateActions: bindActionCreators(startDateActions, dispatch),
-        staffActions: bindActionCreators(staffActions, dispatch)
+        staffActions: bindActionCreators(staffActions, dispatch),
+        teamActions : bindActionCreators(teamActions, dispatch),
     };
 }
 

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import CheckoutColumn from './CheckoutColumn';
 import { colors } from '../Constants';
+import { transformTeamData } from '../../../Utils/teamFunctions';
 import reorder, { reorderCheckoutMap } from '../Reorder';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import type {
@@ -19,6 +20,12 @@ const ParentContainer = styled.div`
     height: ${({height}) => height};
     overflow-x: hidden;
     overflow-y: auto;
+`;
+
+const ScrollWrapper = styled.div`
+display: box;
+flex-wrap: nowrap;
+overflow-x: auto;
 `;
 
 const Container = styled.div`
@@ -77,7 +84,6 @@ componentWillReceiveProps(nextProps: any){
 }
 
  onDragEnd = (result: DropResult) => {
-
     //dropped nowhere
     if (!result.destination) {
         return;
@@ -119,6 +125,31 @@ componentWillReceiveProps(nextProps: any){
     this.setState({
         columns: data.checkoutMap,
     });
+
+    if (result.type == 'CARD')
+    {
+        let transformedData = transformTeamData(result.draggableId, 
+        result.source.droppableId.split('_').pop(),
+        result.destination.droppableId.split('_').pop());
+
+        if(transformedData === undefined)
+        {
+            return;
+        }
+        else if (transformedData.source === 'Individual')
+        {
+            console.log('I am adding to a team!');
+        }
+        else if (transformedData.dest === 'Individual')
+        {
+            console.log('I am removing from a team!');
+        }
+        else {
+            console.log(`I am removing from team ${transformedData.source} and adding to team 
+            ${transformedData.dest}`);
+        }
+
+    }
  }
 
  render(){
@@ -156,11 +187,13 @@ componentWillReceiveProps(nextProps: any){
          <DragDropContext
          onDragEnd={this.onDragEnd}
          >
+         <ScrollWrapper>
          {this.props.containerHeight ? (
              <ParentContainer height={containerHeight}>{board}</ParentContainer>
          ) : (
              board
          )}
+         </ScrollWrapper>
          <AddCheckoutButton onClick={this.props.openAddCheckoutModal} disabled={jobSelected.value == 0 ? true : false}>
          Add Checkout</AddCheckoutButton>
         </DragDropContext>

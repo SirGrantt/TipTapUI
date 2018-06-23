@@ -182,7 +182,7 @@ class CheckoutManagerContainer extends React.Component{
         //dynamically add create the name to pass to the columns and individual
         //teams
         checkouts.team.map(team => {
-          builtMap[`Team: ${team.teamId.toString()}`] = team.teamCheckouts;
+          builtMap[`Team:_${team.teamId.toString()}`] = team.teamCheckouts;
         });
 
         return builtMap;

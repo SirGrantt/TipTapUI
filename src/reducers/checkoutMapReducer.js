@@ -10,7 +10,7 @@ export default function checkoutMapReducer(state = initialState.checkoutMap, act
 
         
         case types.ADD_SERVER_TEAM_SUCCESS : {
-        let title = `Team: ${action.serverTeam.id}`;
+        let title = `Team:_${action.serverTeam.id}`;
         let newState = {...state};
         newState[title] = [];
         return {

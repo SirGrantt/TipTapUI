@@ -52,6 +52,12 @@ export function addCheckout(checkout) {
   };
 }
 
+export function addCheckoutToServerTeam(addToTeamData) {
+  return dispatch => {
+    Axios.post()
+  }
+}
+
 /*{
         
       stringDate: stringDate,

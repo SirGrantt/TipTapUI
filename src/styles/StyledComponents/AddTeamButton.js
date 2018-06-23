@@ -10,7 +10,8 @@ color: ${colors.white};
 padding: 0
 z-index: 98
 margin-top: auto;
-margin-right: auto;
+margin-right: 1em;
+margin-left: 1em;
 margin-bottom: auto;
 -webkit-box-shadow: 0 6px 10px 0 rgba(0,0,0,0.3)
 box-shadow: 0 6px 10px 0 rgba(0,0,0,0.3)

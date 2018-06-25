@@ -2,25 +2,25 @@ import { transformTeamData } from './teamFunctions';
 
 
 describe('the transformTeamData method', () => {
-  it('takes string ids and returns an object with cardId, sourceId, and destId ', () => {
+  it('takes string ids and returns an object with checkoutIdId, sourceIdId, and teamIdId ', () => {
     let result = transformTeamData('1', '2', '5');
     
-    expect(result).toEqual({card: 1, source: 2, dest: 5});
+    expect(result).toEqual({checkoutId: 1, sourceId: 2, teamId: 5});
   });
 
-  it('takes individual as source value and returns that', () => {
+  it('takes individual as sourceId value and returns that', () => {
     let result = transformTeamData('3', 'Individual', '6');
 
-    expect(result).toEqual({card: 3, source: 'Individual', dest: 6});
+    expect(result).toEqual({checkoutId: 3, sourceId: 'Individual', teamId: 6});
   });
 
-  it('takes individual as destination value and returns that', () => {
+  it('takes individual as teamIdination value and returns that', () => {
     let result = transformTeamData('3', '7', 'Individual');
 
-    expect(result).toEqual({card: 3, source: 7, dest: 'Individual'});
+    expect(result).toEqual({checkoutId: 3, sourceId: 7, teamId: 'Individual'});
   });
 
-  it('takes a source and dest id as the same and returns null', () => {
+  it('takes a sourceId and teamId id as the same and returns null', () => {
     let result = transformTeamData('2', '2', '2');
 
     expect(result).toEqual(undefined);

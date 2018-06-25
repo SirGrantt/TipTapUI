@@ -1,30 +1,31 @@
-export function transformTeamData(cardId, sourceId, destId){
-  let card = Number(cardId);
-  let source;
-  let dest;
-  if (sourceId === destId)
+export function transformTeamData(cardId, source, dest){
+  let checkoutId = Number(cardId);
+  let sourceId;
+  let teamId;
+
+  if (source === dest)
   {
     return;
   }
-  else if (sourceId === 'Individual')
+  else if (source === 'Individual')
   {
-    source = 'Individual';
-    dest = Number(destId);
+    sourceId = 'Individual';
+    teamId = Number(dest);
 
-    return { card, source, dest };
+    return { checkoutId, sourceId, teamId };
   }
-  else if (destId === 'Individual')
+  else if (dest === 'Individual')
   {
-    source = Number(sourceId);
-    dest = 'Individual';
+    sourceId = Number(source);
+    teamId = 'Individual';
 
-    return { card, source, dest };
+    return { checkoutId, sourceId, teamId };
   }
   else
   {
-    source = Number(sourceId);
-    dest = Number(destId);
-    return { card, source, dest };
+    sourceId = Number(source);
+    teamId = Number(dest);
+    return { checkoutId, sourceId, teamId };
 
   }
 }

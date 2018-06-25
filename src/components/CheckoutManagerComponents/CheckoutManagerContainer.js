@@ -194,6 +194,10 @@ class CheckoutManagerContainer extends React.Component{
             this.props.teamActions.addServerTeam(this.props.startDate);
         }
     }
+
+    addCheckoutToTeam = (addData) => {
+        this.props.actions.addCheckoutToServerTeam(addData);
+    }
     
     //currently dinner is hard coded here, but needs to have the option built in for the user
     loadCheckouts(){
@@ -243,8 +247,6 @@ class CheckoutManagerContainer extends React.Component{
                 errors: formData.errors
             });
         }
-
-        //getting the alerts to work
         else if (userAlerter.shouldAlert && !objectsAreEqual(userAlerter.alerts, this.state.alerts)){
             this.setState({
                 alerts: userAlerter.alerts
@@ -300,7 +302,7 @@ class CheckoutManagerContainer extends React.Component{
                 {this.props.axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={this.props.checkoutMap} shouldMap={this.state.shouldMap} 
                 openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={this.state.jobSelected}
-                addTeam={this.addTeam}/>
+                addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}/>
                 }
             </div>
 

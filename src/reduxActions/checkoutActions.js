@@ -18,6 +18,10 @@ export function createCheckoutMapSuccess(checkoutMap) {
   return { type: actions.CREATE_CHECKOUT_MAP_SUCCESS, checkoutMap };
 }
 
+export function addCheckoutToServerTeamSuccess(updatedCheckoutData) {
+  return { type: actions.ADD_CHECKOUT_TO_TEAM_SUCCESS, updatedCheckoutData };
+}
+
 
 export function loadCheckouts(stringDate, lunchOrDinner) {
   return dispatch => {
@@ -53,8 +57,24 @@ export function addCheckout(checkout) {
 }
 
 export function addCheckoutToServerTeam(addToTeamData) {
+ const { checkoutId, teamId, sourceId } = addToTeamData;
+
   return dispatch => {
-    Axios.post()
+    Axios.post('http://localhost:61319/server-teams/add-checkout', {
+      checkoutId,
+      serverTeamId: teamId
+    }).then(res => {
+      const updatedCheckout = res.data;
+      dispatch(addCheckoutToServerTeam({ updatedCheckout, sourceId, teamId }));
+    }).catch( err => {
+      throw err;
+    });
+  };
+}
+
+export function removeCheckoutFromServerTeam(removeFromTeamData) {
+  return dispatch => {
+    Axios.post('http://localhost:61319/checkout/create')
   }
 }
 

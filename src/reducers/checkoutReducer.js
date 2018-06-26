@@ -22,50 +22,59 @@ function checkoutReducer(state = initialState.checkouts, action){
         };
 
         case type.ADD_CHECKOUT_TO_TEAM_SUCCESS : {
-        const { updatedCheckout, sourceId, teamId } = action.updatedCheckoutData;
+        const { checkoutId, sourceId, teamId } = action.updatedCheckoutData;
         if (sourceId === 'Individual')
         {
+            let checkout = Object.assign({}, state.individual.find(c => c.id ===checkoutId));
             let newIndividual = state.individual.slice();
-            newIndividual.filter(c => c.id !== updatedCheckout.id);
+            let filteredIndividual = newIndividual.filter(c => c.id !== checkoutId);
 
-            let addTeam = state.team.find(t => t.id === teamId);
-            let newAddTeam = Object.assign({}, addTeam);
-            newAddTeam.teamCheckouts = addTeam.teamCheckouts.slice();
-            newAddTeam.teamCheckouts.push(updatedCheckout);
-
-            let teams = state.team.slice();
-            teams.filter(t => t.id !== addTeam.id);
+            let addTeam = state.team.find(t => t.teamId === teamId);
+            let addTeamCopy = Object.assign({}, addTeam);
+            addTeamCopy.teamCheckouts = addTeam.teamCheckouts.slice();
+            let stateTeamsCopy = state.team.slice();
+            let teamsIndex = stateTeamsCopy.findIndex(t => t.teamId == teamId);
+            let filteredState = stateTeamsCopy.filter(t => t.teamId !== teamId);
+            addTeamCopy.teamCheckouts.push(checkout);
+            filteredState.splice(teamsIndex, 0, addTeamCopy);
 
             return {
-                Individual: [...newIndividual],
+                individual: [...filteredIndividual],
                 team: [
-                    ...teams,
-                    newAddTeam
+                    ...filteredState
                 ]
             };
         }
         else {
-            let removeTeam = state.team.find(t => t.id === sourceId);
-            let newRemoveTeam = Object.assign({}, removeTeam);
-            newRemoveTeam.teamCheckouts = removeTeam.teamCheckouts.slice();
-            newRemoveTeam.teamCheckouts.splice(newRemoveTeam.teamCheckouts
-                .findIndex(t => t.id === updatedCheckout.id), 1);
+            let removeTeamCopy = Object.assign({}, state.team.find(t => t.teamId === sourceId));
+            let checkout = Object.assign({}, removeTeamCopy.teamCheckouts.find(c => c.id === checkoutId));
+            removeTeamCopy.teamCheckouts = removeTeamCopy.teamCheckouts.slice();
+            removeTeamCopy.teamCheckouts.splice(removeTeamCopy.teamCheckouts
+                .findIndex(t => t.id === checkoutId), 1);
+            console.log(removeTeamCopy);
 
-            let addTeam = state.team.find(t => t.id === teamId);
-            let newAddTeam = Object.assign({}, addTeam);
-            newAddTeam.teamCheckouts = addTeam.teamCheckouts.slice();
-            newAddTeam.teamCheckouts.push(updatedCheckout);
+            let addTeamCopy = Object.assign({}, state.team.find(t => t.teamId === teamId));
+            addTeamCopy.teamCheckouts = addTeamCopy.teamCheckouts.slice();
+            console.log(addTeamCopy);
+            addTeamCopy.teamCheckouts.push(checkout);
+            console.log(addTeamCopy);
 
             let teams = state.team.slice();
-            teams.filter(t => t.id !== newRemoveTeam.id);
-            teams.filter(t => t.id !== newAddTeam.id);
+            console.log(teams);
+            let indexOfRemove = teams.findIndex(t => t.teamId === sourceId);
+            let indexOfAdd = teams.findIndex( t => t.teamId === teamId);
+            let filteredTeams = teams.filter(t => t.teamId !== sourceId);
+            let finalTeams = filteredTeams.filter(t => t.teamId !== teamId);
+
+            console.log(filteredTeams);
+
+            finalTeams.splice(indexOfRemove, 0, removeTeamCopy);
+            finalTeams.splice(indexOfAdd, 0, addTeamCopy);
 
             return {
-                individual: state.individual,
+                individual: [ ...state.individual ],
                 team: [
-                    ...teams,
-                    newRemoveTeam,
-                    newAddTeam
+                    ...finalTeams
                 ]
             };
         }

@@ -57,18 +57,38 @@ export function addCheckout(checkout) {
 }
 
 export function addCheckoutToServerTeam(addToTeamData) {
- const { checkoutId, teamId, sourceId } = addToTeamData;
-
+ const { checkoutId, teamId, sourceId, stringDate } = addToTeamData;
+  console.log(sourceId);
   return dispatch => {
+    if (sourceId === 'Individual')
+    {
     Axios.post('http://localhost:61319/server-teams/add-checkout', {
       checkoutId,
       serverTeamId: teamId
-    }).then(res => {
-      const updatedCheckout = res.data;
-      dispatch(addCheckoutToServerTeam({ updatedCheckout, sourceId, teamId }));
+    }).then( () => {
+      dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
     }).catch( err => {
       throw err;
     });
+  } else {
+    Axios.post('http://localhost:61319/server-teams/remove-checkout-from-server-team', {
+      checkoutId,
+      serverTeamId: sourceId,
+      stringDate,
+      lunchOrDinner: 'dinner'
+    }).then( () => {
+      Axios.post('http://localhost:61319/server-teams/add-checkout', {
+        checkoutId,
+        serverTeamId: teamId
+      }).then( () => {
+        dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
+      }).catch( err => {
+        throw err;
+      });
+    }).catch(err => {
+      throw err;
+    });
+  }
   };
 }
 

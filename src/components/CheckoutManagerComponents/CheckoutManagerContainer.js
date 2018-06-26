@@ -196,6 +196,7 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     addCheckoutToTeam = (addData) => {
+        addData.stringDate = this.props.startDate;
         this.props.actions.addCheckoutToServerTeam(addData);
     }
     

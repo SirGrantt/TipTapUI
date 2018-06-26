@@ -46,7 +46,7 @@ type Props = {|
   openAddCheckoutModal: () => void,
   jobSelected: Object,
   addTeam: () => void,
-  addCheckoutToTeam: () => void,
+  addCheckoutToTeam: (transformedData: Object) => void,
 |}
 
 type State = {|
@@ -89,7 +89,6 @@ componentWillReceiveProps(nextProps: any){
     if (!result.destination) {
         return;
     }
-
     const source: DraggableLocation = result.source;
     const destination : DraggableLocation = result.destination;
 
@@ -131,6 +130,7 @@ componentWillReceiveProps(nextProps: any){
     {
         let transformedData = transformTeamData(result.draggableId, 
         result.source.droppableId.split('_').pop(),
+        // $FlowFixMe
         result.destination.droppableId.split('_').pop());
 
         if(transformedData === undefined)
@@ -147,9 +147,7 @@ componentWillReceiveProps(nextProps: any){
             console.log('I am removing from a team!');
         }
         else {
-            transformedData.sourceId = transformedData.source;
-            console.log(`I am removing from team ${transformedData.source} and adding to team 
-            ${transformedData.dest}`);
+            this.props.addCheckoutToTeam(transformedData);
         }
 
     }

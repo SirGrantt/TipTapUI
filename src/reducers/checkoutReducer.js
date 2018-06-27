@@ -62,9 +62,17 @@ function checkoutReducer(state = initialState.checkouts, action){
             let filteredTeams = teams.filter(t => t.teamId !== sourceId);
             let finalTeams = filteredTeams.filter(t => t.teamId !== teamId);
 
-
+            // The reordering of the checkoutmap will causing jumping depending on which
+            // direction the card was added and removed from unless this check occurs
+            if (indexOfAdd > indexOfRemove)
+            {
             finalTeams.splice(indexOfRemove, 0, removeTeamCopy);
             finalTeams.splice(indexOfAdd, 0, addTeamCopy);
+            }
+            else {
+                finalTeams.splice(indexOfAdd, 0, addTeamCopy);
+                finalTeams.splice(indexOfRemove, 0, removeTeamCopy);
+            }
 
             return {
                 individual: [ ...state.individual ],

@@ -121,6 +121,10 @@ class CheckoutManagerContainer extends React.Component{
         this.submitCheckout = this.submitCheckout.bind(this);
     }
 
+    componentDidMount() {
+        this.props.staffActions.loadApprovedStaff(this.props.jobSelected.value);
+    }
+
     componentWillReceiveProps(newProps){
         if(this.props.checkouts != newProps.checkouts){
             if (newProps.checkouts.individual != undefined){

@@ -51,22 +51,17 @@ function checkoutReducer(state = initialState.checkouts, action){
             removeTeamCopy.teamCheckouts = removeTeamCopy.teamCheckouts.slice();
             removeTeamCopy.teamCheckouts.splice(removeTeamCopy.teamCheckouts
                 .findIndex(t => t.id === checkoutId), 1);
-            console.log(removeTeamCopy);
 
             let addTeamCopy = Object.assign({}, state.team.find(t => t.teamId === teamId));
             addTeamCopy.teamCheckouts = addTeamCopy.teamCheckouts.slice();
-            console.log(addTeamCopy);
             addTeamCopy.teamCheckouts.push(checkout);
-            console.log(addTeamCopy);
 
             let teams = state.team.slice();
-            console.log(teams);
             let indexOfRemove = teams.findIndex(t => t.teamId === sourceId);
             let indexOfAdd = teams.findIndex( t => t.teamId === teamId);
             let filteredTeams = teams.filter(t => t.teamId !== sourceId);
             let finalTeams = filteredTeams.filter(t => t.teamId !== teamId);
 
-            console.log(filteredTeams);
 
             finalTeams.splice(indexOfRemove, 0, removeTeamCopy);
             finalTeams.splice(indexOfAdd, 0, addTeamCopy);

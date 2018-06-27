@@ -60,13 +60,14 @@ export function addCheckoutToServerTeam(addToTeamData) {
  const { checkoutId, teamId, sourceId, stringDate } = addToTeamData;
   console.log(sourceId);
   return dispatch => {
+    dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
     if (sourceId === 'Individual')
     {
     Axios.post('http://localhost:61319/server-teams/add-checkout', {
       checkoutId,
       serverTeamId: teamId
     }).then( () => {
-      dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
+      
     }).catch( err => {
       throw err;
     });
@@ -81,7 +82,6 @@ export function addCheckoutToServerTeam(addToTeamData) {
         checkoutId,
         serverTeamId: teamId
       }).then( () => {
-        dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
       }).catch( err => {
         throw err;
       });
@@ -91,6 +91,7 @@ export function addCheckoutToServerTeam(addToTeamData) {
   }
   };
 }
+
 
 export function removeCheckoutFromServerTeam(removeFromTeamData) {
   return dispatch => {

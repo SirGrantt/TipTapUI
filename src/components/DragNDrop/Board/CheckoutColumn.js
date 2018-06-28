@@ -7,6 +7,7 @@ import type { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-
 import CheckoutCardList from '../CheckoutDnD/CheckoutCardList';
 import Title from '../Primatives/Title';
 import type { Checkout } from '../DNDTypes';
+import { RunCheckoutButton } from '../../../styles/StyledComponents/CheckoutComponents';
 
 
 const Container = styled.div`
@@ -64,6 +65,7 @@ export default class CheckoutColumn extends Component<Props> {
                 listType="CARD"
                 checkouts={checkouts}
                 />
+                {title !== 'Individual' && <RunCheckoutButton id={title}>Run Checkout</RunCheckoutButton>}
                 </Container>
             )}
             </Draggable>

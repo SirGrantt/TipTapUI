@@ -83,6 +83,35 @@ function checkoutReducer(state = initialState.checkouts, action){
         }
     }
 
+        case type.REMOVE_CHECKOUT_FROM_TEAM_SUCCESS: {
+            const { checkoutId, sourceId } = action.removeFromTeamData;
+
+            let removeTeamCopy = Object.assign({}, state.team.find(t => t.teamId === sourceId));
+            let checkout = Object.assign({}, removeTeamCopy.teamCheckouts.find(c => c.id === checkoutId));
+            removeTeamCopy.teamCheckouts = removeTeamCopy.teamCheckouts.slice();
+            removeTeamCopy.teamCheckouts.splice(removeTeamCopy.teamCheckouts
+                .findIndex(t => t.id === checkoutId), 1);
+ 
+            let teamsCopy = state.team.slice();
+            let teamIndex = teamsCopy.findIndex(t => t.teamId === sourceId);
+            teamsCopy = teamsCopy.filter(t => t.teamId !== sourceId);
+            teamsCopy.splice(teamIndex, 0, removeTeamCopy);
+            
+            let individualCopy = state.individual.slice();
+            individualCopy.push(checkout);
+
+            return {
+                individual: [...individualCopy],
+                team: [
+                    ...teamsCopy
+                ]
+            }
+            
+            
+        
+            
+        }
+
         case type.ADD_SERVER_TEAM_SUCCESS :
         return {
             individual: [ ...state.individual],
@@ -90,7 +119,7 @@ function checkoutReducer(state = initialState.checkouts, action){
             ...state.team,
             action.serverTeam
         ]
-        }
+        };
 
         default:
         return state;

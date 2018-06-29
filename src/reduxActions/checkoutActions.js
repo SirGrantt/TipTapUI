@@ -18,6 +18,10 @@ export function createCheckoutMapSuccess(checkoutMap) {
   return { type: actions.CREATE_CHECKOUT_MAP_SUCCESS, checkoutMap };
 }
 
+export function removeCheckoutFromServerTeamSuccess(removeFromTeamData) {
+  return { type: actions.REMOVE_CHECKOUT_FROM_TEAM_SUCCESS, removeFromTeamData };
+}
+
 export function addCheckoutToServerTeamSuccess(updatedCheckoutData) {
   return { type: actions.ADD_CHECKOUT_TO_TEAM_SUCCESS, updatedCheckoutData };
 }
@@ -94,8 +98,17 @@ export function addCheckoutToServerTeam(addToTeamData) {
 
 
 export function removeCheckoutFromServerTeam(removeFromTeamData) {
+  const { checkoutId, sourceId, stringDate } = removeFromTeamData;
   return dispatch => {
-    Axios.post('http://localhost:61319/checkout/create')
+    dispatch(removeCheckoutFromServerTeamSuccess(removeFromTeamData));
+    Axios.post('http://localhost:61319/server-teams/remove-checkout-from-server-team', {
+      checkoutId,
+      serverTeamId: sourceId,
+      stringDate,
+      lunchOrDinner: 'dinner'
+    }).catch(error => {
+      throw error;
+    });
   }
 }
 

@@ -47,6 +47,7 @@ type Props = {|
   jobSelected: Object,
   addTeam: () => void,
   addCheckoutToTeam: (transformedData: Object) => void,
+  removeCheckoutFromTeam: (transformedData: Object) => void,
 |}
 
 type State = {|
@@ -141,10 +142,9 @@ componentWillReceiveProps(nextProps: any){
         {
             this.props.addCheckoutToTeam(transformedData);
         }
-        else if (transformedData.dest === 'Individual')
+        else if (transformedData.teamId === 'Individual')
         {
-            // this should call just Remove
-            console.log('I am removing from a team!');
+            this.props.removeCheckoutFromTeam(transformedData);
         }
         else {
             this.props.addCheckoutToTeam(transformedData);

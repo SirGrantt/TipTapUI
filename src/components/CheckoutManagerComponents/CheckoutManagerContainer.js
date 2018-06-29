@@ -205,6 +205,11 @@ class CheckoutManagerContainer extends React.Component{
         addData.stringDate = this.props.startDate;
         this.props.actions.addCheckoutToServerTeam(addData);
     }
+
+    removeCheckoutFromTeam = (removeData) => {
+        removeData.stringDate = this.props.startDate;
+        this.props.actions.removeCheckoutFromServerTeam(removeData);
+    }
     
     //currently dinner is hard coded here, but needs to have the option built in for the user
     loadCheckouts(){
@@ -309,7 +314,8 @@ class CheckoutManagerContainer extends React.Component{
                 {this.props.axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={this.props.checkoutMap} shouldMap={this.state.shouldMap} 
                 openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={this.state.jobSelected}
-                addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}/>
+                addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}
+                removeCheckoutFromTeam={this.removeCheckoutFromTeam}/>
                 }
             </div>
 

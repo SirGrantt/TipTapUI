@@ -50,12 +50,13 @@ margin-right: 1em;
   height: 4em;
   font-weight:bold;
   padding:14px 0px;
-  border:3px solid ${colors.blue.steel};
+  border:3px solid ${colors.blue.columnBodyBlue};
   border-radius:2px;
   position:relative;
   box-shadow: 0 2px 10px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.1);
   z-index:2;
   &:before {
+    color: white;
     -webkit-transition:0.5s all ease;
     transition:0.5s all ease;
     position:absolute;
@@ -65,10 +66,11 @@ margin-right: 1em;
     bottom:0;
     opacity:0;
     content:'';
-    background-color:${colors.blue.steel};
+    background-color:${colors.blue.columnBodyBlue};
     z-index:-1;
   }
   &:hover {
+    color: white;
     &:before {
       -webkit-transition:0.5s all ease;
       transition:0.5s all ease;

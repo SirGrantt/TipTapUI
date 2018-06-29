@@ -5,10 +5,14 @@ export const colors = {
       light: 'lightblue',
       lighter: '#d9fcff',
       soft: '#E6FCFF',
-      steel: '#4682b4',
+      columnBodyBlue: '#1E4667',
+      headerBlue: '#4682b4',
     },
     black: '#4d4d4d',
     shadow: 'rgba(0,0,0,0.2)',
+    red: {
+      errorRed: '#B00020',
+    },
     grey: {
       darker: '#C1C7D0',
       dark: '#E2E4E6',
@@ -19,7 +23,6 @@ export const colors = {
     green: 'rgb(185, 244, 188)',
     white: 'white',
     purple: 'rebeccapurple',
-    headerGreen: '#14ce63',
   };
   
   export const grid: number = 8;

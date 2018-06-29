@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import NumberFormat from "react-number-format";
 import styled from "styled-components";
 import SelectInput from "../common/SelectInput";
+import { colors } from '../DragNDrop/Constants';
 
 const Label = styled.p`
   font-weight: bold;
@@ -15,7 +16,7 @@ const Form = styled.form`
 `;
 
 const ErrorMsg = styled.div`
-  color: maroon;
+  color: ${colors.red.errorRed};
   text-size: 0.5em;
   text-align: center;
   border-radius: 0.5em;

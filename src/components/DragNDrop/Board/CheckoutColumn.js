@@ -20,13 +20,14 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
+    color: white;
     border-top-left-radius: .5em;
     border-top-right-radius: .5em;
-    background-color: ${({isDragging}) => (isDragging ? colors.blue.lighter : colors.headerGreen)};
+    background-color: ${({isDragging}) => (isDragging ? colors.blue.lighter : colors.blue.headerBlue)};
     transition: background-color 0.1s ease;
     
     &:hover {
+        color: black;
         background-color: ${colors.blue.lighter};
     }
 `;

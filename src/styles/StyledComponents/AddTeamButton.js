@@ -5,7 +5,7 @@ const AddTeamButton = styled.button`
 display: block
 position: relative
 border-radius: 50%
-background-color: ${colors.blue.steel};
+background-color: ${colors.blue.columnBodyBlue};
 color: ${colors.white};
 padding: 0
 z-index: 98

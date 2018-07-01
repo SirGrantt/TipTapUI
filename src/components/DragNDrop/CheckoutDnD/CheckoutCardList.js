@@ -49,6 +49,7 @@ type Props = {|
     style?: Object,
     ignoreContainerClipping?: boolean,
     shouldMap: boolean,
+    reviewCheckout: () => void,
     |}
 
 type CheckoutListProps = {|
@@ -75,6 +76,7 @@ class InnerCheckoutList extends React.Component<CheckoutListProps>{
                     title={checkout.staffMemberName}
                     isDragging={dragSnapshot.isDragging}
                     provided={dragProvided}
+                    reviewCheckout={this.props.reviewCheckout}
                     />
                 )
             }
@@ -102,6 +104,7 @@ class InnerList extends React.Component<innerListProps> {
                 <DropZone innerRef={dropProvided.innerRef}>
                 <InnerCheckoutList 
                 checkouts={checkouts}
+                reviewCheckout={this.props.reviewCheckout}
                 />
                 {dropProvided.placeholder}
                 </DropZone>
@@ -144,6 +147,7 @@ export default class CheckoutCardList extends React.Component<Props> {
                         checkouts={checkouts}
                         title={title}
                         dropProvided={dropProvided}
+                        reviewCheckout={this.props.reviewCheckout}
                         />
                     </ScrollContainer>
                 ) : ( shouldMap &&
@@ -151,6 +155,7 @@ export default class CheckoutCardList extends React.Component<Props> {
                     checkouts={checkouts}
                     title={title}
                     dropProvided={dropProvided}
+                    reviewCheckout={this.props.reviewCheckout}
                     />
                 )}
                 </Wrapper>

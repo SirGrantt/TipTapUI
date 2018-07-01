@@ -281,7 +281,19 @@ class CheckoutManagerContainer extends React.Component{
             this.closeModal();
     }
 
-    
+    reviewCheckout = (id) => {
+        let checkout = this.props.checkouts.individual.find(c => c.id === id);
+
+        if (checkout === undefined){
+            let team = this.props.checkouts.team.find(t => t.teamCheckouts.find(c => c.id === id));
+            checkout = team.teamCheckouts.find(c => c.id === id);
+        }
+
+        this.setState({
+            currentCheckout: checkout,
+            isModalVisible: true
+        });
+    }    
 
     render(){
         return( 
@@ -315,7 +327,7 @@ class CheckoutManagerContainer extends React.Component{
                 <CheckoutBoard initial={this.props.checkoutMap} shouldMap={this.state.shouldMap} 
                 openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={this.state.jobSelected}
                 addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}
-                removeCheckoutFromTeam={this.removeCheckoutFromTeam}/>
+                removeCheckoutFromTeam={this.removeCheckoutFromTeam} reviewCheckout={this.reviewCheckout}/>
                 }
             </div>
 

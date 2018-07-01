@@ -48,6 +48,7 @@ type Props = {|
   addTeam: () => void,
   addCheckoutToTeam: (transformedData: Object) => void,
   removeCheckoutFromTeam: (transformedData: Object) => void,
+  reviewCheckout: (id: number) => void,
 |}
 
 type State = {|
@@ -176,6 +177,7 @@ componentWillReceiveProps(nextProps: any){
                 index={index}
                 title={key}
                 checkouts={columns[key]}
+                reviewCheckout={this.props.reviewCheckout}
                 />
             ))}
             <AddTeamButton onClick={this.props.addTeam}>Add Team</AddTeamButton>

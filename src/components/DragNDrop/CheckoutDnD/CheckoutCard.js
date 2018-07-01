@@ -6,14 +6,6 @@ import type { Checkout } from '../DNDTypes';
 import {  colors, grid } from '../Constants';
 import styled from 'styled-components';
 
-
-type Props = {
-    checkout: Checkout,
-    isDragging: boolean,
-    provided: DraggableProvided,
-    autofocus?: boolean
-}
-
 const Container = styled.a`
 border-radius: .5em;
 border: 1px solid grey;
@@ -78,6 +70,15 @@ const AutoGrat = styled.div`
 }
 `; 
 
+
+type Props = {
+    checkout: Checkout,
+    isDragging: boolean,
+    provided: DraggableProvided,
+    autofocus?: boolean,
+    reviewCheckout: () => void,
+}
+
 export default class CheckoutCard extends React.PureComponent<Props> {
 componentDidMount(){
     if (!this.props.autofocus){
@@ -94,11 +95,16 @@ calculateAutoGrat = () => {
         return this.props.checkout.ccAutoGrat;
 }
 
+callReviewCheckout = () => {
+    this.props.reviewCheckout(this.props.checkout.id);
+}
+
 render() {
     const {checkout, isDragging, provided} = this.props;
 
     return (
         <Container
+        onClick={this.callReviewCheckout}
         isDragging={isDragging}
         innerRef={provided.innerRef}
         {...provided.draggableProps}

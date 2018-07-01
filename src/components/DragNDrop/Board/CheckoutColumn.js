@@ -36,7 +36,8 @@ type Props = {|
     title: string,
     checkouts: Checkout[],
     index: number,   
-    shouldMap: boolean 
+    shouldMap: boolean,
+    reviewCheckout: () => void, 
 |}
 
 export default class CheckoutColumn extends Component<Props> {
@@ -65,6 +66,7 @@ export default class CheckoutColumn extends Component<Props> {
                 listId={title}
                 listType="CARD"
                 checkouts={checkouts}
+                reviewCheckout={this.props.reviewCheckout}
                 />
                 {title !== 'Individual' && <RunCheckoutButton id={title}>Run Checkout</RunCheckoutButton>}
                 </Container>

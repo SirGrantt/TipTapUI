@@ -80,6 +80,7 @@ margin-right: 1em;
     }
   }
   &:focus {
+      color: white;
     &:before {
       -webkit-transition:0.5s all ease;
       transition:0.5s all ease;
@@ -108,6 +109,7 @@ class CheckoutManagerContainer extends React.Component{
             jobSelected: Object.assign({}, this.props.jobSelected),
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
             selectedStaffMemberId: -1,
+            selectedStaffMemberName: '',
             errors: {},
             alerts: { initial: ''},
         };
@@ -168,6 +170,7 @@ class CheckoutManagerContainer extends React.Component{
             isModalVisible: false,
             selectedStaffMemberId: -1,
             currentCheckout: defaultCheckout,
+            selectedStaffMemberName: '',
         });
     }
 
@@ -281,17 +284,21 @@ class CheckoutManagerContainer extends React.Component{
             this.closeModal();
     }
 
-    reviewCheckout = (id) => {
-        let checkout = this.props.checkouts.individual.find(c => c.id === id);
+    reviewCheckout = (checkoutId, staffMemberName) => {
+        let checkout = this.props.checkouts.individual.find(c => c.id === checkoutId);
 
         if (checkout === undefined){
-            let team = this.props.checkouts.team.find(t => t.teamCheckouts.find(c => c.id === id));
-            checkout = team.teamCheckouts.find(c => c.id === id);
+            let team = this.props.checkouts.team.find(t => t.teamCheckouts.find(c => c.id === checkoutId));
+            checkout = team.teamCheckouts.find(c => c.id === checkoutId);
         }
+
+        let staffMember = this.props.staff.find(s => s.firstName + ' ' + s.lastName === staffMemberName);
 
         this.setState({
             currentCheckout: checkout,
-            isModalVisible: true
+            isModalVisible: true,
+            selectedStaffMemberId: staffMember.id,
+            selectedStaffMemberName: staffMemberName
         });
     }    
 
@@ -321,7 +328,9 @@ class CheckoutManagerContainer extends React.Component{
                 checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
                 approvedStaff={this.state.approvedStaff} onStaffSelect={this.onStaffSelect} 
                 checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}
-                onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors} alerts={this.state.alerts}/>
+                onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors} 
+                alerts={this.state.alerts} selectedStaffMemberId={this.state.selectedStaffMemberId}
+                selectedStaffMemberName={this.state.selectedStaffMemberName}/>
                 <br/>
                 {this.props.axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={this.props.checkoutMap} shouldMap={this.state.shouldMap} 

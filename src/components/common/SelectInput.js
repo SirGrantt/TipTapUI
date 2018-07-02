@@ -17,7 +17,7 @@ const SelectInput = ({ name, label, onChange, defaultOption, value, options }) =
           onChange={onChange}
           className="form-control"
           >
-          <option value="">{value == "" ? defaultOption : value}</option>
+          <option value="">{defaultOption}</option>
           {options.map((option) => {
             return <option key={option.value} value={option.value}>{option.text}</option>;
           })
@@ -32,7 +32,7 @@ SelectInput.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  defaultOption: PropTypes.string,
+  defaultOption: PropTypes.string.isRequired,
   value: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object)
 };

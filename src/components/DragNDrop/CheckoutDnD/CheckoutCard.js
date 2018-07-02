@@ -96,7 +96,7 @@ calculateAutoGrat = () => {
 }
 
 callReviewCheckout = () => {
-    this.props.reviewCheckout(this.props.checkout.id);
+    this.props.reviewCheckout(this.props.checkout.id, this.props.checkout.staffMemberName);
 }
 
 render() {

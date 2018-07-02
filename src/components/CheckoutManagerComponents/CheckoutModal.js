@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Modal, Overlay } from 'react-modal-construction-kit';
 import momentPropTypes from 'react-moment-proptypes';
 import CheckoutForm from './CheckoutForm';
+import { colors } from '../DragNDrop/Constants';
 
 const Footer = styled.div`
     padding: 1em;
@@ -33,23 +34,23 @@ margin-top: 1em;
 `;
 
 const CheckoutButton = styled.button`
+color: white;
 width: 7em;
 display:inline-block;
 padding:0.35em 1.2em;
 border:0.1em solid #FFFFFF;
 margin:0 0.3em 0.3em 0;
-border-radius:0.5em;
 box-sizing: border-box;
 text-decoration:none;
 font-family:'Roboto',sans-serif;
 font-weight:300;
-background-color: #4eb5f1;
+background-color: ${colors.blue.columnBodyBlue};
 text-align:center;
 transition: all 0.2s;
 
 :hover{
-    color:#000000;
-    background-color:#FFFFFF;
+    color: white;
+    background-color: ${colors.blue.headerBlue};
     }
 
 @media all and (max-width:1.5em){
@@ -110,7 +111,9 @@ export default class CheckoutModal extends React.Component {
                 this.props.checkout.staffMemberName : `Add ${this.props.jobSelected} Checkout`}</Header>
                 <CheckoutForm checkout={this.props.checkout} approvedStaff={this.props.approvedStaff}
                 updateCheckout={this.updateCheckout} onStaffSelect={this.props.onStaffSelect} 
-                errors={this.props.errors} alerts={this.props.alerts}/>
+                errors={this.props.errors} alerts={this.props.alerts} 
+                selectedStaffMemberId={this.props.selectedStaffMemberId}
+                selectedStaffMemberName={this.props.selectedStaffMemberName}/>
                 <CheckoutButtonWrapper>
                 <CheckoutButton onClick={this.props.onAddCheckoutClick}>Add</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
@@ -126,8 +129,9 @@ export default class CheckoutModal extends React.Component {
 
 CheckoutModal.propTypes = {
     onChange: PropTypes.func.isRequired,
-    close: PropTypes.func,
-    isModalVisible: PropTypes.bool,
+    selectedStaffMemberName: PropTypes.string,
+    close: PropTypes.func.isRequired,
+    isModalVisible: PropTypes.bool.isRequired,
     checkout: PropTypes.shape({
         grossSales: PropTypes.string,
         barSales: PropTypes.string,
@@ -140,7 +144,7 @@ CheckoutModal.propTypes = {
         cashAutoGrat: PropTypes.string,
         hours: PropTypes.string
     }),
-    approvedStaff: PropTypes.array,
+    approvedStaff: PropTypes.array.isRequired,
     jobSelected: PropTypes.string,
     onAddCheckoutClick: PropTypes.func,
     onStaffSelect: PropTypes.func,

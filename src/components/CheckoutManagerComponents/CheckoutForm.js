@@ -36,15 +36,17 @@ let CheckoutForm = ({
   updateCheckout,
   onStaffSelect,
   errors,
-  alerts
+  alerts,
+  selectedStaffMemberName
 }) => {
+  //need to figure out how to make the select display the name being passed down
   return (
     <Form id="checkoutModal">
       <SelectInput
         options={approvedStaff}
         name="staffid"
         label="Select Staff Member:"
-        defaultOption="Select Staff Member"
+        defaultOption={selectedStaffMemberName}
         onChange={onStaffSelect}
       />
       {errors.staffMember && <ErrorMsg>{errors.staffMember}</ErrorMsg>}

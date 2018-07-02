@@ -66,7 +66,6 @@ export default class CheckoutModal extends React.Component {
         
         this.state = {
         isModalVisible: false,
-        editingExistingCheckout: false,
     };
 
     this.updateCheckoutDate(this.props.checkoutDate.format());
@@ -99,6 +98,7 @@ export default class CheckoutModal extends React.Component {
 
     render(){
         const { isModalVisible } = this.state;
+        const { updatingCheckout } = this.props;
 
         return (
             <div>
@@ -107,17 +107,25 @@ export default class CheckoutModal extends React.Component {
                 onClosed={this.props.close}
                 isOpen={isModalVisible}
                 >
-                <Header>{this.state.editingExistingCheckout ? 
-                this.props.checkout.staffMemberName : `Add ${this.props.jobSelected} Checkout`}</Header>
+                <Header>{this.props.updatingCheckout ? 
+                this.props.selectedStaffMemberName : `Add ${this.props.jobSelected} Checkout`}</Header>
                 <CheckoutForm checkout={this.props.checkout} approvedStaff={this.props.approvedStaff}
                 updateCheckout={this.updateCheckout} onStaffSelect={this.props.onStaffSelect} 
                 errors={this.props.errors} alerts={this.props.alerts} 
                 selectedStaffMemberId={this.props.selectedStaffMemberId}
                 selectedStaffMemberName={this.props.selectedStaffMemberName}/>
+                { updatingCheckout ?
+                <CheckoutButtonWrapper>
+                <CheckoutButton >Update</CheckoutButton>
+                <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
+                <CheckoutButton >Delete</CheckoutButton>
+                </CheckoutButtonWrapper>
+                :
                 <CheckoutButtonWrapper>
                 <CheckoutButton onClick={this.props.onAddCheckoutClick}>Add</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
                 </CheckoutButtonWrapper>
+                }
                 <Footer />
                 </Modal>
                 <Overlay
@@ -132,6 +140,7 @@ CheckoutModal.propTypes = {
     selectedStaffMemberName: PropTypes.string,
     selectedStaffMemberId: PropTypes.number,
     close: PropTypes.func.isRequired,
+    updatingCheckout: PropTypes.bool.isRequired,
     isModalVisible: PropTypes.bool.isRequired,
     checkout: PropTypes.shape({
         grossSales: PropTypes.string,

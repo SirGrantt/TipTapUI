@@ -104,13 +104,12 @@ class CheckoutManagerContainer extends React.Component{
         teamActions: PropTypes.object,
         createSignal: PropTypes.func,
         axiosLoading: PropTypes.number,
-        checkoutMap: PropTypes.fun,
+        checkoutMap: PropTypes.object,
     }
     constructor(props, context){
         super(props, context);
 
         this.state = {
-            //checkoutsMap: this.buildCheckoutsMap(props.checkouts),
             shouldMap: true,
             isModalVisible: false,
             currentCheckout: Object.assign({}, defaultCheckout),
@@ -118,6 +117,7 @@ class CheckoutManagerContainer extends React.Component{
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
             selectedStaffMemberId: -1,
             selectedStaffMemberName: '',
+            updatingCheckout: false,
             errors: {},
             alerts: { initial: ''},
         };
@@ -179,6 +179,7 @@ class CheckoutManagerContainer extends React.Component{
             selectedStaffMemberId: -1,
             currentCheckout: defaultCheckout,
             selectedStaffMemberName: '',
+            updatingCheckout: false,
         });
     }
 
@@ -303,13 +304,17 @@ class CheckoutManagerContainer extends React.Component{
 
         this.setState({
             currentCheckout: checkout,
+            updatingCheckout: true,
             isModalVisible: true,
             selectedStaffMemberId: staffMember.id,
-            selectedStaffMemberName: staffMemberName
+            selectedStaffMemberName: staffMemberName,
         });
     }    
 
     render(){
+        const { jobSelected, jobs, startDate, checkoutMap, axiosLoading } = this.props;
+        const { isModalVisible, defaultCheckout, currentCheckout, approvedStaff, errors,
+                alerts, selectedStaffMemberId, selectedStaffMemberName, updatingCheckout, shouldMap } = this.state;
         return( 
             <div>
                 <h1>Check Out Manager</h1>
@@ -319,29 +324,30 @@ class CheckoutManagerContainer extends React.Component{
                 <GetCheckoutsWrapper> 
                 <h4>
                 <DatePicker
-                selected={this.props.startDate}
+                selected={startDate}
                 onChange={this.handleChange}
                 />
                 </h4>
                 <GetCheckoutButton onClick={this.loadCheckouts}>Get checkouts
                 </GetCheckoutButton>
                 <SelectWrapper>
-                <SelectInput options={this.props.jobs} name="jobId" label="Job : " value={this.props.jobSelected.text}
-                defaultOption={'Select Job'} onChange={this.onJobSelect} />
+                <SelectInput options={jobs} name="jobId" label="Job : " value={jobSelected.text}
+                defaultOption={jobSelected.text} onChange={this.onJobSelect} />
                 </SelectWrapper>
                 </GetCheckoutsWrapper>
-                <CheckoutModal close={this.closeModal} isModalVisible={this.state.isModalVisible} 
-                defaultCheckout={this.state.defaultCheckout} onChange={this.onCheckoutEditorChange}
-                checkout={this.state.currentCheckout} editingExistingCheckout={this.state.editingExistingCheckout} 
-                approvedStaff={this.state.approvedStaff} onStaffSelect={this.onStaffSelect} 
-                checkoutDate={this.props.startDate} jobSelected={this.state.jobSelected.text}
-                onAddCheckoutClick={this.onAddCheckoutClick} errors={this.state.errors} 
-                alerts={this.state.alerts} selectedStaffMemberId={this.state.selectedStaffMemberId}
-                selectedStaffMemberName={this.state.selectedStaffMemberName}/>
+                <CheckoutModal close={this.closeModal} isModalVisible={isModalVisible} 
+                defaultCheckout={defaultCheckout} onChange={this.onCheckoutEditorChange}
+                checkout={currentCheckout} approvedStaff={approvedStaff} 
+                onStaffSelect={this.onStaffSelect} checkoutDate={startDate} 
+                jobSelected={jobSelected.text} onAddCheckoutClick={this.onAddCheckoutClick} 
+                errors={errors} alerts={alerts} 
+                selectedStaffMemberId={selectedStaffMemberId}
+                selectedStaffMemberName={selectedStaffMemberName} 
+                updatingCheckout={updatingCheckout}/>
                 <br/>
-                {this.props.axiosLoading > 0 ? <Loader /> :
-                <CheckoutBoard initial={this.props.checkoutMap} shouldMap={this.state.shouldMap} 
-                openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={this.state.jobSelected}
+                {axiosLoading > 0 ? <Loader /> :
+                <CheckoutBoard initial={checkoutMap} shouldMap={shouldMap} 
+                openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={jobSelected}
                 addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}
                 removeCheckoutFromTeam={this.removeCheckoutFromTeam} reviewCheckout={this.reviewCheckout}/>
                 }

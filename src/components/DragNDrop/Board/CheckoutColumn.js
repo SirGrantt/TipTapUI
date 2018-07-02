@@ -14,6 +14,7 @@ const Container = styled.div`
     margin: ${grid}px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 3em;
 `;
 
 const Header = styled.div`

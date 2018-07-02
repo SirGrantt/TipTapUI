@@ -97,6 +97,14 @@ class CheckoutManagerContainer extends React.Component{
         checkouts: PropTypes.object,
         jobs: PropTypes.array,
         jobSelected: PropTypes.object,
+        staffActions: PropTypes.object,
+        approvedStaff: PropTypes.array,
+        actions: PropTypes.object,
+        dateActions: PropTypes.object,
+        teamActions: PropTypes.object,
+        createSignal: PropTypes.func,
+        axiosLoading: PropTypes.number,
+        checkoutMap: PropTypes.fun,
     }
     constructor(props, context){
         super(props, context);
@@ -153,13 +161,13 @@ class CheckoutManagerContainer extends React.Component{
             this.setState({
                 jobSelected: Object.assign({}, newProps.jobSelected),
                 currentCheckout: currentCheckout
-            })
+            });
         }
         //when a new job is selected the approved staff will also change
         if (this.props.approvedStaff != newProps.approvedStaff){
             this.setState({
                 approvedStaff: mapStaffForDropDown(newProps.approvedStaff)
-            })
+            });
         }
     }
 
@@ -199,7 +207,6 @@ class CheckoutManagerContainer extends React.Component{
 
     addTeam = () => {
         if (this.props.jobSelected.text === 'Server') {
-            console.log('I made it');
             this.props.teamActions.addServerTeam(this.props.startDate);
         }
     }
@@ -340,7 +347,7 @@ class CheckoutManagerContainer extends React.Component{
                 }
             </div>
 
-        )
+        );
     }
 
 }

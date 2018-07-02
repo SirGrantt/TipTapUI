@@ -234,7 +234,8 @@ CheckoutForm.propTypes = {
   ),
   onStaffSelect: PropTypes.func,
   errors: PropTypes.object,
-  alerts: PropTypes.object
+  alerts: PropTypes.object,
+  selectedStaffMemberName: PropTypes.string,
 };
 
 export default CheckoutForm;

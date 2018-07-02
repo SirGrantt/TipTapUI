@@ -62,7 +62,6 @@ export function addCheckout(checkout) {
 
 export function addCheckoutToServerTeam(addToTeamData) {
  const { checkoutId, teamId, sourceId, stringDate } = addToTeamData;
-  console.log(sourceId);
   return dispatch => {
     dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
     if (sourceId === 'Individual')
@@ -109,23 +108,5 @@ export function removeCheckoutFromServerTeam(removeFromTeamData) {
     }).catch(error => {
       throw error;
     });
-  }
+  };
 }
-
-/*{
-        
-      stringDate: stringDate,
-      nonTipOutBarSales: formattedCheckout.nonTipOutBarSales,
-      numberOfBottlesSold: formattedCheckout.numberOfBottlesSold,
-      lunchOrDinner: checkout.lunchOrDinner,
-      sales: checkout.sales,
-      grossSales: checkout.grossSales,
-      barSales: checkout.barSales,
-      ccTips: checkout.ccTips,
-      cashTips: checkout.cashTips,
-      ccAutoGrat: checkout.ccAutoGrat,
-      cashAutoGrat: checkout.cashAutoGrat,
-      hours: checkout.hours,
-      staffMemberId: checkout.staffMemberId,
-      jobWorkedTitle: checkout.jobWorkedTitle 
-    }*/

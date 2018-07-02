@@ -130,6 +130,7 @@ export default class CheckoutModal extends React.Component {
 CheckoutModal.propTypes = {
     onChange: PropTypes.func.isRequired,
     selectedStaffMemberName: PropTypes.string,
+    selectedStaffMemberId: PropTypes.number,
     close: PropTypes.func.isRequired,
     isModalVisible: PropTypes.bool.isRequired,
     checkout: PropTypes.shape({

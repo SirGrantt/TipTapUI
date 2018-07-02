@@ -105,7 +105,7 @@ function checkoutReducer(state = initialState.checkouts, action){
                 team: [
                     ...teamsCopy
                 ]
-            }
+            };
             
             
         

@@ -8,7 +8,7 @@ border-radius: 50%
 background-color: ${colors.blue.columnBodyBlue};
 color: ${colors.white};
 padding: 0
-z-index: 98
+z-index: 0;
 margin-top: auto;
 margin-right: 1em;
 margin-left: 1em;

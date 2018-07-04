@@ -314,7 +314,8 @@ class CheckoutManagerContainer extends React.Component{
     render(){
         const { jobSelected, jobs, startDate, checkoutMap, axiosLoading } = this.props;
         const { isModalVisible, defaultCheckout, currentCheckout, approvedStaff, errors,
-                alerts, selectedStaffMemberId, selectedStaffMemberName, updatingCheckout, shouldMap } = this.state;
+                alerts, selectedStaffMemberId, selectedStaffMemberName, 
+                updatingCheckout, shouldMap } = this.state;
         return( 
             <div>
                 <h1>Check Out Manager</h1>

@@ -129,7 +129,7 @@ class CheckoutManagerContainer extends React.Component{
         this.onCheckoutEditorChange = this.onCheckoutEditorChange.bind(this);
         this.onJobSelect = this.onJobSelect.bind(this);
         this.onStaffSelect = this.onStaffSelect.bind(this);
-        this.onAddCheckoutClick = this.onAddCheckoutClick.bind(this);
+        this.onCheckoutSubmit = this.onCheckoutSubmit.bind(this);
         this.submitCheckout = this.submitCheckout.bind(this);
         this.updateCheckout = this.updateCheckout.bind(this);
     }
@@ -237,6 +237,9 @@ class CheckoutManagerContainer extends React.Component{
 
 
     onCheckoutEditorChange(keyValue){
+        if (keyValue.value === ""){
+            keyValue.value = 0;
+        }
         const field = keyValue.key;
         let checkout = Object.assign({}, this.state.currentCheckout);
         checkout[field] = keyValue.value;
@@ -257,7 +260,7 @@ class CheckoutManagerContainer extends React.Component{
         this.onCheckoutEditorChange(staffId);
     }
 
-    onAddCheckoutClick(event){
+    onCheckoutSubmit(event) {
         event.stopPropagation();
         this.setState({
             errors: {}
@@ -282,7 +285,13 @@ class CheckoutManagerContainer extends React.Component{
             });    
         }
         else {
-            this.submitCheckout();
+            if (this.state.updatingCheckout === false) {
+                this.submitCheckout();
+            }
+            else {
+                this.updateCheckout();
+            }
+
         }
     }
 
@@ -351,11 +360,11 @@ class CheckoutManagerContainer extends React.Component{
                 defaultCheckout={defaultCheckout} onChange={this.onCheckoutEditorChange}
                 checkout={currentCheckout} approvedStaff={approvedStaff} 
                 onStaffSelect={this.onStaffSelect} checkoutDate={startDate} 
-                jobSelected={jobSelected.text} onAddCheckoutClick={this.onAddCheckoutClick} 
+                jobSelected={jobSelected.text} onCheckoutSubmit={this.onCheckoutSubmit} 
                 errors={errors} alerts={alerts} 
                 selectedStaffMemberId={selectedStaffMemberId}
                 selectedStaffMemberName={selectedStaffMemberName} 
-                updatingCheckout={updatingCheckout} updateCheckout={this.updateCheckout}/>
+                updatingCheckout={updatingCheckout}/>
                 <br/>
                 {axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={checkoutMap} shouldMap={shouldMap} 

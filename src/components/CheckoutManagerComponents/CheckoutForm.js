@@ -39,7 +39,6 @@ let CheckoutForm = ({
   alerts,
   selectedStaffMemberName
 }) => {
-  //need to figure out how to make the select display the name being passed down
   return (
     <Form id="checkoutModal">
       <SelectInput
@@ -62,7 +61,7 @@ let CheckoutForm = ({
         placeholder={"$1,000,000"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "grossSales", value: value };
+          const keyValue = { key: "grossSales", value: value};
           updateCheckout(keyValue);
         }}
       />
@@ -82,7 +81,7 @@ let CheckoutForm = ({
         placeholder={"$25"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "barSales", value: value };
+          const keyValue = { key: "barSales", value: value};
           updateCheckout(keyValue);
         }}
       />
@@ -100,7 +99,7 @@ let CheckoutForm = ({
         placeholder={"Bottle Count"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "numberOfBottlesSold", value: value };
+          const keyValue = { key: "numberOfBottlesSold", value: value};
           updateCheckout(keyValue);
         }}
       />
@@ -121,7 +120,7 @@ let CheckoutForm = ({
         placeholder={"Don't Forget the Dom"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "nonTipOutBarSales", value: value };
+          const keyValue = { key: "nonTipOutBarSales", value: value};
           updateCheckout(keyValue);
         }}
       />
@@ -161,7 +160,7 @@ let CheckoutForm = ({
         placeholder={"taxation is theft"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "cashTips", value: value };
+          const keyValue = { key: "cashTips", value: value};
           updateCheckout(keyValue);
         }}
       />
@@ -179,7 +178,7 @@ let CheckoutForm = ({
         placeholder={"Auto Grat"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "ccAutoGrat", value: value };
+          const keyValue = { key: "ccAutoGrat", value: value};
           updateCheckout(keyValue);
         }}
       />
@@ -199,7 +198,7 @@ let CheckoutForm = ({
         placeholder={"Cash Auto Grat"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "cashAutoGrat", value: value };
+          const keyValue = { key: "cashAutoGrat", value: value};
           updateCheckout(keyValue);
         }}
       />

@@ -90,8 +90,8 @@ export default class CheckoutModal extends React.Component {
 
     //Perform validation against values we don't want
     updateCheckout = (keyValue) => {
-        if (keyValue.value == '' || isNaN(keyValue.value)){
-            keyValue.value = '';
+        if (keyValue.value === '' || isNaN(keyValue.value)){
+            keyValue.value = '0';
         }
         this.props.onChange(keyValue);
     }
@@ -116,13 +116,13 @@ export default class CheckoutModal extends React.Component {
                 selectedStaffMemberName={this.props.selectedStaffMemberName}/>
                 { updatingCheckout ?
                 <CheckoutButtonWrapper>
-                <CheckoutButton onClick={this.props.updateCheckout}>Update</CheckoutButton>
+                <CheckoutButton onClick={this.props.onCheckoutSubmit}>Update</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
                 <CheckoutButton >Delete</CheckoutButton>
                 </CheckoutButtonWrapper>
                 :
                 <CheckoutButtonWrapper>
-                <CheckoutButton onClick={this.props.onAddCheckoutClick}>Add</CheckoutButton>
+                <CheckoutButton onClick={this.props.onCheckoutSubmit}>Add</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
                 </CheckoutButtonWrapper>
                 }
@@ -140,7 +140,6 @@ CheckoutModal.propTypes = {
     selectedStaffMemberName: PropTypes.string,
     selectedStaffMemberId: PropTypes.number,
     close: PropTypes.func.isRequired,
-    updateCheckout: PropTypes.func.isRequired,
     updatingCheckout: PropTypes.bool.isRequired,
     isModalVisible: PropTypes.bool.isRequired,
     checkout: PropTypes.shape({
@@ -157,7 +156,7 @@ CheckoutModal.propTypes = {
     }),
     approvedStaff: PropTypes.array.isRequired,
     jobSelected: PropTypes.string,
-    onAddCheckoutClick: PropTypes.func,
+    onCheckoutSubmit: PropTypes.func,
     onStaffSelect: PropTypes.func,
     checkoutDate: momentPropTypes.momentObj,
     errors: PropTypes.object,

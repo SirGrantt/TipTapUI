@@ -7,9 +7,13 @@ export function checkoutFormIsValid(checkout){
         isValid = false;
     }
 
-    if (parseFloat(checkout.grossSales) === 0){
+    if (parseFloat(checkout.grossSales) === 0 || isNaN(parseFloat(checkout.grossSales))){
         errors.grossSales = 'Gross Sales is required';
         isValid = false;
+    }
+
+    if (isNaN(parseFloat(checkout.barSales))){
+        checkout.barSales = 0;
     }
 
     if (parseFloat(checkout.barSales) > checkout.grossSales){
@@ -30,6 +34,18 @@ export function checkoutFormIsValid(checkout){
     let errorList = { isValid: isValid, errors: errors};
     return errorList;
     
+}
+
+export function formatCheckoutFormInput(value, property) {
+    let keyValue;
+    if (isNaN(parseFloat(value))){
+      keyValue = {key: property, value: 0}
+    }
+    else {
+     keyValue = { key: property, value: value };
+    }
+
+    return keyValue;
 }
 
 export function shouldAlertUser(checkout){

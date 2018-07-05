@@ -26,6 +26,10 @@ export function addCheckoutToServerTeamSuccess(updatedCheckoutData) {
   return { type: actions.ADD_CHECKOUT_TO_TEAM_SUCCESS, updatedCheckoutData };
 }
 
+export function updateCheckoutSuccess(updatedCheckout) {
+  return { type: actions.UPDATE_CHECKOUT_SUCCESS, updatedCheckout };
+}
+
 
 export function loadCheckouts(stringDate, lunchOrDinner) {
   return dispatch => {
@@ -107,6 +111,17 @@ export function removeCheckoutFromServerTeam(removeFromTeamData) {
       lunchOrDinner: 'dinner'
     }).catch(error => {
       throw error;
+    });
+  };
+}
+
+export function updateCheckout(checkout) {
+  return dispatch => {
+    dispatch(updateCheckoutSuccess(checkout));
+    Axios.post('http://localhost:61319/checkout/update',
+      checkout
+    ).catch(err => {
+      throw err;
     });
   };
 }

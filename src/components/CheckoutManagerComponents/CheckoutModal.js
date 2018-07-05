@@ -116,7 +116,7 @@ export default class CheckoutModal extends React.Component {
                 selectedStaffMemberName={this.props.selectedStaffMemberName}/>
                 { updatingCheckout ?
                 <CheckoutButtonWrapper>
-                <CheckoutButton >Update</CheckoutButton>
+                <CheckoutButton onClick={this.props.updateCheckout}>Update</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
                 <CheckoutButton >Delete</CheckoutButton>
                 </CheckoutButtonWrapper>
@@ -140,6 +140,7 @@ CheckoutModal.propTypes = {
     selectedStaffMemberName: PropTypes.string,
     selectedStaffMemberId: PropTypes.number,
     close: PropTypes.func.isRequired,
+    updateCheckout: PropTypes.func.isRequired,
     updatingCheckout: PropTypes.bool.isRequired,
     isModalVisible: PropTypes.bool.isRequired,
     checkout: PropTypes.shape({

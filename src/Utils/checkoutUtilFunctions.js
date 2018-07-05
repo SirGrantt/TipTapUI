@@ -89,6 +89,12 @@ export function transformCheckout(checkout, jobWorkedTitle, stringDate, lunchOrD
         else if (k === "lunchOrDinner"){
             transformedCheckout[k] = lunchOrDinner; 
         }
+        else if (k === 'staffMemberName'){
+            return;
+        }
+        else if (k === 'shiftDate'){
+            transformCheckout[k] = stringDate;
+        }
         else {
             transformedCheckout[k] = Number(transformedCheckout[k]);
         }

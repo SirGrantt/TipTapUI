@@ -131,6 +131,7 @@ class CheckoutManagerContainer extends React.Component{
         this.onStaffSelect = this.onStaffSelect.bind(this);
         this.onAddCheckoutClick = this.onAddCheckoutClick.bind(this);
         this.submitCheckout = this.submitCheckout.bind(this);
+        this.updateCheckout = this.updateCheckout.bind(this);
     }
 
     componentDidMount() {
@@ -301,15 +302,25 @@ class CheckoutManagerContainer extends React.Component{
         }
 
         let staffMember = this.props.staff.find(s => s.firstName + ' ' + s.lastName === staffMemberName);
+        let checkoutCopy = Object.assign({}, checkout);
+        checkoutCopy.staffMemberId = staffMember.id;
+        checkoutCopy.stringDate = this.props.startDate;
 
         this.setState({
-            currentCheckout: checkout,
+            currentCheckout: checkoutCopy,
             updatingCheckout: true,
             isModalVisible: true,
             selectedStaffMemberId: staffMember.id,
             selectedStaffMemberName: staffMemberName,
         });
-    }    
+    }
+    
+    async updateCheckout() {
+        let formattedCheckout = await transformCheckout(this.state.currentCheckout,
+            this.state.jobSelected, this.props.startDate, "dinner");
+            this.props.actions.updateCheckout(formattedCheckout);
+            this.closeModal();
+    }
 
     render(){
         const { jobSelected, jobs, startDate, checkoutMap, axiosLoading } = this.props;
@@ -344,7 +355,7 @@ class CheckoutManagerContainer extends React.Component{
                 errors={errors} alerts={alerts} 
                 selectedStaffMemberId={selectedStaffMemberId}
                 selectedStaffMemberName={selectedStaffMemberName} 
-                updatingCheckout={updatingCheckout}/>
+                updatingCheckout={updatingCheckout} updateCheckout={this.updateCheckout}/>
                 <br/>
                 {axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={checkoutMap} shouldMap={shouldMap} 

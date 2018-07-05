@@ -21,6 +21,46 @@ function checkoutReducer(state = initialState.checkouts, action){
             ]
         };
 
+        case type.UPDATE_CHECKOUT_SUCCESS :
+        {
+            let checkoutToUpdate;
+            let individualCheckoutsCopy = state.individual.slice();
+            checkoutToUpdate = individualCheckoutsCopy.find(c => c.id === action.updatedCheckout.id);
+
+            if (checkoutToUpdate !== undefined)
+            {
+                let filteredIndividual = individualCheckoutsCopy.filter(c => c.id !== checkoutToUpdate.id);
+                return {
+                    individual: [ ...filteredIndividual, action.updatedCheckout ],
+                    team: [...state.team ]
+                };
+            }
+            else {
+                let teamCheckoutsCopy = state.team.slice();
+                let index;
+                let teamWithCheckout;
+                teamCheckoutsCopy.forEach(t => {
+                    if (t.teamCheckouts.some(s => s.id === action.updatedCheckout.id))
+                    {
+                        index = t.teamCheckouts.findIndex(c => c.id === action.updatedCheckout.id);
+                        teamWithCheckout = Object.assign({}, t);
+                    }
+                });
+                teamWithCheckout.teamCheckouts = teamWithCheckout.teamCheckouts.slice();
+                let filteredTeamCheckouts = teamWithCheckout.teamCheckouts.filter(c => c.id !== action.updatedCheckout.id);
+                teamWithCheckout.teamCheckouts = filteredTeamCheckouts;
+                teamWithCheckout.teamCheckouts.splice(index, 0, action.updatedCheckout);
+                let filteredState = teamCheckoutsCopy.filter(t => t.id === teamWithCheckout.id);
+
+                return {
+                    individual: [ ...state.individual ],
+                    team: [ ...filteredState,
+                    teamWithCheckout ]
+                };
+
+            }
+        }
+
         case type.ADD_CHECKOUT_TO_TEAM_SUCCESS : {
         const { checkoutId, sourceId, teamId } = action.updatedCheckoutData;
         if (sourceId === 'Individual')
@@ -105,11 +145,7 @@ function checkoutReducer(state = initialState.checkouts, action){
                 team: [
                     ...teamsCopy
                 ]
-            };
-            
-            
-        
-            
+            };   
         }
 
         case type.ADD_SERVER_TEAM_SUCCESS :

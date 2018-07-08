@@ -389,6 +389,7 @@ function mapStateToProps(state){
         jobSelected: state.jobSelected,
         axiosLoading: state.axiosLoading,
         checkoutMap: state.checkoutMap,
+        ranCheckoutTeamIds: state.ranCheckouts, 
     };
 }
 

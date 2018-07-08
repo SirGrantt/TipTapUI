@@ -198,7 +198,7 @@ let CheckoutForm = ({
         placeholder={"Cash Auto Grat"}
         onValueChange={values => {
           const { value } = values;
-          const keyValue = { key: "cashAutoGrat", value: value};
+          const keyValue = { key: "cashAutoGrat", value: value };
           updateCheckout(keyValue);
         }}
       />

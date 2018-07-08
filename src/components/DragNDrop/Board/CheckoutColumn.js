@@ -38,15 +38,31 @@ type Props = {|
     checkouts: Checkout[],
     index: number,   
     shouldMap: boolean,
-    reviewCheckout: () => void, 
+    checkoutRan: boolean,
+    reviewCheckout: () => void,
+    runCheckout: () => void,
+    viewEarning: () => void, 
 |}
 
 export default class CheckoutColumn extends Component<Props> {
+
+        onButtonClick = (e) => {
+            e.preventDefault();
+            if (this.props.checkoutRan){
+                this.props.viewEarning(e.target.id);
+            }
+            else {
+                this.props.runCheckout(e.target.id);
+            }
+        }
+
     render(){
         const title: string = this.props.title;
         const checkouts: Checkout[] = this.props.checkouts;
         const index: number = this.props.index;
         const shouldMap: boolean = this.props.shouldMap;
+        const checkoutRan: boolean = this.props.checkoutRan;
+        const checkoutButtonText: string = checkoutRan ? 'View Earnings' : 'Run Checkout';
         return(
             <Draggable draggableId={title} index={index}>
             {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -69,7 +85,8 @@ export default class CheckoutColumn extends Component<Props> {
                 checkouts={checkouts}
                 reviewCheckout={this.props.reviewCheckout}
                 />
-                {title !== 'Individual' && <RunCheckoutButton id={title}>Run Checkout</RunCheckoutButton>}
+                {title !== 'Individual' && <RunCheckoutButton onClick={this.onButtonClick} 
+                id={title.split('_').pop()}>{checkoutButtonText}</RunCheckoutButton>}
                 </Container>
             )}
             </Draggable>

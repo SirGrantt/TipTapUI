@@ -14,10 +14,12 @@ function serviceStaffReducer(state = initialState.serviceStaff, action) {
     ];
     
     case types.UPDATE_STAFF_MEMBER_NAME_SUCCESS:
+    {
     let indexOfStaffMember = state.findIndex(s => s.id == action.staffMember.id);
 
     return state.map((s, index) => (index == indexOfStaffMember) ? 
     { ...s, ...action.staffMember} : s);
+    }
 
     default:
       return state;

@@ -46,6 +46,7 @@ type Props = {|
   openAddCheckoutModal: () => void,
   jobSelected: Object,
   addTeam: () => void,
+  ranCheckoutTeamIds: Array<number>,
   addCheckoutToTeam: (transformedData: Object) => void,
   removeCheckoutFromTeam: (transformedData: Object) => void,
   reviewCheckout: (id: number) => void,
@@ -65,11 +66,12 @@ export default class CheckoutBoard extends Component<Props, State> {
  }
 
  constructor(props: Props, context: any){
-     super(props, context)
+     super(props, context);
      this.state = ({
          columns: this.props.initial,
          ordered: Object.keys(this.props.initial)
      });
+
  }
 
 
@@ -160,6 +162,7 @@ componentWillReceiveProps(nextProps: any){
      const { containerHeight } = this.props;
      const shouldMap: boolean = this.props.shouldMap;
      const jobSelected: Object = this.props.jobSelected;
+     const ranCheckoutTeamIds: Array<number> = this.props.ranCheckoutTeamIds;
 
      const board = (
         <Droppable
@@ -172,6 +175,8 @@ componentWillReceiveProps(nextProps: any){
             <Container innerRef={provided.innerRef} {...provided.droppableProps}>
             {ordered.map((key: string, index: number) => (
                 <CheckoutColumn
+                checkoutRan={ranCheckoutTeamIds.some(i => i === Number(key.split('_').pop())) ? 
+                true : false}
                 shouldMap={shouldMap}
                 key={key}
                 index={index}

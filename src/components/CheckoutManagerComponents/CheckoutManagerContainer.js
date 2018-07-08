@@ -332,7 +332,7 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     render(){
-        const { jobSelected, jobs, startDate, checkoutMap, axiosLoading } = this.props;
+        const { jobSelected, jobs, startDate, checkoutMap, axiosLoading, ranCheckoutTeamIds } = this.props;
         const { isModalVisible, defaultCheckout, currentCheckout, approvedStaff, errors,
                 alerts, selectedStaffMemberId, selectedStaffMemberName, 
                 updatingCheckout, shouldMap } = this.state;
@@ -370,7 +370,8 @@ class CheckoutManagerContainer extends React.Component{
                 <CheckoutBoard initial={checkoutMap} shouldMap={shouldMap} 
                 openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={jobSelected}
                 addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}
-                removeCheckoutFromTeam={this.removeCheckoutFromTeam} reviewCheckout={this.reviewCheckout}/>
+                removeCheckoutFromTeam={this.removeCheckoutFromTeam} reviewCheckout={this.reviewCheckout}
+                ranCheckoutTeamIds={ranCheckoutTeamIds}/>
                 }
             </div>
 

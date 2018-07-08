@@ -52,10 +52,10 @@ export function loadCheckouts(stringDate, lunchOrDinner) {
     })
       .then(res => {
         const data = res.data;
+        dispatch(trackRanCheckoutsSuccess(data.teamCheckouts));
         dispatch(
           loadCheckoutsSuccess(data.notRunCheckouts, data.teamCheckouts)
         );
-        dispatch(trackRanCheckoutsSuccess(data.teamCheckouts));
       })
       .catch(error => {
         throw error;

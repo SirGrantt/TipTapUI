@@ -13,11 +13,14 @@ import './styles/styles.css';
 require('./favicon.ico'); //tell webpack to include favicon.ico
 
 const store = configureStore();
-store.dispatch(jobSelectedSuccess({value: 1, text: 'Server'}));
-store.dispatch(loadServiceStaff());
+store.dispatch(loadCheckouts(moment().format(), 'dinner'));
 store.dispatch(loadAllJobs());
 store.dispatch(setInitialStartDate());
-store.dispatch(loadCheckouts(moment().format(), 'dinner'));
+store.dispatch(loadServiceStaff());
+store.dispatch(jobSelectedSuccess({value: 1, text: 'Server'}));
+
+
+
 
 
 render(

@@ -13,7 +13,7 @@ export default function ranCheckoutsTeamReducer(state = initialState, action) {
      return teamIds;
     }
 
-    case types.UPDATE_TRACKED_RAN_CHECKOUT_TEAMS : {
+    case types.REMOVE_TRACKED_RAN_CHECKOUT_TEAMS : {
       let stateCopy = state.slice();
       let filteredState = stateCopy.filter(t => t !== action.destId && t !== action.sourceId);
 

@@ -331,6 +331,14 @@ class CheckoutManagerContainer extends React.Component{
             this.closeModal();
     }
 
+    viewEarning = (id) => {
+        console.log(`you are viewing an earning for a team with the id ${id}!`);
+    }
+
+    runCheckout = (id) => {
+        console.log(`checkout run has been initiated for team ${id}.`);
+    }
+
     render(){
         const { jobSelected, jobs, startDate, checkoutMap, axiosLoading, ranCheckoutTeamIds } = this.props;
         const { isModalVisible, defaultCheckout, currentCheckout, approvedStaff, errors,
@@ -371,7 +379,7 @@ class CheckoutManagerContainer extends React.Component{
                 openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={jobSelected}
                 addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}
                 removeCheckoutFromTeam={this.removeCheckoutFromTeam} reviewCheckout={this.reviewCheckout}
-                ranCheckoutTeamIds={ranCheckoutTeamIds}/>
+                ranCheckoutTeamIds={ranCheckoutTeamIds} viewEarning={this.viewEarning} runCheckout={this.runCheckout}/>
                 }
             </div>
 

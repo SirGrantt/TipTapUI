@@ -34,17 +34,17 @@ export function trackRanCheckoutsSuccess(teamCheckouts){
   return {type: actions.TRACK_RAN_CHECKOUTS_SUCCESS, teamCheckouts};
 }
 
-export function updateTrackedRanCheckoutTeamsSuccess(destId, sourceId) {
-  return { type: actions.UPDATE_TRACKED_RAN_CHECKOUT_TEAMS, destId, sourceId};
+export function removeTrackedRanCheckoutTeamsSuccess(destId, sourceId) {
+  return { type: actions.REMOVE_TRACKED_RAN_CHECKOUT_TEAMS, destId, sourceId};
+}
+
+export function runCheckoutSuccess(teamId) {
+  return { type: actions.RUN_TEAM_CHECKOUT_SUCCESS, teamId };
 }
 
 
 export function loadCheckouts(stringDate, lunchOrDinner) {
   return dispatch => {
-    //We need to add redux store state to hold which teams have earnings, then this can be
-    //passed down to the columns and we can perform a .some() check to see if the team
-    //is in that list and therefore pass either true or false as a value for the 
-    //checkoutRan property.
     dispatch(beginAxiosCall());
     Axios.post("http://localhost:61319/checkout/get-all-for-shift", {
       stringDate: stringDate,
@@ -80,7 +80,7 @@ export function addCheckout(checkout) {
 export function addCheckoutToServerTeam(addToTeamData) {
  const { checkoutId, teamId, sourceId, stringDate } = addToTeamData;
   return dispatch => {
-    dispatch(updateTrackedRanCheckoutTeamsSuccess(teamId, sourceId));
+    dispatch(removeTrackedRanCheckoutTeamsSuccess(teamId, sourceId));
     dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
     if (sourceId === 'Individual')
     {
@@ -117,7 +117,7 @@ export function addCheckoutToServerTeam(addToTeamData) {
 export function removeCheckoutFromServerTeam(removeFromTeamData) {
   const { checkoutId, sourceId, stringDate } = removeFromTeamData;
   return dispatch => {
-    dispatch(updateTrackedRanCheckoutTeamsSuccess(-1, sourceId));
+    dispatch(removeTrackedRanCheckoutTeamsSuccess(-1, sourceId));
     dispatch(removeCheckoutFromServerTeamSuccess(removeFromTeamData));
     Axios.post('http://localhost:61319/server-teams/remove-checkout-from-server-team', {
       checkoutId,

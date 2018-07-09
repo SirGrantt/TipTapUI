@@ -50,6 +50,8 @@ type Props = {|
   addCheckoutToTeam: (transformedData: Object) => void,
   removeCheckoutFromTeam: (transformedData: Object) => void,
   reviewCheckout: (id: number) => void,
+  viewEarning: (id: number) => void,
+  runCheckout: (id: number) => void,
 |}
 
 type State = {|
@@ -182,6 +184,8 @@ componentWillReceiveProps(nextProps: any){
                 index={index}
                 title={key}
                 checkouts={columns[key]}
+                viewEarning={this.props.viewEarning}
+                runCheckout={this.props.runCheckout}
                 reviewCheckout={this.props.reviewCheckout}
                 />
             ))}

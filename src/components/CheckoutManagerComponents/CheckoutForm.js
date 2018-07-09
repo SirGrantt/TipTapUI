@@ -30,6 +30,16 @@ const AlertHighlight = styled.div`
   border-radius: 0.5em;
 `;
 
+const Column = styled.div`
+float: left;
+width: 50%
+`;
+
+const Row = styled.div`
+overflow: hidden;
+padding: 10px;
+`;
+
 let CheckoutForm = ({
   checkout,
   approvedStaff,
@@ -49,6 +59,8 @@ let CheckoutForm = ({
         onChange={onStaffSelect}
       />
       {errors.staffMember && <ErrorMsg>{errors.staffMember}</ErrorMsg>}
+      <Column>
+      <Row>
       <Label>Gross Sales</Label>
       <NumberFormat
         allowNegative={false}
@@ -69,6 +81,8 @@ let CheckoutForm = ({
         <AlertHighlight>{alerts.grossSales}</AlertHighlight>
       )}
       {errors.grossSales && <ErrorMsg>{errors.grossSales}</ErrorMsg>}
+      </Row>
+      <Row>
       <Label>Bar Sales</Label>
       <NumberFormat
         allowNegative={false}
@@ -86,6 +100,8 @@ let CheckoutForm = ({
         }}
       />
       {errors.barSales && <ErrorMsg>{errors.barSales}</ErrorMsg>}
+      </Row>
+      <Row>
       <Label>Bottle Count</Label>
       <NumberFormat
         allowNegative={false}
@@ -106,6 +122,8 @@ let CheckoutForm = ({
       {alerts.numberOfBottlesSold && (
         <AlertHighlight>{alerts.numberOfBottlesSold}</AlertHighlight>
       )}
+      </Row>
+      <Row>
       <Label>Bottle Value</Label>
       <NumberFormat
         allowNegative={false}
@@ -130,6 +148,10 @@ let CheckoutForm = ({
       {alerts.nonTipOutBarSales && (
         <AlertHighlight>{alerts.nonTipOutBarSales}</AlertHighlight>
       )}
+      </Row>
+      </Column>
+      <Column>
+      <Row>
       <Label>Credit Card Tips</Label>
       <NumberFormat
         allowNegative={false}
@@ -148,6 +170,8 @@ let CheckoutForm = ({
       />
       {errors.tips && <ErrorMsg>{errors.tips}</ErrorMsg>}
       {alerts.ccTips && <AlertHighlight>{alerts.ccTips}</AlertHighlight>}
+      </Row>
+      <Row>
       <Label>Cash Tips</Label>
       <NumberFormat
         allowNegative={false}
@@ -166,6 +190,8 @@ let CheckoutForm = ({
       />
       {errors.tips && <ErrorMsg>{errors.tips}</ErrorMsg>}
       {alerts.cashTips && <AlertHighlight>{alerts.cashTips}</AlertHighlight>}
+      </Row>
+      <Row>
       <Label>Credit Card Auto Gratuity</Label>
       <NumberFormat
         allowNegative={false}
@@ -185,6 +211,8 @@ let CheckoutForm = ({
       {alerts.ccAutoGrat && (
         <AlertHighlight>{alerts.ccAutoGrat}</AlertHighlight>
       )}
+      </Row>
+      <Row>
       <Label>Cash Auto Gratuity</Label>
       <NumberFormat
         allowNegative={false}
@@ -205,6 +233,8 @@ let CheckoutForm = ({
       {alerts.cashAutoGrat && (
         <AlertHighlight>{alerts.cashAutoGrat}</AlertHighlight>
       )}
+      </Row>
+      </Column>
     </Form>
   );
 };

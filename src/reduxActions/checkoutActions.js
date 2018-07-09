@@ -38,10 +38,6 @@ export function removeTrackedRanCheckoutTeamsSuccess(destId, sourceId) {
   return { type: actions.REMOVE_TRACKED_RAN_CHECKOUT_TEAMS, destId, sourceId};
 }
 
-export function runCheckoutSuccess(teamId) {
-  return { type: actions.RUN_TEAM_CHECKOUT_SUCCESS, teamId };
-}
-
 
 export function loadCheckouts(stringDate, lunchOrDinner) {
   return dispatch => {

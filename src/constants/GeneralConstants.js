@@ -17,7 +17,9 @@ export const defaultCheckout: {
     hours: string,
     staffMemberId: number,
     jobWorkedTitle: string,
-    stringDate: string }
+    stringDate: string,
+    barSpecialLine: string,
+    saSpecialLine: string, }
     = { staffMemberName: "",
       id: "",
       apiId: 0,
@@ -35,4 +37,6 @@ export const defaultCheckout: {
       staffMemberId: -1,
       jobWorkedTitle: "",
       stringDate: "",
+      barSpecialLine: '0',
+      saSpecialLine: '0',
     };

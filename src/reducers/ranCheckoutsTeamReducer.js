@@ -1,7 +1,7 @@
 import initialState from './initialState';
 import * as types from '../reduxActions/actionTypes';
 
-export default function ranCheckoutsTeamReducer(state = initialState, action) {
+export default function ranCheckoutsTeamReducer(state = initialState.ranCheckouts, action) {
 
   switch (action.type) {
 
@@ -19,6 +19,13 @@ export default function ranCheckoutsTeamReducer(state = initialState, action) {
 
       return filteredState;
     }
+    
+    case types.RUN_TEAM_CHECKOUT_SUCCESS : {
+      return [
+        ...state,
+        action.teamId
+      ];
+    } 
 
     default :
     return state;

@@ -6,6 +6,14 @@ export function addServerTeamSuccess(serverTeam) {
   return { type: actions.ADD_SERVER_TEAM_SUCCESS, serverTeam };
 }
 
+export function runTeamCheckoutSuccess(teamId) {
+  return { type: actions.RUN_TEAM_CHECKOUT_SUCCESS, teamId};
+}
+
+export function addEarningToTeamSuccess(teamId, teamEarning) {
+  return { type: actions.ADD_EARNING_TO_TEAM, teamId, teamEarning };
+}
+
 export function addServerTeam(date) {
   return dispatch => {
     dispatch(beginAxiosCall);
@@ -25,5 +33,23 @@ export function addServerTeam(date) {
         throw(err);
     });
   };
+}
+
+export function runServerTeamSuccess(teamId, lunchOrDinner, stringDate){
+  return dispatch => {
+    dispatch(beginAxiosCall);
+    Axios.post('http://localhost:61319/server-teams/run-checkout', {
+      teamId,
+      stringDate,
+      lunchOrDinner
+    }).then(res => {
+      let data = res.data;
+      dispatch(runTeamCheckoutSuccess(teamId));
+      dispatch((addEarningToTeamSuccess(teamId, data.serverEarnings[0])));
+    }).catch(err => {
+      throw err;
+    });
+  };
+
 }
 

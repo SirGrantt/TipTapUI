@@ -35,11 +35,11 @@ export function addServerTeam(date) {
   };
 }
 
-export function runServerTeamSuccess(teamId, lunchOrDinner, stringDate){
+export function runServerTeamCheckout(teamId, lunchOrDinner, stringDate){
   return dispatch => {
     dispatch(beginAxiosCall);
     Axios.post('http://localhost:61319/server-teams/run-checkout', {
-      teamId,
+      serverTeamId: teamId,
       stringDate,
       lunchOrDinner
     }).then(res => {

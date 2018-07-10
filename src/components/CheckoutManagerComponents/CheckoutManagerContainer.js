@@ -336,7 +336,7 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     runCheckout = (id) => {
-        console.log(`checkout run has been initiated for team ${id}.`);
+        this.props.teamActions.runServerTeamCheckout(Number(id), 'dinner', this.props.startDate);
     }
 
     render(){

@@ -157,6 +157,28 @@ function checkoutReducer(state = initialState.checkouts, action){
         ]
         };
 
+        case type.ADD_EARNING_TO_TEAM : {
+            const { teamId, teamEarning } = action;
+            let stateCopy = Object.assign({}, state);
+            stateCopy.team = state.team.slice();
+
+            let teamToUpdate = state.team.find(t => t.teamId === teamId);
+            let indexOfTeam = state.team.findIndex(t => t.teamId === teamId);
+            let teamCopy = Object.assign({}, teamToUpdate);
+            teamCopy.teamEarning = teamEarning;
+            teamCopy.checkoutHasBeenRun = true;
+            let filteredTeams = stateCopy.team.filter(t => t.teamId !== teamId);
+            stateCopy.team = filteredTeams;
+            stateCopy.team.splice(indexOfTeam, 0, teamCopy);
+
+            return {
+                individual: [...state.individual],
+                team: [
+                    ...stateCopy.team
+                ]
+            };
+        }
+
         default:
         return state;
     }

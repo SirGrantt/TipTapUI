@@ -40,3 +40,25 @@ export const defaultCheckout: {
       barSpecialLine: '0',
       saSpecialLine: '0',
     };
+
+export const defaultEarning: {
+autoGratuity: number,
+cashPayedForTipout: number,
+cashTips: number,
+ccTips: number,
+id: number,
+jobWorked: string,
+lunchOrDinner: string,
+owedCashForTipOut: boolean,
+totalTipsForPayroll: number,
+} = {
+  autoGratuity: 0,
+  cashPayedForTipout: 0,
+  cashTips: 0,
+  ccTips: 0,
+  id: -1,
+  jobWorked: '',
+  lunchOrDinner: '',
+  owedCashForTipOut: false,
+  totalTipsForPayroll: 0,
+};

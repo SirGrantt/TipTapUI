@@ -13,12 +13,13 @@ import * as startDateActions from '../../reduxActions/startDateActions';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
 import * as teamActions from '../../reduxActions/teamActions';
 import 'react-datepicker/dist/react-datepicker.css';
-import { defaultCheckout } from '../../constants/GeneralConstants';
+import { defaultCheckout, defaultEarning } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
 import { withSignal, SignalTypes } from 'redux-signal';
 import {checkoutFormIsValid, shouldAlertUser, transformCheckout} from '../../Utils/checkoutUtilFunctions';
 import { objectsAreEqual } from '../../Utils/ObjectComparison';
 import Loader from '../common/LoadingSpinner';
+import EarningModal from './EarningModal';
 
 const DateSelectorTitle = styled.h4`
 margin-left: 2vw;
@@ -105,6 +106,7 @@ class CheckoutManagerContainer extends React.Component{
         createSignal: PropTypes.func,
         axiosLoading: PropTypes.number,
         checkoutMap: PropTypes.object,
+        ranCheckoutTeamIds: PropTypes.array,
     }
     constructor(props, context){
         super(props, context);
@@ -112,6 +114,8 @@ class CheckoutManagerContainer extends React.Component{
         this.state = {
             shouldMap: true,
             isModalVisible: false,
+            isEarningsModalVisible: false,
+            currentEarning: Object.assign({}, defaultEarning),
             currentCheckout: Object.assign({}, defaultCheckout),
             jobSelected: Object.assign({}, this.props.jobSelected),
             approvedStaff: mapStaffForDropDown(this.props.approvedStaff),
@@ -332,7 +336,17 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     viewEarning = (id) => {
-        console.log(`you are viewing an earning for a team with the id ${id}!`);
+        let team = this.props.checkouts.team.find(t => t.teamId === Number(id));
+        this.setState({
+            currentEarning: team.teamEarning,
+            isEarningsModalVisible: true
+        });
+    }
+
+    closeEarningsModal = () => {
+        this.setState({
+            isEarningsModalVisible: false
+        });
     }
 
     runCheckout = (id) => {
@@ -343,7 +357,7 @@ class CheckoutManagerContainer extends React.Component{
         const { jobSelected, jobs, startDate, checkoutMap, axiosLoading, ranCheckoutTeamIds } = this.props;
         const { isModalVisible, defaultCheckout, currentCheckout, approvedStaff, errors,
                 alerts, selectedStaffMemberId, selectedStaffMemberName, 
-                updatingCheckout, shouldMap } = this.state;
+                updatingCheckout, shouldMap, currentEarning, isEarningsModalVisible } = this.state;
         return( 
             <div>
                 <h1>Check Out Manager</h1>
@@ -373,6 +387,7 @@ class CheckoutManagerContainer extends React.Component{
                 selectedStaffMemberId={selectedStaffMemberId}
                 selectedStaffMemberName={selectedStaffMemberName} 
                 updatingCheckout={updatingCheckout}/>
+                <EarningModal earning={currentEarning} closeEarningsModal={this.closeEarningsModal} isEarningsModalVisible={isEarningsModalVisible}/>
                 <br/>
                 {axiosLoading > 0 ? <Loader /> :
                 <CheckoutBoard initial={checkoutMap} shouldMap={shouldMap} 

@@ -39,7 +39,7 @@ export function checkoutFormIsValid(checkout){
 export function formatCheckoutFormInput(value, property) {
     let keyValue;
     if (isNaN(parseFloat(value))){
-      keyValue = {key: property, value: 0}
+      keyValue = {key: property, value: 0};
     }
     else {
      keyValue = { key: property, value: value };

@@ -45,18 +45,18 @@ modal }) => {
             footer={getFooter(modal, eventType => event(modal, eventType))}>
             {modal.message}
         </WarningModal>
-    )
-}
+    );
+};
 
 SignalContainer.propTypes = {
     event: PropTypes.func,
     destroy: PropTypes.func,
     close: PropTypes.func,
     modal: PropTypes.object
-}
+};
 
 function getModalLabel(modal, labelType, otherwise){
-    return (modal.labels && modal.labels[labelType]) || <span>{otherwise}</span>
+    return (modal.labels && modal.labels[labelType]) || <span>{otherwise}</span>;
 }
 
 function getFooter(modal, onModalEvent){

@@ -44,8 +44,8 @@ EarningsDisplay.propTypes = {
     ccTips: PropTypes.number.isRequired,
     jobWorked: PropTypes.string.isRequired,
     totalTipsForPayroll: PropTypes.number.isRequired,
-    formattedCcAndAuto: PropTypes.number.isRequired,
   }),
+  formattedCcAndAuto: PropTypes.number.isRequired,
 };
 
 /*

@@ -30,8 +30,8 @@ export function mapApprovedStaffMembersForDropdown(staffMembers){
         return { 
         value: s.id, 
         text: s.staffMemberName
-        }
-    })
+        };
+    });
 }
 
 export function mapJobsForDropdown(jobs){
@@ -39,8 +39,8 @@ export function mapJobsForDropdown(jobs){
         return {
             value: j.id,
             text: j.title
-        }
-    })
+        };
+    });
 }
 
 export function mapStaffForDropDown(staff){
@@ -48,6 +48,6 @@ export function mapStaffForDropDown(staff){
         return {
             value: s.id,
             text: s.firstName + " " + s.lastName
-        }
-    })
+        };
+    });
 }

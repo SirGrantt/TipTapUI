@@ -7,11 +7,11 @@ export function loadServiceStaffSuccess(staff) {
 }
 
 export function loadApprovedStaffSuccess(approvedStaff){
-  return {type: types.LOAD_APPROVED_STAFF_SUCCESS, approvedStaff }
+  return {type: types.LOAD_APPROVED_STAFF_SUCCESS, approvedStaff };
 }
 
 export function jobSelectedSuccess(selectedJob){
-  return { type: types.APPROVED_JOB_SELECTED_SUCCESS, selectedJob}
+  return { type: types.APPROVED_JOB_SELECTED_SUCCESS, selectedJob };
 }
 
 export function postStaffMemberSuccess(staffMember){
@@ -35,7 +35,7 @@ export function updateStaffMemberError(){
 }
 
 export function updateStaffMemberNameSuccess(staffMember){
-  return { type: types.UPDATE_STAFF_MEMBER_NAME_SUCCESS, staffMember }
+  return { type: types.UPDATE_STAFF_MEMBER_NAME_SUCCESS, staffMember };
 }
 
 
@@ -57,11 +57,11 @@ export function loadApprovedStaff(jobId){
     return Axios.post('http://localhost:61319/staff/get-approved-for-job', {
       jobId: jobId
     }).then(res => { const approvedStaff = res.data;
-      dispatch(loadApprovedStaffSuccess((approvedStaff)))
+      dispatch(loadApprovedStaffSuccess((approvedStaff)));
     }).catch(error => {
       throw (error);
     });
-  }
+  };
 }
 
 export function updateJobApproval(staffMemberId, approvedJobIds, unappprovedJobIds){

@@ -14,6 +14,10 @@ export function addEarningToTeamSuccess(teamId, teamEarning) {
   return { type: actions.ADD_EARNING_TO_TEAM, teamId, teamEarning };
 }
 
+export function removeServerTeamEarning(teamId) {
+  return { type: actions.REMOVE_SERVER_TEAM_EARNING, teamId };
+}
+
 export function addServerTeam(date) {
   return dispatch => {
     dispatch(beginAxiosCall);

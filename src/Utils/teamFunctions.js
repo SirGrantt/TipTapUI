@@ -29,3 +29,18 @@ export function transformTeamData(cardId, source, dest){
 
   }
 }
+
+export function findTeamWithCheckout(checkoutId, teams){
+  let team = teams.find((t) => {
+    if(t.teamCheckouts.some(c => c.id === checkoutId)) {
+      return true;
+    }
+  });
+
+  if (team === undefined) {
+    return null;
+  }
+  else {
+    return team.teamId;
+  }
+}

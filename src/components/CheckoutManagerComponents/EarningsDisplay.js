@@ -2,17 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-/*
-const Column = styled.div`
-float: left;
-width: 50%
-`;
-
-const Row = styled.div`
-overflow: hidden;
-padding: 10px;
-`; */
-
 const Line = styled.h3`
 margin-left: 2em;
 `;
@@ -48,67 +37,5 @@ EarningsDisplay.propTypes = {
   formattedCcAndAuto: PropTypes.number.isRequired,
 };
 
-/*
-<Column>
-      <Row>
-        <p>Job Worked:</p>
-      </Row>
-      <Row>
-        <p>Credit Card Tips: </p>
-      </Row>
-      <Row>
-      <p>+</p>
-      </Row>
-      <Row>
-      <p>Auto Gratuity: </p>
-      </Row>
-      <Row>
-      <p>=</p>
-      </Row>
-      <Row>
-      <p>+</p>
-      </Row>
-      <Row>
-      <p>Cash Tips: </p>
-      </Row>
-      <Row>
-      <p>=</p>
-      </Row>
-      <Row>
-      <p>Total for Payroll: </p>
-      </Row>
-      </Column>
-      <Column>
-      <Row>
-        <p>{earning.jobWorked}</p>
-      </Row>
-      <Row>
-        <p>${earning.ccTips}</p>
-      </Row>
-      <Row>
-      <p>+</p>
-      </Row>
-      <Row>
-      <p>{earning.autoGratuity}</p>
-      </Row>
-      <Row>
-      <p>=</p>
-      </Row>
-      <Row>
-      <p>{earning.ccTips + earning.autoGratuity}</p>
-      </Row>
-      <Row>
-      <p>+</p>
-      </Row>
-      <Row>
-      <p>{earning.cashTips}</p>
-      </Row>
-      <Row>
-      <p>=</p>
-      </Row>
-      <Row>
-      <p>{earning.totalTipsForPayroll}</p>
-      </Row>
-      </Column> */
 
 export default EarningsDisplay;

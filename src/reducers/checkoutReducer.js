@@ -179,6 +179,20 @@ function checkoutReducer(state = initialState.checkouts, action){
             };
         }
 
+        case type.REMOVE_SERVER_TEAM_EARNING : {
+            const { teamId } = action;
+            let stateCopy = state.team.slice();
+            let teamCopy = Object.assign({}, stateCopy.find(t => t.teamId == teamId));
+            teamCopy.teamEarning = null;
+            let index = stateCopy.findIndex(t => t.teamId === teamId);
+            stateCopy.splice(index, 1, teamCopy);
+
+            return {
+                individual: [...state.individual],
+                team: [...stateCopy]
+            };
+        }
+
         default:
         return state;
     }

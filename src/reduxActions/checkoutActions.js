@@ -1,6 +1,7 @@
 import * as actions from "./actionTypes";
 import Axios from "axios";
 import { beginAxiosCall } from "./axiosStatusActions";
+import { removeServerTeamEarning } from './teamActions';
 
 export function loadCheckoutsSuccess(individualCheckouts, teamCheckouts) {
   return {
@@ -126,13 +127,30 @@ export function removeCheckoutFromServerTeam(removeFromTeamData) {
   };
 }
 
-export function updateCheckout(checkout) {
+export function updateCheckout(checkout, teamId, stringDate) {
   return dispatch => {
+    if (teamId === null) {
     dispatch(updateCheckoutSuccess(checkout));
     Axios.post('http://localhost:61319/checkout/update',
       checkout
     ).catch(err => {
       throw err;
     });
+  }
+  else {
+    dispatch(removeTrackedRanCheckoutTeamsSuccess(-1, teamId));
+    dispatch(removeServerTeamEarning(teamId));
+    Axios.post('http://localhost:61319/server-teams/reset-checkout', {
+      serverTeamId: teamId,
+      stringDate,
+      lunchOrDinner: 'dinner'
+    }).then(dispatch(updateCheckoutSuccess(checkout))).then(
+      Axios.post('http://localhost:61319/checkout/update',
+        checkout
+      ).catch(err => {
+        throw err;
+      })
+    );
+  }
   };
 }

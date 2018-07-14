@@ -15,6 +15,7 @@ import * as teamActions from '../../reduxActions/teamActions';
 import 'react-datepicker/dist/react-datepicker.css';
 import { defaultCheckout, defaultEarning } from '../../constants/GeneralConstants';
 import { mapJobsForDropdown, mapStaffForDropDown } from '../../Utils/staffMemberUtilFunctions';
+import { findTeamWithCheckout } from '../../Utils/teamFunctions';
 import { withSignal, SignalTypes } from 'redux-signal';
 import {checkoutFormIsValid, shouldAlertUser, transformCheckout} from '../../Utils/checkoutUtilFunctions';
 import { objectsAreEqual } from '../../Utils/ObjectComparison';
@@ -329,9 +330,10 @@ class CheckoutManagerContainer extends React.Component{
     }
     
     async updateCheckout() {
+        let teamId = await findTeamWithCheckout(this.state.currentCheckout.id, this.props.checkouts.team);
         let formattedCheckout = await transformCheckout(this.state.currentCheckout,
             this.state.jobSelected, this.props.startDate, "dinner");
-            this.props.actions.updateCheckout(formattedCheckout);
+            this.props.actions.updateCheckout(formattedCheckout, teamId, this.props.startDate);
             this.closeModal();
     }
 

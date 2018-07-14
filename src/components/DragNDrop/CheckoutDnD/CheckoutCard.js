@@ -76,7 +76,7 @@ type Props = {
     isDragging: boolean,
     provided: DraggableProvided,
     autofocus?: boolean,
-    reviewCheckout: () => void,
+    reviewCheckout: (id: string, staffMemberName: string) => void,
 }
 
 export default class CheckoutCard extends React.PureComponent<Props> {
@@ -112,9 +112,9 @@ render() {
         >
         <Title>{checkout.staffMemberName}</Title>
         <Content>
-            <GrossSales>{checkout.grossSales}</GrossSales>
-            <CredCardTips>{checkout.ccTips}</CredCardTips>
-            <AutoGrat>{checkout.ccAutoGrat + checkout.cashAutoGrat}</AutoGrat>
+            <GrossSales>${checkout.grossSales}</GrossSales>
+            <CredCardTips>${checkout.ccTips}</CredCardTips>
+            <AutoGrat>${checkout.ccAutoGrat + checkout.cashAutoGrat}</AutoGrat>
         </Content>
         </Container>
     );

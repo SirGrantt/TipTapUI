@@ -42,7 +42,7 @@ componentWillReceiveProps(nextProps){
         onClickOutside={closeEarningsModal}
         onClosed={closeEarningsModal}>
           <Header>Individual Earnings: </Header>
-          <EarningsDisplay earning={earning} formattedCcAndAuto={earning.cashTips + earning.autoGratuity}/>
+          <EarningsDisplay earning={earning} formattedCcAndAuto={earning.ccTips + earning.autoGratuity}/>
           <CheckoutButtonWrapper>
             <CheckoutButton onClick={closeEarningsModal}>Ok</CheckoutButton>
           </CheckoutButtonWrapper>

@@ -149,6 +149,32 @@ let CheckoutForm = ({
         <AlertHighlight>{alerts.nonTipOutBarSales}</AlertHighlight>
       )}
       </Row>
+      <Row>
+      <Label>Bar Special Line</Label>
+      <NumberFormat
+        allowNegative={false}
+        type="tel"
+        decimalScale={2}
+        displayType="input"
+        prefix={"$"}
+        thousandSeparator={true}
+        value={
+          checkout.barSpecialLine == 0 ? "" : checkout.barSpecialLine
+        }
+        placeholder={"transfers or special cases"}
+        onValueChange={values => {
+          const { value } = values;
+          const keyValue = { key: "barSpecialLine", value: value};
+          updateCheckout(keyValue);
+        }}
+      />
+      {errors.barSpecialLine && (
+        <ErrorMsg>{errors.barSpecialLine}</ErrorMsg>
+      )}
+      {alerts.barSpecialLine && (
+        <AlertHighlight>{alerts.barSpecialLine}</AlertHighlight>
+      )}
+      </Row>
       </Column>
       <Column>
       <Row>
@@ -232,6 +258,32 @@ let CheckoutForm = ({
       />
       {alerts.cashAutoGrat && (
         <AlertHighlight>{alerts.cashAutoGrat}</AlertHighlight>
+      )}
+      </Row>
+      <Row>
+      <Label>SA Special Line</Label>
+      <NumberFormat
+        allowNegative={false}
+        type="tel"
+        decimalScale={2}
+        displayType="input"
+        prefix={"$"}
+        thousandSeparator={true}
+        value={
+          checkout.saSpecialLine == 0 ? "" : checkout.saSpecialLine
+        }
+        placeholder={"when extra tipout is needed"}
+        onValueChange={values => {
+          const { value } = values;
+          const keyValue = { key: "saSpecialLine", value: value};
+          updateCheckout(keyValue);
+        }}
+      />
+      {errors.saSpecialLine && (
+        <ErrorMsg>{errors.saSpecialLine}</ErrorMsg>
+      )}
+      {alerts.saSpecialLine && (
+        <AlertHighlight>{alerts.saSpecialLine}</AlertHighlight>
       )}
       </Row>
       </Column>

@@ -63,7 +63,7 @@ export default class CheckoutModal extends React.Component {
                 <CheckoutButtonWrapper>
                 <CheckoutButton onClick={this.props.onCheckoutSubmit}>Update</CheckoutButton>
                 <CheckoutButton onClick={this.props.close}>Cancel</CheckoutButton>
-                <CheckoutButton >Delete</CheckoutButton>
+                <CheckoutButton onClick={this.props.deleteCheckout}>Delete</CheckoutButton>
                 </CheckoutButtonWrapper>
                 :
                 <CheckoutButtonWrapper>
@@ -87,6 +87,7 @@ CheckoutModal.propTypes = {
     close: PropTypes.func.isRequired,
     updatingCheckout: PropTypes.bool.isRequired,
     isModalVisible: PropTypes.bool.isRequired,
+    deleteCheckout: PropTypes.func.isRequired,
     checkout: PropTypes.shape({
         grossSales: PropTypes.string,
         barSales: PropTypes.string,

@@ -31,6 +31,10 @@ export function updateCheckoutSuccess(updatedCheckout) {
   return { type: actions.UPDATE_CHECKOUT_SUCCESS, updatedCheckout };
 }
 
+export function deleteCheckoutSuccess(checkoutId, teamId) {
+  return { type: actions.DELETE_CHECKOUT_SUCCESS, checkoutId, teamId };
+}
+
 export function trackRanCheckoutsSuccess(teamCheckouts){
   return {type: actions.TRACK_RAN_CHECKOUTS_SUCCESS, teamCheckouts};
 }
@@ -99,7 +103,6 @@ export function addCheckoutToServerTeam(addToTeamData) {
       Axios.post('http://localhost:61319/server-teams/add-checkout', {
         checkoutId,
         serverTeamId: teamId
-      }).then( () => {
       }).catch( err => {
         throw err;
       });
@@ -152,5 +155,30 @@ export function updateCheckout(checkout, teamId, stringDate) {
       })
     );
   }
+  };
+}
+
+export function deleteCheckout(checkoutId, teamId, stringDate) {
+  return dispatch => {
+    if (teamId === null) {
+      dispatch(deleteCheckoutSuccess(checkoutId, teamId));
+      Axios.post('http://localhost:61319/checkout/delete', {
+        checkoutId
+      }).catch(err => {
+        throw err; });
+    }
+    else {
+      dispatch(removeTrackedRanCheckoutTeamsSuccess(-1, teamId));
+      dispatch(removeServerTeamEarning(teamId));
+      Axios.post('http://localhost:61319/server-teams/reset-checkout', {
+      serverTeamId: teamId,
+      stringDate,
+      lunchOrDinner: 'dinner'
+      }).then(dispatch(deleteCheckoutSuccess(checkoutId, teamId))).then(
+      Axios.post('http://localhost:61319/checkout/delete', {
+        checkoutId
+      })).catch(err => {
+        throw err; });
+    }
   };
 }

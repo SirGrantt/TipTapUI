@@ -337,6 +337,12 @@ class CheckoutManagerContainer extends React.Component{
             this.closeModal();
     }
 
+    deleteCheckout = async () => {
+        let teamId = await findTeamWithCheckout(this.state.currentCheckout.id, this.props.checkouts.team);
+        this.props.actions.deleteCheckout(this.state.currentCheckout.id, teamId, this.props.startDate);
+        this.closeModal();
+    }
+
     viewEarning = (id) => {
         let team = this.props.checkouts.team.find(t => t.teamId === Number(id));
         this.setState({
@@ -388,7 +394,7 @@ class CheckoutManagerContainer extends React.Component{
                 errors={errors} alerts={alerts} 
                 selectedStaffMemberId={selectedStaffMemberId}
                 selectedStaffMemberName={selectedStaffMemberName} 
-                updatingCheckout={updatingCheckout}/>
+                updatingCheckout={updatingCheckout} deleteCheckout={this.deleteCheckout}/>
                 <EarningModal earning={currentEarning} closeEarningsModal={this.closeEarningsModal} isEarningsModalVisible={isEarningsModalVisible}/>
                 <br/>
                 {axiosLoading > 0 ? <Loader /> :

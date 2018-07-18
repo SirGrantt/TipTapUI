@@ -193,6 +193,35 @@ function checkoutReducer(state = initialState.checkouts, action){
             };
         }
 
+        case type.DELETE_CHECKOUT_SUCCESS : {
+            const { checkoutId, teamId } = action;
+            let stateIndiCopy = state.individual.slice();
+            let stateTeamCopy = state.team.slice();
+            if (teamId === null)
+            {
+                let filteredStateIndiCopy = stateIndiCopy.filter(c => c.id !== checkoutId);
+
+                return {
+                    individual: [...filteredStateIndiCopy],
+                    team: [...stateTeamCopy]
+                };
+            }
+            else {
+                let team = {...stateTeamCopy.find(t => t.teamId === teamId)};
+                team.teamCheckouts = stateTeamCopy.find(t => t.teamId === teamId).teamCheckouts.slice();
+                let index = team.teamCheckouts.findIndex(c => c.id === checkoutId);
+                team.teamCheckouts.splice(index, 1);
+
+                let indexOfTeam = stateTeamCopy.findIndex(t => t.teamId === teamId);
+                stateTeamCopy.splice(indexOfTeam, 1, team);
+
+                return {
+                    individual: [...stateIndiCopy],
+                    team: [...stateTeamCopy]
+                };
+            }
+        }
+
         default:
         return state;
     }

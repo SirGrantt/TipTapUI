@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal as ModalConstruct } from 'react-modal-construction-kit';
 import styled from 'styled-components';
+import { colors } from '../DragNDrop/Constants';
 
 const WarningHeader = styled.h1`
 padding: 1em;
-background-color: #2ECC71;
+background-color: ${colors.blue.columnBodyBlue};
 color: white;
 border-top-left-radius: 2px;
 border-top-right-radius: 2px;
@@ -21,7 +22,7 @@ font-family: Tahoma, Verdana, Segoe, sans-serif;
 
 const Footer = styled.div`
     padding: 1em;
-    background-color: #2ECC71;
+    background-color: ${colors.blue.headerBlue};
     display: flex;
     border-radius: 0 0 2px 2px;
     overflow: hidden;

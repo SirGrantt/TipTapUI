@@ -124,7 +124,7 @@ class CheckoutManagerContainer extends React.Component{
             selectedStaffMemberName: '',
             updatingCheckout: false,
             errors: {},
-            alerts: { initial: ''},
+            alerts: {},
         };
 
         this.handleChange = this.handleChange.bind(this);

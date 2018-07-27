@@ -82,27 +82,29 @@ export function addCheckoutToServerTeam(addToTeamData) {
  const { checkoutId, teamId, sourceId, stringDate } = addToTeamData;
   return dispatch => {
     dispatch(removeTrackedRanCheckoutTeamsSuccess(teamId, sourceId));
-    dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
+    dispatch(beginAxiosCall());
     if (sourceId === 'Individual')
     {
-    Axios.post('http://localhost:61319/server-teams/add-checkout', {
+    Axios.post('http://localhost:61319/team/add-checkout', {
       checkoutId,
       serverTeamId: teamId
     }).then( () => {
-      
+      dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
     }).catch( err => {
       throw err;
     });
   } else {
-    Axios.post('http://localhost:61319/server-teams/remove-checkout-from-server-team', {
+    Axios.post('http://localhost:61319/team/remove-checkout-from-server-team', {
       checkoutId,
       serverTeamId: sourceId,
       stringDate,
       lunchOrDinner: 'dinner'
     }).then( () => {
-      Axios.post('http://localhost:61319/server-teams/add-checkout', {
+      Axios.post('http://localhost:61319/team/add-checkout', {
         checkoutId,
         serverTeamId: teamId
+      }).then( () => {
+        dispatch(addCheckoutToServerTeamSuccess({ checkoutId, sourceId, teamId }));
       }).catch( err => {
         throw err;
       });
@@ -119,7 +121,7 @@ export function removeCheckoutFromServerTeam(removeFromTeamData) {
   return dispatch => {
     dispatch(removeTrackedRanCheckoutTeamsSuccess(-1, sourceId));
     dispatch(removeCheckoutFromServerTeamSuccess(removeFromTeamData));
-    Axios.post('http://localhost:61319/server-teams/remove-checkout-from-server-team', {
+    Axios.post('http://localhost:61319/team/remove-checkout-from-server-team', {
       checkoutId,
       serverTeamId: sourceId,
       stringDate,
@@ -143,7 +145,7 @@ export function updateCheckout(checkout, teamId, stringDate) {
   else {
     dispatch(removeTrackedRanCheckoutTeamsSuccess(-1, teamId));
     dispatch(removeServerTeamEarning(teamId));
-    Axios.post('http://localhost:61319/server-teams/reset-checkout', {
+    Axios.post('http://localhost:61319/team/reset-checkout', {
       serverTeamId: teamId,
       stringDate,
       lunchOrDinner: 'dinner'
@@ -170,7 +172,7 @@ export function deleteCheckout(checkoutId, teamId, stringDate) {
     else {
       dispatch(removeTrackedRanCheckoutTeamsSuccess(-1, teamId));
       dispatch(removeServerTeamEarning(teamId));
-      Axios.post('http://localhost:61319/server-teams/reset-checkout', {
+      Axios.post('http://localhost:61319/team/reset-checkout', {
       serverTeamId: teamId,
       stringDate,
       lunchOrDinner: 'dinner'

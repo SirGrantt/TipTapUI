@@ -8,20 +8,20 @@ import AddCheckoutButton from '../../../styles/StyledComponents/AddCheckoutButto
 
 class NonServerBoard extends Component {
   static propTypes = {
-    initial: PropTypes.object,
+    initial: PropTypes.array,
 
   }
 constructor(props, context) {
   super(props, context);
 
   this.state = {
-     columns: this.props.initial,
-     ordered: Object.keys(this.props.initial)
+     columns: {Team: props.initial},
+     ordered: ["Team"]
   };
 }
 
 componentWillReceiveProps(nextProps){
-  if (this.state.columns != nextProps.inital){
+  if (this.state.columns.Team != nextProps.inital){
       this.setState({
           columns: nextProps.initial,
           ordered: Object.keys(nextProps.initial)

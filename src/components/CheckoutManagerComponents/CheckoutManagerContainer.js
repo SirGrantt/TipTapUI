@@ -109,6 +109,12 @@ class CheckoutManagerContainer extends React.Component{
         axiosLoading: PropTypes.number,
         checkoutMap: PropTypes.object,
         ranCheckoutTeamIds: PropTypes.array,
+        barTeam: PropTypes.shape({
+            teamId: PropTypes.number,
+            teamCheckouts: PropTypes.array,
+            teamEarnings: PropTypes.array,
+            checkoutHasBeenRun: PropTypes.bool,
+        })
     }
     constructor(props, context){
         super(props, context);
@@ -140,10 +146,6 @@ class CheckoutManagerContainer extends React.Component{
         this.updateCheckout = this.updateCheckout.bind(this);
     }
 
-    componentDidMount() {
-        this.props.staffActions.loadApprovedStaff(this.props.jobSelected.value);
-    }
-
     componentWillReceiveProps(newProps){
         if(this.props.checkouts != newProps.checkouts){
             if (newProps.checkouts.individual != undefined){
@@ -156,7 +158,7 @@ class CheckoutManagerContainer extends React.Component{
             else if (newProps.checkouts.team != undefined){
                 this.setState({
                     shouldMap: true,
-                    checkoutsMap: this.buildCheckoutsMap(newProps.checkouts)
+                    checkoutsMap: this.buildCheckoutsMap(newProps.checkouts),
                 });
             }
         }
@@ -167,7 +169,7 @@ class CheckoutManagerContainer extends React.Component{
             currentCheckout.jobWorkedTitle = newProps.jobSelected.text.toLowerCase();
             this.setState({
                 jobSelected: Object.assign({}, newProps.jobSelected),
-                currentCheckout: currentCheckout
+                currentCheckout: currentCheckout,
             });
         }
         //when a new job is selected the approved staff will also change
@@ -176,6 +178,10 @@ class CheckoutManagerContainer extends React.Component{
                 approvedStaff: mapStaffForDropDown(newProps.approvedStaff)
             });
         }
+    }
+
+    componentDidMount() {
+        this.props.staffActions.loadApprovedStaff(this.props.jobSelected.value);
     }
 
     closeModal = () => {
@@ -363,7 +369,7 @@ class CheckoutManagerContainer extends React.Component{
     }
 
     render(){
-        const { jobSelected, jobs, startDate, checkoutMap, axiosLoading, ranCheckoutTeamIds } = this.props;
+        const { jobSelected, jobs, startDate, checkoutMap, axiosLoading, ranCheckoutTeamIds, barTeam} = this.props;
         const { isModalVisible, defaultCheckout, currentCheckout, approvedStaff, errors,
                 alerts, selectedStaffMemberId, selectedStaffMemberName, 
                 updatingCheckout, shouldMap, currentEarning, isEarningsModalVisible } = this.state;
@@ -407,7 +413,7 @@ class CheckoutManagerContainer extends React.Component{
                 <EarningModal earning={currentEarning} closeEarningsModal={this.closeEarningsModal} isEarningsModalVisible={isEarningsModalVisible}/>
                 <br/>
                 {axiosLoading > 0 ? <Loader /> :
-                <RenderBoard initial={checkoutMap} shouldMap={shouldMap} 
+                <RenderBoard initial={jobSelected.value == 1 ? checkoutMap : barTeam.teamCheckouts} shouldMap={shouldMap} 
                 openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={jobSelected}
                 addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}
                 removeCheckoutFromTeam={this.removeCheckoutFromTeam} reviewCheckout={this.reviewCheckout}
@@ -431,6 +437,7 @@ function mapStateToProps(state){
         axiosLoading: state.axiosLoading,
         checkoutMap: state.checkoutMap,
         ranCheckoutTeamIds: state.ranCheckouts, 
+        barTeam: state.barTeam,
     };
 }
 

@@ -11,6 +11,7 @@ import startDate from './startDateReducer';
 import approvedStaff from './approvedStaffReducer';
 import jobSelected from './jobSelectedReducer';
 import ranCheckouts from './ranCheckoutsTeamReducer';
+import barTeam from './barTeamReducer';
 
 const rootReducer = combineReducers({
   serviceStaff,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   jobSelected,
   form: formReducer,
   ranCheckouts,
+  barTeam,
 });
 
 export default rootReducer;

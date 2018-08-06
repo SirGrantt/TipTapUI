@@ -1,8 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import CheckoutColumn from './CheckoutColumn';
-import { colors } from '../Constants';
 import { transformTeamData } from '../../../Utils/teamFunctions';
 import reorder, { reorderCheckoutMap } from '../Reorder';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -15,26 +13,7 @@ import type {
 import type { CheckoutMap } from '../DNDTypes';
 import AddCheckoutButton from '../../../styles/StyledComponents/AddCheckoutButton';
 import AddTeamButton from '../../../styles/StyledComponents/AddTeamButton';
-
-const ParentContainer = styled.div`
-    height: ${({height}) => height};
-    overflow-x: hidden;
-    overflow-y: auto;
-`;
-
-const ScrollWrapper = styled.div`
-display: box;
-flex-wrap: nowrap;
-overflow-x: auto;
-`;
-
-const Container = styled.div`
- min-height: 50vh;
- min-width: 100vw;
- display: inline-flex;
- justify-content: left;
- background-color: ${colors.black};
-`;
+import { ParentContainer, ScrollWrapper, Container } from '../../../styles/StyledComponents/DnDBoardStyles';
 
 type Props = {|
   initial: CheckoutMap,
@@ -49,9 +28,9 @@ type Props = {|
   ranCheckoutTeamIds: Array<number>,
   addCheckoutToTeam: (transformedData: Object) => void,
   removeCheckoutFromTeam: (transformedData: Object) => void,
-  reviewCheckout: (id: number) => void,
-  viewEarning: (id: number) => void,
-  runCheckout: (id: number) => void,
+  reviewCheckout: () => void,
+  viewEarning: () => void,
+  runCheckout: () => void,
 |}
 
 type State = {|

@@ -40,13 +40,13 @@ type Props = {|
     shouldMap: boolean,
     checkoutRan: boolean,
     reviewCheckout: () => void,
-    runCheckout: () => void,
-    viewEarning: () => void, 
+    runCheckout: (any) => void,
+    viewEarning: (any) => void, 
 |}
 
 export default class CheckoutColumn extends Component<Props> {
 
-        onButtonClick = (e) => {
+        onButtonClick = (e: any) => {
             e.preventDefault();
             if (this.props.checkoutRan){
                 this.props.viewEarning(e.target.id);

@@ -11,4 +11,5 @@ export default {
   startDate: moment(),
   checkoutMap: {},
   ranCheckouts: [],
+  barCheckouts: {},
 };

@@ -2,6 +2,7 @@ import * as actions from "./actionTypes";
 import Axios from "axios";
 import { beginAxiosCall } from "./axiosStatusActions";
 import { removeServerTeamEarning } from './teamActions';
+import { loadBarCheckoutsSuccess } from './barCheckoutActions';
 
 export function loadCheckoutsSuccess(individualCheckouts, teamCheckouts) {
   return {
@@ -57,6 +58,7 @@ export function loadCheckouts(stringDate, lunchOrDinner) {
         dispatch(
           loadCheckoutsSuccess(data.notRunCheckouts, data.teamCheckouts)
         );
+        dispatch(loadBarCheckoutsSuccess(data.barCheckouts));
       })
       .catch(error => {
         throw error;

@@ -9,6 +9,7 @@ import * as checkoutActions from '../../reduxActions/checkoutActions';
 import { bindActionCreators } from 'redux';
 import { colors } from '../DragNDrop/Constants';
 import CheckoutBoard from '../DragNDrop/Board/CheckoutBoard';
+import NonServerBoard from '../DragNDrop/Board/NonServerBoard';
 import * as startDateActions from '../../reduxActions/startDateActions';
 import * as staffActions from '../../reduxActions/serviceStaffActions';
 import * as teamActions from '../../reduxActions/teamActions';
@@ -366,6 +367,14 @@ class CheckoutManagerContainer extends React.Component{
         const { isModalVisible, defaultCheckout, currentCheckout, approvedStaff, errors,
                 alerts, selectedStaffMemberId, selectedStaffMemberName, 
                 updatingCheckout, shouldMap, currentEarning, isEarningsModalVisible } = this.state;
+        function RenderBoard(props) {
+            if (jobSelected.value == 1){
+             return <CheckoutBoard {...props}/>;
+            }
+            else {
+               return <NonServerBoard {...props}/>;
+            }
+        }
         return( 
             <div>
                 <h1>Check Out Manager</h1>
@@ -398,7 +407,7 @@ class CheckoutManagerContainer extends React.Component{
                 <EarningModal earning={currentEarning} closeEarningsModal={this.closeEarningsModal} isEarningsModalVisible={isEarningsModalVisible}/>
                 <br/>
                 {axiosLoading > 0 ? <Loader /> :
-                <CheckoutBoard initial={checkoutMap} shouldMap={shouldMap} 
+                <RenderBoard initial={checkoutMap} shouldMap={shouldMap} 
                 openAddCheckoutModal={this.openAddCheckoutModal} jobSelected={jobSelected}
                 addTeam={this.addTeam} addCheckoutToTeam={this.addCheckoutToTeam}
                 removeCheckoutFromTeam={this.removeCheckoutFromTeam} reviewCheckout={this.reviewCheckout}

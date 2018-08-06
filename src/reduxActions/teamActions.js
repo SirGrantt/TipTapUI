@@ -21,7 +21,7 @@ export function removeServerTeamEarning(teamId) {
 export function addServerTeam(date) {
   return dispatch => {
     dispatch(beginAxiosCall);
-    Axios.post('http://localhost:61319/server-teams/create', {
+    Axios.post('http://localhost:61319/team/create', {
       lunchOrDinner: 'dinner',
       stringDate: date
     }).then(
@@ -42,7 +42,7 @@ export function addServerTeam(date) {
 export function runServerTeamCheckout(teamId, lunchOrDinner, stringDate){
   return dispatch => {
     dispatch(beginAxiosCall);
-    Axios.post('http://localhost:61319/server-teams/run-checkout', {
+    Axios.post('http://localhost:61319/team/run-checkout', {
       serverTeamId: teamId,
       stringDate,
       lunchOrDinner

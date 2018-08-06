@@ -54,6 +54,7 @@ type Props = {|
 
 type CheckoutListProps = {|
     checkouts: Checkout[],
+    reviewCheckout: () => void
     |}
 
 class InnerCheckoutList extends React.Component<CheckoutListProps>{
@@ -90,6 +91,7 @@ type innerListProps = {|
     dropProvided: DroppableProvided,
     checkouts: Checkout[],
     title: ?string,
+    reviewCheckout: () => void,
     |}
 
 class InnerList extends React.Component<innerListProps> {
